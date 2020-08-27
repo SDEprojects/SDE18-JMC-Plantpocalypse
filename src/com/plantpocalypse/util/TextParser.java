@@ -37,12 +37,12 @@ public class TextParser {
         }
     }
 
-    public static void main(String[] args) {
-        TextParser uip = new TextParser();
-        while(true) {
-            uip.displayCommands();
-            List<String> cmd = uip.getInput();
-            uip.doCommand(cmd);
-        }
-    }
+//    public static void main(String[] args) {
+//        TextParser uip = new TextParser();
+//        while(true) {
+//            uip.displayCommands();
+//            List<String> cmd = uip.getInput();
+//            uip.doCommand(cmd);
+//        }
+//    }
 }
