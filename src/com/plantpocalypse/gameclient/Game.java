@@ -9,7 +9,9 @@ public enum Game {
     GAME_INSTANCE;
 
     Player player;
-    Room outside;
+    Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice;
+    Room upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
+
     HashMap<String, Room> mansion;
 
     /**
@@ -26,6 +28,48 @@ public enum Game {
     private void loadRooms() {
         String[] outsideAdjRooms = {"Foyer"};
         outside = new Room("Outside", outsideAdjRooms);
+
+        String[] foyerAdjRooms = {"Dining Room", "Living Room", "Library", "Outside", "Upper Hall"};
+        foyer = new Room("Foyer", foyerAdjRooms);
+
+        String[] diningRoomAdjRooms = {"Kitchen", "Foyer"};
+        diningRoom = new Room("Dining Room", diningRoomAdjRooms);
+
+        String[] kitchenAdjRooms = {"Dining Room", "Living Room"};
+        kitchen = new Room("Kitchen", kitchenAdjRooms);
+
+        String[] guestRoomAdjRooms = {"Living Room"};
+        guestRoom = new Room("Guest Room", guestRoomAdjRooms);
+
+        String[] livingRoomAdjRooms = {"Guest Room", "Kitchen", "Foyer", "Green House Floor 1", "Bathroom"};
+        livingRoom = new Room("Living Room", livingRoomAdjRooms);
+
+        String[] bathroomAdjRooms = {"Living Room"};
+        bathroom = new Room("Bathroom", bathroomAdjRooms);
+
+        String[] libraryAdjRooms = {"Foyer", "Hidden Office"};
+        library = new Room("Library", libraryAdjRooms);
+
+        String[] greenHouseAdjRooms = {"Living Room"};
+        greenHouseOne = new Room("Green House Floor 1", greenHouseAdjRooms);
+
+        String[] hiddenOfficeAdjRooms = {"Library"};
+        hiddenOffice = new Room("Hidden Office", hiddenOfficeAdjRooms);
+
+        String[] upperHallAdjRooms = {"Foyer", "Master Bedroom", "Master Bathroom", "Laboratory"};
+        upperHall = new Room("Upper Hall", upperHallAdjRooms);
+
+        String[] masterBedRoomAdjRooms = {"Master Bathroom", "Upper Hall"};
+        masterBedroom = new Room("Master Bedroom", masterBedRoomAdjRooms);
+
+        String[] masterBathRoomAdjRooms = {"Master Bedroom", "Upper Hall"};
+        masterBathroom = new Room("Master Bathroom", masterBathRoomAdjRooms);
+
+        String[] laboratoryRoomAdjRooms = {"Upper Hall", "Green House Floor 2"};
+        laboratory = new Room("Laboratory", laboratoryRoomAdjRooms);
+
+        String[] greenHouseTwoAdjRooms = {"Master Bedroom", "Upper Hall"};
+        greenHouseTwo = new Room("Green House Floor 2", greenHouseTwoAdjRooms);
     }
 
     /**
