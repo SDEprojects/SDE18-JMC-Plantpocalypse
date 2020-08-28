@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TextParser {
-    public List<String> getInput() {
+    public static List<String> getInput() {
         Scanner readin = new Scanner(System.in);
         String input = readin.nextLine().toLowerCase();
         List<String> cmd = Arrays.asList(input.split("\\s+"));

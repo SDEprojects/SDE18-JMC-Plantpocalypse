@@ -2,8 +2,11 @@ package com.plantpocalypse.gameclient;
 
 import com.plantpocalypse.Player;
 import com.plantpocalypse.Room;
+import com.plantpocalypse.util.TextParser;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
@@ -148,28 +151,45 @@ public enum Game {
         titleScreen();
         introDialogue();
 
-
-        System.out.println("Player current room: " + player.getCurrentRoom().getName());
-
-        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
-            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
-        });
-
-        player.move(player.getCurrentRoom().getNeighboringRooms().get("north"));
-
-        System.out.println("Player new room: " + player.getCurrentRoom().getName());
-
-        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
-            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
-        });
+//        System.out.println("Player current room: " + player.getCurrentRoom().getName());
+//
+//        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
+//            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
+//        });
+//
+//        player.move(player.getCurrentRoom().getNeighboringRooms().get("north"));
+//
+//        System.out.println("Player new room: " + player.getCurrentRoom().getName());
+//
+//        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
+//            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
+//        });
 
 
         // loop until Player beats the game
 
-        endingDialogue();
+        while (true) {
+            doCommand();
+            System.out.println("Player current room: " + player.getCurrentRoom().getName());
+        }
+
+//        endingDialogue();
+    }
+
+    private void doCommand() {
+        List<String> input = TextParser.getInput();
+
+        List<String> commands = Arrays.asList("go");
+        if (input.size() < 2 || !commands.contains(input.get(0))) {
+            System.out.println("Please enter command with correct format: command [option]");
+        }
+        if (input.get(0).equals("go")) {
+            player.move(player.getCurrentRoom().getNeighboringRooms().get(input.get(1)));
+        }
     }
 
     private void titleScreen() {
+        // Dialogue.titleScreenDialogue();
 //        System.out.println("This is the title screen");
     }
 
