@@ -3,21 +3,26 @@ package com.plantpocalypse;
 import java.util.List;
 
 public class Player {
-    private String currentRoom; // Might change to Room type
+    private Room currentRoom; // Might change to Room type
     private int movesMade;
     private int totalHealth;
     private int currentHealth;
     private List<String> inventory;
 
-//    public Player() {
-//
-//    }
+    public Player(Room startingLocation) {
+//        System.out.println("Setting player current location to: " + startingLocation.getName());
+        currentRoom = startingLocation;
+    }
 
-    public String getCurrentRoom() {
+    public void move(Room nextRoom) {
+        this.currentRoom = nextRoom;
+    }
+
+    public Room getCurrentRoom() {
         return currentRoom;
     }
 
-    public void setCurrentRoom(String currentRoom) {
+    public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
 

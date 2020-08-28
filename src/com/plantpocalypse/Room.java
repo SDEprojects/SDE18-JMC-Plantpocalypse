@@ -1,12 +1,18 @@
 package com.plantpocalypse;
 
+import java.util.HashMap;
+
 public class Room {
     private String name;  //name of room
-    private String[] neighboringRooms; //names of neighboring rooms
+    private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
     //private String description;  //short descr
     //private HashMap<String, Item> items = new HashMap<String, Item>(); //items in the room
 
-    public Room(String name, String[] neighboringRooms) {
+    public Room(String name) {
+        this.name = name;
+    }
+
+    public Room(String name, HashMap<String, Room> neighboringRooms) {
         this.name = name;
         this.neighboringRooms = neighboringRooms;
     }
@@ -19,11 +25,11 @@ public class Room {
         this.name = name;
     }
 
-    public String[] getNeighboringRooms() {
+    public HashMap<String, Room> getNeighboringRooms() {
         return neighboringRooms;
     }
 
-    public void setNeighboringRooms(String[] neighboringRooms) {
+    public void setNeighboringRooms(HashMap<String, Room> neighboringRooms) {
         this.neighboringRooms = neighboringRooms;
     }
 }
