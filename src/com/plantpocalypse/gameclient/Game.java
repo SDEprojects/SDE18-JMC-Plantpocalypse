@@ -169,8 +169,9 @@ public enum Game {
         // loop until Player beats the game
 
         while (true) {
-            doCommand();
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
+            player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
+            doCommand();
         }
 
 //        endingDialogue();
@@ -182,11 +183,21 @@ public enum Game {
         List<String> commands = Arrays.asList("go");
         if (input.size() < 2 || !commands.contains(input.get(0))) {
             System.out.println("Please enter command with correct format: command [option]");
-        }
-        if (input.get(0).equals("go")) {
-            player.move(player.getCurrentRoom().getNeighboringRooms().get(input.get(1)));
+        } else if (input.get(0).equals("go")) {
+            go(input.get(1));
         }
     }
+
+    private void go(String direction) {
+        //List<String> directions = Arrays.asList("north","northwest","up","west","east");
+        HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
+        if (adjacentRooms.containsKey(direction)) {
+            player.move(adjacentRooms.get(direction));
+        } else {
+            System.out.println("Please enter a valid direction.");
+        }
+    }
+
 
     private void titleScreen() {
         // Dialogue.titleScreenDialogue();
