@@ -11,7 +11,19 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String[] getNeighboringRooms() {
+        return neighboringRooms;
+    }
 
+    public void setNeighboringRooms(String[] neighboringRooms) {
+        this.neighboringRooms = neighboringRooms;
+    }
 }
