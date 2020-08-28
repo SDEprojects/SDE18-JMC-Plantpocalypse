@@ -8,10 +8,10 @@ import java.util.HashMap;
 public enum Game {
     GAME_INSTANCE;
 
-    Player player;
-    Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
+    private Player player;
+    private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
-    HashMap<String, Room> mansion;
+    private HashMap<String, Room> mansion;
 
     /**
      * Loads assets for the game to run properly:
