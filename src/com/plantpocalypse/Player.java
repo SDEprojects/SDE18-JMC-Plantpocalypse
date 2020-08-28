@@ -3,11 +3,11 @@ package com.plantpocalypse;
 import java.util.List;
 
 public class Player {
-    String currentRoom; // Might change to Room type
-    int movesMade;
-    int totalHealth;
-    int currentHealth;
-    List<String> inventory;
+    private String currentRoom; // Might change to Room type
+    private int movesMade;
+    private int totalHealth;
+    private int currentHealth;
+    private List<String> inventory;
 
 //    public Player() {
 //
