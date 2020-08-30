@@ -1,5 +1,6 @@
 package com.plantpocalypse.gameclient;
 
+import com.plantpocalypse.Dialogue;
 import com.plantpocalypse.Player;
 import com.plantpocalypse.Room;
 import com.plantpocalypse.util.TextParser;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
+
+    private final int ALLOWED_MOVES = 10;
 
     private Player player;
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
@@ -23,12 +26,6 @@ public enum Game {
     public void loadAssets() {
         loadRooms();
         player = new Player(outside);
-
-//        mansion.entrySet().forEach( entry -> {
-//            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
-//        });
-
-//        System.out.println("Game has been loaded.");
     }
 
     private void loadRooms() {
@@ -145,36 +142,22 @@ public enum Game {
     }
 
     /**
-     * Will
+     * Calls all necessary functions for game to perform in the sequence
+     * that it should. Will continue looping until Player's win condition
+     * is true.
      */
     public void startGame() {
         titleScreen();
         introDialogue();
 
-//        System.out.println("Player current room: " + player.getCurrentRoom().getName());
-//
-//        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
-//            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
-//        });
-//
-//        player.move(player.getCurrentRoom().getNeighboringRooms().get("north"));
-//
-//        System.out.println("Player new room: " + player.getCurrentRoom().getName());
-//
-//        player.getCurrentRoom().getNeighboringRooms().entrySet().forEach( entry -> {
-//            System.out.println(entry.getKey() + " > " + entry.getValue().getName());
-//        });
-
-
         // loop until Player beats the game
-
-        while (true) {
+        for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
             doCommand();
         }
 
-//        endingDialogue();
+        endingDialogue();
     }
 
     private void doCommand() {
@@ -200,16 +183,15 @@ public enum Game {
 
 
     private void titleScreen() {
-        // Dialogue.titleScreenDialogue();
-//        System.out.println("This is the title screen");
+        Dialogue.titleScreenDialogue();
     }
 
     private void introDialogue() {
-//        System.out.println("This is the intro dialogue");
+        Dialogue.introDialogue();
     }
 
     private void endingDialogue() {
-//        System.out.println("This is the ending dialogue");
+        Dialogue.endingDialogue();
     }
 
 }
