@@ -1,4 +1,4 @@
-package com.plantpocalypse.gameclient;
+package com.plantpocalypse;
 
 public class Dialogue {
     public static void helpDialogue() {
