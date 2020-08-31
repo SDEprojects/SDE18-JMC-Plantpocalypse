@@ -24,12 +24,17 @@ public enum Game {
     public void loadAssets() {
         loadRooms();
         player = new Player(outside);
+
     }
 
     private void loadRooms() {
         mansion = new HashMap<>();
 
-        outside = new Room("Outside",new RoomEventDefault());
+
+        Item rambutan = new Food("rambutan");
+        outside = new Room("Outside", new RoomEventDefault());
+        outside.addItem("rambutan", rambutan);
+
         foyer = new Room("Foyer", new RoomEventFoyer());
         diningRoom = new Room("Dining Room",new RoomEventDefault());
         kitchen = new Room("Kitchen",new RoomEventDefault());
@@ -44,6 +49,7 @@ public enum Game {
         masterBathroom = new Room("Master Bathroom",new RoomEventDefault());
         laboratory = new Room("Laboratory",new RoomEventDefault());
         greenHouseTwo = new Room("Green House Floor 2",new RoomEventDefault());
+
 
         HashMap<String, Room> outsideAdjRooms = new HashMap<>();
         outsideAdjRooms.put("north", foyer);
@@ -148,9 +154,11 @@ public enum Game {
         titleScreen();
         introDialogue();
 
+
         // loop until Player beats the game
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
+            player.pickUpItem("rambutan");
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
             doCommand();
         }
