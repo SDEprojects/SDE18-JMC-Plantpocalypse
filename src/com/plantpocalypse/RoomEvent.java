@@ -1,5 +1,5 @@
 package com.plantpocalypse;
 
 public interface RoomEvent {
-    public void entryEvent();
+    public void entryEvent(Room room);
 }
