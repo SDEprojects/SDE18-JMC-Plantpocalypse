@@ -17,6 +17,10 @@ public class Player {
         inventory = new ArrayList<Item>();
     }
 
+    /**
+     * Will put an item in the Player's inventory if it is in the Player's current room.
+     * @param itemName Name of the item to be passed in as a key to a HashMap to get a Item object.
+     */
     public void pickUpItem(String itemName){
         Item pickedUpItem = currentRoom.getItem(itemName);
         inventory.add(pickedUpItem);
