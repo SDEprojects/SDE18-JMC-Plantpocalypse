@@ -159,6 +159,7 @@ public enum Game {
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
             player.pickUpItem("rambutan");
+            player.getPoisoned();
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
             doCommand();
         }

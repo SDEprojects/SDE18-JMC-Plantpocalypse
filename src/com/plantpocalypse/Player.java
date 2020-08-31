@@ -1,14 +1,18 @@
 package com.plantpocalypse;
 
+import com.plantpocalypse.gameclient.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
     private Room currentRoom; // Might change to Room type
     private int movesMade;
-    private int totalHealth;
-    private int currentHealth;
+    //private int totalHealth = 5;
+    private int currentHealth = MAX_HEALTH;
     private List<Item> inventory;
+    static final int MAX_HEALTH = 10;
+
 
 
     public Player(Room startingLocation) {
@@ -26,6 +30,47 @@ public class Player {
         inventory.add(pickedUpItem);
         System.out.println("picked up " + inventory.get(0).getName());
     }
+
+    public void eatItem(String itemName){
+        for (int i = 0; i < inventory.size(); i++){
+            if (inventory.get(i).getName().equals(itemName)){
+                inventory.remove(i);
+                int health = getCurrentHealth()+1;
+                if (health <= MAX_HEALTH){
+                setCurrentHealth(health);
+                }
+                else {
+                    setCurrentHealth(MAX_HEALTH);
+                }
+            }
+            System.out.println("Omnomnom! Must have been organic");
+        }
+    }
+
+    public void getHurt(){ //getPoisoned
+        int health = getCurrentHealth() - 1;
+        if (health >0){
+            setCurrentHealth(health);
+        }
+        else {
+            Dialogue.endingDialogue();
+        }
+        System.out.println("Ouch!");
+    }
+
+    public void getPoisoned(){ //getPoisoned
+        int demage = (int) (Math.random()*10);
+        int health = (getCurrentHealth() - demage);
+        if (health >0){
+            setCurrentHealth(health);
+        }
+        else {
+            Dialogue.endingDialogue();
+        }
+        System.out.println("Oh no! That was poisoned! Helth demage: " + demage);
+        System.out.println(getCurrentHealth());;
+    }
+
 
     public void move(Room nextRoom) {
         this.currentRoom = nextRoom;
@@ -48,13 +93,13 @@ public class Player {
         this.movesMade = movesMade;
     }
 
-    public int getTotalHealth() {
-        return totalHealth;
-    }
-
-    public void setTotalHealth(int totalHealth) {
-        this.totalHealth = totalHealth;
-    }
+//    public int getTotalHealth() {
+//        return totalHealth;
+//    }
+//
+//    public void setTotalHealth(int totalHealth) {
+//        this.totalHealth = totalHealth;
+//    }
 
     public int getCurrentHealth() {
         return currentHealth;
