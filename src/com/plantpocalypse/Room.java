@@ -36,6 +36,6 @@ public class Room {
     }
 
     public void enterRoom() {
-        roomEvent.entryEvent();
+        roomEvent.entryEvent(this);
     }
 }
