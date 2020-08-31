@@ -1,8 +1,6 @@
 package com.plantpocalypse.gameclient;
 
-import com.plantpocalypse.Dialogue;
-import com.plantpocalypse.Player;
-import com.plantpocalypse.Room;
+import com.plantpocalypse.*;
 import com.plantpocalypse.util.TextParser;
 
 import java.util.Arrays;
@@ -26,12 +24,16 @@ public enum Game {
     public void loadAssets() {
         loadRooms();
         player = new Player(outside);
+
     }
 
     private void loadRooms() {
         mansion = new HashMap<>();
 
+        Item rambutan = new Food("rambutan");
         outside = new Room("Outside");
+        outside.addItem("rambutan", rambutan);
+
         foyer = new Room("Foyer");
         diningRoom = new Room("Dining Room");
         kitchen = new Room("Kitchen");
@@ -150,9 +152,11 @@ public enum Game {
         titleScreen();
         introDialogue();
 
+
         // loop until Player beats the game
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
+            player.pickUpItem("rambutan");
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
             doCommand();
         }

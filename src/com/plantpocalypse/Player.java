@@ -1,5 +1,6 @@
 package com.plantpocalypse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -7,11 +8,19 @@ public class Player {
     private int movesMade;
     private int totalHealth;
     private int currentHealth;
-    private List<String> inventory;
+    private List<Item> inventory;
+
 
     public Player(Room startingLocation) {
 //        System.out.println("Setting player current location to: " + startingLocation.getName());
         currentRoom = startingLocation;
+        inventory = new ArrayList<Item>();
+    }
+
+    public void pickUpItem(String itemName){
+        Item pickedUpItem = currentRoom.getItem(itemName);
+        inventory.add(pickedUpItem);
+        System.out.println("picked up " + inventory.get(0).getName());
     }
 
     public void move(Room nextRoom) {
@@ -50,11 +59,11 @@ public class Player {
         this.currentHealth = currentHealth;
     }
 
-    public List<String> getInventory() {
+    public List<Item> getInventory() {
         return inventory;
     }
 
-    public void setInventory(List<String> inventory) {
+    public void setInventory() {
         this.inventory = inventory;
     }
 }
