@@ -3,10 +3,6 @@ package com.plantpocalypse;
 import java.util.List;
 
 public abstract class Item {
-
-
-
-
     private String name;
     private String Description;
 
@@ -24,6 +20,8 @@ public abstract class Item {
         this.name = name;
     }
 
+    public String getDescription() { return Description; }
+    public void setDescription(String description) { Description = description; }
 
 
 //    public String showDescription(String name){
