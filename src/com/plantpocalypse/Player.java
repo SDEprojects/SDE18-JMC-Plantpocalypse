@@ -25,6 +25,7 @@ public class Player {
 
     public void move(Room nextRoom) {
         this.currentRoom = nextRoom;
+        enterNewRoom();
     }
 
     public Room getCurrentRoom() {
@@ -65,5 +66,9 @@ public class Player {
 
     public void setInventory() {
         this.inventory = inventory;
+    }
+
+    private void enterNewRoom() {
+        currentRoom.enterRoom();
     }
 }

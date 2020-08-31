@@ -30,24 +30,26 @@ public enum Game {
     private void loadRooms() {
         mansion = new HashMap<>();
 
+
         Item rambutan = new Food("rambutan");
-        outside = new Room("Outside");
+        outside = new Room("Outside", new RoomEventDefault());
         outside.addItem("rambutan", rambutan);
 
-        foyer = new Room("Foyer");
-        diningRoom = new Room("Dining Room");
-        kitchen = new Room("Kitchen");
-        guestRoom = new Room("Guest Room");
-        livingRoom = new Room("Living Room");
-        bathroom = new Room("Bathroom");
-        library = new Room("Library");
-        greenHouseOne = new Room("Green House Floor 1");
-        hiddenOffice = new Room("Hidden Office");
-        upperHall = new Room("Upper Hall");
-        masterBedroom = new Room("Master Bedroom");
-        masterBathroom = new Room("Master Bathroom");
-        laboratory = new Room("Laboratory");
-        greenHouseTwo = new Room("Green House Floor 2");
+        foyer = new Room("Foyer", new RoomEventFoyer());
+        diningRoom = new Room("Dining Room",new RoomEventDefault());
+        kitchen = new Room("Kitchen",new RoomEventDefault());
+        guestRoom = new Room("Guest Room",new RoomEventDefault());
+        livingRoom = new Room("Living Room",new RoomEventDefault());
+        bathroom = new Room("Bathroom",new RoomEventDefault());
+        library = new Room("Library",new RoomEventLibrary());
+        greenHouseOne = new Room("Green House Floor 1",new RoomEventDefault());
+        hiddenOffice = new Room("Hidden Office",new RoomEventDefault());
+        upperHall = new Room("Upper Hall",new RoomEventDefault());
+        masterBedroom = new Room("Master Bedroom",new RoomEventDefault());
+        masterBathroom = new Room("Master Bathroom",new RoomEventDefault());
+        laboratory = new Room("Laboratory",new RoomEventDefault());
+        greenHouseTwo = new Room("Green House Floor 2",new RoomEventDefault());
+
 
         HashMap<String, Room> outsideAdjRooms = new HashMap<>();
         outsideAdjRooms.put("north", foyer);
