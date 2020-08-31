@@ -16,6 +16,7 @@ public enum Game {
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
     private HashMap<String, Room> mansion;
+    boolean winCondition = false;
 
     /**
      * Loads assets for the game to run properly:
@@ -30,24 +31,53 @@ public enum Game {
     private void loadRooms() {
         mansion = new HashMap<>();
 
-
-        Item rambutan = new Food("rambutan");
+        Item rambutan1 = new Food("rambutan");
+        Item brassKey = new Key("brass key");
         outside = new Room("Outside", new RoomEventDefault());
-        outside.addItem("rambutan", rambutan);
+        outside.addItem("rambutan", rambutan1);
+        outside.addItem("brass key", brassKey);
+//        outside.toggleLock();
 
         foyer = new Room("Foyer", new RoomEventFoyer());
+
+        Item rambutan2 = new Food("rambutan");
         diningRoom = new Room("Dining Room",new RoomEventDefault());
+        diningRoom.addItem("rambutan", rambutan2);
+
         kitchen = new Room("Kitchen",new RoomEventDefault());
-        guestRoom = new Room("Guest Room",new RoomEventDefault());
+
         livingRoom = new Room("Living Room",new RoomEventDefault());
+
+        guestRoom = new Room("Guest Room",new RoomEventDefault());
+
+//        Item journal1 = new Journal("Journal 1");
         bathroom = new Room("Bathroom",new RoomEventDefault());
-        library = new Room("Library",new RoomEventLibrary());
+//        bathroom.addItem("Journal 1", journal1);
+
+        Item steelKey = new Key("Steel Key");
         greenHouseOne = new Room("Green House Floor 1",new RoomEventDefault());
+        greenHouseOne.addItem("Steel Key", steelKey);
+
+        library = new Room("Library",new RoomEventLibrary());
+//        library.toggleLock();
+
         hiddenOffice = new Room("Hidden Office",new RoomEventDefault());
+//        hiddenOffice.toggleLock();
+
         upperHall = new Room("Upper Hall",new RoomEventDefault());
+
+//        Item tornPage = new Journal("Torn Page");
         masterBedroom = new Room("Master Bedroom",new RoomEventDefault());
+//        masterBedroom.addItem("Torn Page", tornPage);
+
+        Item ironKey = new Key("Iron Key");
         masterBathroom = new Room("Master Bathroom",new RoomEventDefault());
+        masterBathroom.addItem("Iron Key", ironKey);
+
+        Item weedKiller = new Key("Weed Killer");
         laboratory = new Room("Laboratory",new RoomEventDefault());
+        laboratory.addItem("Weed Killer", weedKiller);
+
         greenHouseTwo = new Room("Green House Floor 2",new RoomEventDefault());
 
 
@@ -158,9 +188,20 @@ public enum Game {
         // loop until Player beats the game
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
+
             player.pickUpItem("rambutan");
-            player.getPoisoned();
+//            player.getPoisoned();
+
+
+//            player.pickUpItem("rambutan");
+
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
+            player.getCurrentRoom().displayItems();
+
+            if (player.getCurrentRoom().getName().equals("Hidden Office")) { // Win condition will really be if player uses elixir
+                break;
+            }
+
             doCommand();
         }
 

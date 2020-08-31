@@ -8,6 +8,7 @@ public class Room {
     private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
     //private String description;  //short descr
     private HashMap<String, Item> items = new HashMap<String, Item>(); //items in the room
+    private boolean isLocked = false;
 
     public void addItem(String itemName, Item item){
         items.put(itemName, item);
@@ -43,6 +44,20 @@ public class Room {
 
     public void setNeighboringRooms(HashMap<String, Room> neighboringRooms) {
         this.neighboringRooms = neighboringRooms;
+    }
+
+    public void displayItems() {
+        items.entrySet().forEach( entry -> {
+            System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
+        });
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void toggleLock() {
+        this.isLocked = !isLocked;
     }
 
     public void enterRoom() {
