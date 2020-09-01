@@ -1,9 +1,9 @@
 package com.plantpocalypse;
 
 import com.plantpocalypse.gameclient.Game;
+import com.plantpocalypse.util.TextParser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Player {
     private Room currentRoom; // Might change to Room type
@@ -30,24 +30,9 @@ public class Player {
     public void pickUpItem(String itemName){
         Item pickedUpItem = currentRoom.getItem(itemName);
         inventory.add(pickedUpItem);
-        System.out.println("picked up " + inventory.get(0).getName());
+        //System.out.println("picked up " + inventory.get(0).getName());
     }
 
-    public void eatItem(String itemName){
-        for (int i = 0; i < inventory.size(); i++){
-            if (inventory.get(i).getName().equals(itemName)){
-                inventory.remove(i);
-                int health = getCurrentHealth()+1;
-                if (health <= MAX_HEALTH){
-                setCurrentHealth(health);
-                }
-                else {
-                    setCurrentHealth(MAX_HEALTH);
-                }
-            }
-            System.out.println("Omnomnom! Must have been organic");
-        }
-    }
 
     public void getHurt(){ //getPoisoned
         int health = getCurrentHealth() - 1;
@@ -80,6 +65,69 @@ public class Player {
         currentRoom.enterRoom(this);
     }
 
+    // COMMANDS
+
+    public void interact() {
+        List<String> input = TextParser.getInput();
+        List<String> commands = Arrays.asList("go","eat","examine","quit");
+
+        if (input.size() < 2 || !commands.contains(input.get(0))) {
+            System.out.println("Please enter command with correct format: command [option]");
+        } else if (input.get(0).equals("go")) {
+            go(input.get(1));
+        } else if (input.get(0).equals("eat")) {
+            eat(input.get(1));
+        } else if (input.get(0).equals("examine")) {
+            eat(input.get(1));
+        }
+    }
+
+    private void go(String direction) {
+        //List<String> directions = Arrays.asList("north","northwest","up","west","east");
+        HashMap<String, Room> adjacentRooms = getCurrentRoom().getNeighboringRooms();
+        if (adjacentRooms.containsKey(direction)) {
+            move(adjacentRooms.get(direction));
+        } else {
+            System.out.println("Please enter a valid direction.");
+        }
+    }
+
+    private void eat(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null) {
+            currentAction.eat(this);
+        } else {
+            System.out.println("You do not have that item!");
+        }
+    }
+
+    private void examine(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null) {
+            currentAction.examine(item);
+        } else {
+            System.out.println("You do not have that item!");
+        }
+    }
+
+    private void quit() {
+        System.exit(0);
+    }
+
+    private Item retrieveItemFromInventory(String itemName) {
+        Item result = null;
+        Iterator<Item> iterator = inventory.iterator();
+        inventory.forEach(item -> System.out.println(item.getName()));
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().equals(itemName)) {
+                result = item;
+                inventory.remove(item);
+                break;
+            }
+        }
+        return result;
+    }
     /* GETTERS AND SETTERS */
 
     public Room getCurrentRoom() {
