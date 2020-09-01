@@ -191,7 +191,7 @@ public enum Game {
 
             player.pickUpItem("rambutan");
 //            player.getPoisoned();
-
+            player.displayInventory();
 
 //            player.pickUpItem("rambutan");
 

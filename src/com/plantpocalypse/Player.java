@@ -49,7 +49,7 @@ public class Player {
         }
     }
 
-    public void getHurt(){ //getPoisoned
+    public void getHurt(){
         int health = getCurrentHealth() - 1;
         if (health >0){
             setCurrentHealth(health);
@@ -60,7 +60,7 @@ public class Player {
         System.out.println("Ouch!");
     }
 
-    public void getPoisoned(){ //getPoisoned
+    public void getPoisoned(){
         int demage = (int) (Math.random()*10);
         int health = (getCurrentHealth() - demage);
         if (health >0){
@@ -71,6 +71,12 @@ public class Player {
         }
         System.out.println("Oh no! That was poisonous! Health demage: " + demage);
         System.out.println(getCurrentHealth());;
+    }
+
+    public void displayInventory() {
+        for(int i=0; i <inventory.size(); i++){
+            System.out.println((i+1) + ". " + inventory.get(i).getName() + "\n");
+        }
     }
 
 
