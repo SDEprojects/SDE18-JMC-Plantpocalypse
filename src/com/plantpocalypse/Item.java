@@ -5,6 +5,7 @@ import java.util.List;
 public abstract class Item {
     private String name;
     private String Description;
+    private boolean isEdible;
 
     public Item(String name){
         this.name = name;
