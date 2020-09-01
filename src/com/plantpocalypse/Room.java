@@ -3,7 +3,7 @@ package com.plantpocalypse;
 import java.util.HashMap;
 
 public class Room {
-    Action action;
+    private Action action;
     private String name;  //name of room
     private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
     //private String description;  //short descr
@@ -30,8 +30,8 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
-    public void enterRoom() {
-        action.entryEvent(this);
+    public void enterRoom(Player player) {
+        action.entryEvent(player,this);
     }
 
 

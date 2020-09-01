@@ -77,7 +77,7 @@ public class Player {
     public void move(Room nextRoom) {
         currentRoom = nextRoom;
         currentAction = currentRoom.getAction();
-        currentRoom.enterRoom();
+        currentRoom.enterRoom(this);
     }
 
     /* GETTERS AND SETTERS */
