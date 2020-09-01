@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Player {
     private Room currentRoom; // Might change to Room type
+    private Action currentAction;
     private int movesMade;
     //private int totalHealth = 5;
     private int currentHealth = MAX_HEALTH;
@@ -18,6 +19,7 @@ public class Player {
     public Player(Room startingLocation) {
 //        System.out.println("Setting player current location to: " + startingLocation.getName());
         currentRoom = startingLocation;
+        currentAction = startingLocation.getAction();
         inventory = new ArrayList<Item>();
     }
 
@@ -67,15 +69,18 @@ public class Player {
         else {
             Dialogue.endingDialogue();
         }
-        System.out.println("Oh no! That was poisoned! Helth demage: " + demage);
+        System.out.println("Oh no! That was poisonous! Health demage: " + demage);
         System.out.println(getCurrentHealth());;
     }
 
 
     public void move(Room nextRoom) {
-        this.currentRoom = nextRoom;
-        enterNewRoom();
+        currentRoom = nextRoom;
+        currentAction = currentRoom.getAction();
+        currentRoom.enterRoom();
     }
+
+    /* GETTERS AND SETTERS */
 
     public Room getCurrentRoom() {
         return currentRoom;
@@ -117,7 +122,4 @@ public class Player {
         this.inventory = inventory;
     }
 
-    private void enterNewRoom() {
-        currentRoom.enterRoom();
-    }
 }
