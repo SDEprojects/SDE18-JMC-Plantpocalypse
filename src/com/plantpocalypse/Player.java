@@ -114,6 +114,8 @@ public class Player {
         System.exit(0);
     }
 
+    // Get item from inventory or return null if doesn't exist, this is clunky and I do not like it
+    // todo : switch inventory to Map then just do .contains to check existense then .get
     private Item retrieveItemFromInventory(String itemName) {
         Item result = null;
         Iterator<Item> iterator = inventory.iterator();
