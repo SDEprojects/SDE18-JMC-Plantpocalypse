@@ -197,7 +197,10 @@ public enum Game {
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
 
-//            player.pickUpItem("rambutan");
+//            player.getCurrentRoom().displayItems();
+//            if (i == 0) {
+//                player.pickUpItem("rambutan");
+//            }
 //            player.getPoisoned();
 //            player.displayInventory();
 
@@ -210,14 +213,15 @@ public enum Game {
                 break;
             }
 
-            playGame();
+            // Promprt user for input
+            nextCommand(player);
         }
 
         endingDialogue();
     }
 
-    private void playGame() {
-        player.interact();
+    private void nextCommand(Player player) {
+        GameDirector.interact(player);
     }
 
     private void titleScreen() {
