@@ -3,7 +3,7 @@ package com.plantpocalypse;
 import java.util.HashMap;
 
 public class Room {
-    RoomEvent roomEvent;
+    Action action;
     private String name;  //name of room
     private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
     //private String description;  //short descr
@@ -20,9 +20,9 @@ public class Room {
         return pickedUpItem;
     }
 
-    public Room(String name, RoomEvent roomEvent) {
+    public Room(String name, Action action) {
         this.name = name;
-        this.roomEvent = roomEvent;
+        this.action = action;
     }
 
     public Room(String name, HashMap<String, Room> neighboringRooms) {
@@ -61,6 +61,10 @@ public class Room {
     }
 
     public void enterRoom() {
-        roomEvent.entryEvent(this);
+        action.entryEvent(this);
+    }
+
+    public Action getAction() {
+        return action;
     }
 }
