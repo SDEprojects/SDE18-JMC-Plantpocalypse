@@ -1,19 +1,19 @@
 package com.plantpocalypse;
 
-import java.util.List;
-
 public abstract class Item {
     private String name;
     private String Description;
-    private boolean isEdible;
 
+    /* CONSTRUCTORS */
     public Item(String name){
-        this.name = name;
+        setName(name);
+        setDescription("This is a " + name);
     }
 
+    /* ABSTRACT METHODS */
     public abstract void use();
 
-
+    /* GETTERS AND SETTERS */
     public String getName() {
         return name;
     }
@@ -21,12 +21,12 @@ public abstract class Item {
         this.name = name;
     }
 
-    public String getDescription() { return Description; }
-    public void setDescription(String description) { Description = description; }
+    public String getDescription() {
+        return Description;
+    }
 
-
-//    public String showDescription(String name){
-//    }
-
+    public void setDescription(String description) {
+        Description = description;
+    }
 }
 

@@ -6,31 +6,29 @@ import com.plantpocalypse.util.TextParser;
 import java.util.*;
 
 public class Player {
-    private Room currentRoom; // Might change to Room type
+    private Room currentRoom;
     private Action currentAction;
-    private int movesMade;
-    //private int totalHealth = 5;
-    private int currentHealth = MAX_HEALTH;
     private List<Item> inventory;
+
+    private int movesMade = 0;
     static final int MAX_HEALTH = 10;
+    private int currentHealth = MAX_HEALTH;
 
-
-
+    /* CONSTRUCTORS */
     public Player(Room startingLocation) {
-//        System.out.println("Setting player current location to: " + startingLocation.getName());
         currentRoom = startingLocation;
         currentAction = startingLocation.getAction();
         inventory = new ArrayList<Item>();
     }
 
+    /* BUSINESS METHODS */
     /**
      * Will put an item in the Player's inventory if it is in the Player's current room.
      * @param itemName Name of the item to be passed in as a key to a HashMap to get a Item object.
      */
-    public void pickUpItem(String itemName){
+    public void pickUpItem(String itemName) {
         Item pickedUpItem = currentRoom.getItem(itemName);
         inventory.add(pickedUpItem);
-        //System.out.println("picked up " + inventory.get(0).getName());
     }
 
     public void getHurt(){
@@ -45,16 +43,16 @@ public class Player {
     }
 
     public void getPoisoned(){
-        int demage = (int) (Math.random()*10);
-        int health = (getCurrentHealth() - demage);
+        int damage = (int) (Math.random() * 10);
+        int health = (getCurrentHealth() - damage);
         if (health >0){
             setCurrentHealth(health);
         }
         else {
             Dialogue.endingDialogue();
         }
-        System.out.println("Oh no! That was poisonous! Health demage: " + demage);
-        System.out.println(getCurrentHealth());;
+        System.out.println("Oh no! That was poisonous! Health damage: " + damage);
+        System.out.println(getCurrentHealth());
     }
 
     public void displayInventory() {
@@ -63,15 +61,13 @@ public class Player {
         }
     }
 
-
     public void move(Room nextRoom) {
         currentRoom = nextRoom;
         currentAction = currentRoom.getAction();
         currentRoom.enterRoom(this);
     }
 
-    // COMMANDS
-
+    /* COMMANDS */
     public void interact() {
         List<String> input = TextParser.getInput();
         List<String> commands = Arrays.asList("go","eat","examine","quit");
@@ -135,14 +131,22 @@ public class Player {
         }
         return result;
     }
-    /* GETTERS AND SETTERS */
 
+    /* GETTERS AND SETTERS */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
+    }
+
+    public Action getCurrentAction() {
+        return currentAction;
+    }
+
+    public void setCurrentAction(Action currentAction) {
+        this.currentAction = currentAction;
     }
 
     public int getMovesMade() {
@@ -153,13 +157,9 @@ public class Player {
         this.movesMade = movesMade;
     }
 
-//    public int getTotalHealth() {
-//        return totalHealth;
-//    }
-//
-//    public void setTotalHealth(int totalHealth) {
-//        this.totalHealth = totalHealth;
-//    }
+    public int getMaxHealth() {
+        return MAX_HEALTH;
+    }
 
     public int getCurrentHealth() {
         return currentHealth;

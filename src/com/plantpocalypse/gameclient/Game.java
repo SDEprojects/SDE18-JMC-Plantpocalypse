@@ -11,76 +11,82 @@ public enum Game {
     GAME_INSTANCE;
 
     private final int ALLOWED_MOVES = 10;
+    boolean winCondition = false;
 
     private Player player;
+    private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
     private HashMap<String, Room> mansion;
-    boolean winCondition = false;
 
     /**
      * Loads assets for the game to run properly:
      * Instantiates Player, Rooms and other necessary assets.
      */
     public void loadAssets() {
+        loadItems();
         loadRooms();
+        addItemsToRooms();
+        connectRooms();
         player = new Player(outside);
-
     }
 
+    /**
+     * Instantiates all of the rooms in the mansion.
+     */
     private void loadRooms() {
         mansion = new HashMap<>();
 
-        Item rambutan1 = new Food("rambutan");
-        Item brassKey = new Key("brass key");
         outside = new Room("Outside", new ActionDefault());
-        outside.addItem("rambutan", rambutan1);
-        outside.addItem("brass key", brassKey);
-//        outside.toggleLock();
-
         foyer = new Room("Foyer", new ActionFoyer());
-
-        Item rambutan2 = new Food("rambutan");
+//        foyer.toggleLock();
         diningRoom = new Room("Dining Room",new ActionDefault());
-        diningRoom.addItem("rambutan", rambutan2);
-
         kitchen = new Room("Kitchen",new ActionDefault());
-
         livingRoom = new Room("Living Room",new ActionDefault());
-
         guestRoom = new Room("Guest Room",new ActionDefault());
-
-//        Item journal1 = new Journal("Journal 1");
         bathroom = new Room("Bathroom",new ActionDefault());
-//        bathroom.addItem("Journal 1", journal1);
-
-        Item steelKey = new Key("Steel Key");
         greenHouseOne = new Room("Green House Floor 1",new ActionDefault());
-        greenHouseOne.addItem("Steel Key", steelKey);
-
         library = new Room("Library",new ActionLibrary());
 //        library.toggleLock();
-
         hiddenOffice = new Room("Hidden Office",new ActionDefault());
 //        hiddenOffice.toggleLock();
-
         upperHall = new Room("Upper Hall",new ActionDefault());
-
-//        Item tornPage = new Journal("Torn Page");
         masterBedroom = new Room("Master Bedroom",new ActionDefault());
-//        masterBedroom.addItem("Torn Page", tornPage);
-
-        Item ironKey = new Key("Iron Key");
         masterBathroom = new Room("Master Bathroom",new ActionDefault());
-        masterBathroom.addItem("Iron Key", ironKey);
-
-        Item weedKiller = new Key("Weed Killer");
         laboratory = new Room("Laboratory",new ActionDefault());
-        laboratory.addItem("Weed Killer", weedKiller);
-
         greenHouseTwo = new Room("Green House Floor 2",new ActionDefault());
 
+        mansion.put("Outside", outside);
+        mansion.put("Foyer", foyer);
+        mansion.put("Dining Room", diningRoom);
+        mansion.put("Kitchen", kitchen);
+        mansion.put("Guest Room", guestRoom);
+        mansion.put("Living Room", livingRoom);
+        mansion.put("Bathroom", bathroom);
+        mansion.put("Library", library);
+        mansion.put("Green House F1", greenHouseOne);
+        mansion.put("Hidden Office", hiddenOffice);
+        mansion.put("Upper Hall", upperHall);
+        mansion.put("Master Bedroom", masterBedroom);
+        mansion.put("Master Bathroom", masterBathroom);
+        mansion.put("Laboratory", laboratory);
+        mansion.put("Green House F2", greenHouseTwo);
+    }
 
+    private void loadItems() {
+        rambutan1 = new Food("rambutan");
+        rambutan2 = new Food("rambutan");
+
+        brassKey = new Key("Brass Key");
+        ironKey = new Key("Iron Key");
+        steelKey = new Key("Steel Key");
+        weedKiller = new Key("Weed Killer");
+
+//        Item journal1 = new Journal("Journal 1");
+//        Item tornPage = new Journal("Torn Page");
+    }
+
+    private void connectRooms() {
         HashMap<String, Room> outsideAdjRooms = new HashMap<>();
         outsideAdjRooms.put("north", foyer);
         outside.setNeighboringRooms(outsideAdjRooms);
@@ -157,22 +163,23 @@ public enum Game {
         HashMap<String, Room> greenHouseTwoAdjRooms = new HashMap<>();
         greenHouseTwoAdjRooms.put("south", laboratory);
         greenHouseTwo.setNeighboringRooms(greenHouseTwoAdjRooms);
+    }
 
-        mansion.put("Outside", outside);
-        mansion.put("Foyer", foyer);
-        mansion.put("Dining Room", diningRoom);
-        mansion.put("Kitchen", kitchen);
-        mansion.put("Guest Room", guestRoom);
-        mansion.put("Living Room", livingRoom);
-        mansion.put("Bathroom", bathroom);
-        mansion.put("Library", library);
-        mansion.put("Green House F1", greenHouseOne);
-        mansion.put("Hidden Office", hiddenOffice);
-        mansion.put("Upper Hall", upperHall);
-        mansion.put("Master Bedroom", masterBedroom);
-        mansion.put("Master Bathroom", masterBathroom);
-        mansion.put("Laboratory", laboratory);
-        mansion.put("Green House F2", greenHouseTwo);
+    private void addItemsToRooms() {
+        outside.addItem("rambutan", rambutan1);
+        outside.addItem("brass key", brassKey);
+
+        diningRoom.addItem("rambutan", rambutan2);
+
+//        bathroom.addItem("Journal 1", journal1);
+
+        greenHouseOne.addItem("Steel Key", steelKey);
+
+//        masterBedroom.addItem("Torn Page", tornPage);
+
+        masterBathroom.addItem("Iron Key", ironKey);
+
+        laboratory.addItem("Weed Killer", weedKiller);
     }
 
     /**
@@ -184,15 +191,15 @@ public enum Game {
         titleScreen();
         introDialogue();
 
-        player.pickUpItem("rambutan");
+//        player.pickUpItem("rambutan");
 
-        // loop until Player beats the game
+        // Loop until Player beats the game
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName());
 
 //            player.pickUpItem("rambutan");
 //            player.getPoisoned();
-            player.displayInventory();
+//            player.displayInventory();
 
 //            player.pickUpItem("rambutan");
 
@@ -212,8 +219,6 @@ public enum Game {
     private void playGame() {
         player.interact();
     }
-
-
 
     private void titleScreen() {
         Dialogue.titleScreenDialogue();
