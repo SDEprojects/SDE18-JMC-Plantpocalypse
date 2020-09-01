@@ -3,13 +3,30 @@ package com.plantpocalypse;
 import java.util.HashMap;
 
 public class Room {
-    private Action action;
-    private String name;  //name of room
-    private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
-    //private String description;  //short descr
-    private HashMap<String, Item> items = new HashMap<String, Item>(); //items in the room
+    private String name;
+    private String description;
     private boolean isLocked = false;
 
+    private Action action;
+    private HashMap<String, Room> neighboringRooms;
+    private HashMap<String, Item> items = new HashMap<String, Item>();
+
+    /* CONSTRUCTORS */
+    public Room(String name, Action action) {
+        setName(name);
+        setDescription("This is the " + name);
+        setAction(action);
+    }
+
+    // Might use later, for now just calling setNeighboringRooms in Game.
+    public Room(String name, HashMap<String, Room> neighboringRooms, Action action) {
+        setName(name);
+        setAction(action);
+        setDescription("This is the " + name);
+        setNeighboringRooms(neighboringRooms);
+    }
+
+    /* BUSINESS METHODS */
     public void addItem(String itemName, Item item){
         items.put(itemName, item);
     }
@@ -20,20 +37,9 @@ public class Room {
         return pickedUpItem;
     }
 
-    public Room(String name, Action action) {
-        this.name = name;
-        this.action = action;
-    }
-
-    public Room(String name, HashMap<String, Room> neighboringRooms) {
-        this.name = name;
-        this.neighboringRooms = neighboringRooms;
-    }
-
     public void enterRoom(Player player) {
         action.entryEvent(player,this);
     }
-
 
     public void displayItems() {
         items.entrySet().forEach( entry -> {
@@ -42,6 +48,22 @@ public class Room {
     }
 
     /* GETTERS AND SETTERS */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public boolean isLocked() {
         return isLocked;
     }
@@ -50,12 +72,12 @@ public class Room {
         this.isLocked = !isLocked;
     }
 
-    public String getName() {
-        return name;
+    public Action getAction() {
+        return action;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAction(Action action) {
+        this.action = action;
     }
 
     public HashMap<String, Room> getNeighboringRooms() {
@@ -66,7 +88,11 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
-    public Action getAction() {
-        return action;
+    public HashMap<String, Item> getItems() {
+        return this.items;
+    }
+
+    public void setItems(HashMap<String, Item> items) {
+        this.items = items;
     }
 }

@@ -1,6 +1,7 @@
 package com.plantpocalypse;
 
 public class Dialogue {
+
     public static void helpDialogue() {
         System.out.println("Valid commands and directions: \n" +
                 "\t MOVE - \n" +
@@ -42,6 +43,7 @@ public class Dialogue {
     public static void losingDialogue() {
         System.out.println("\nThat's it. Game over. \n You might want to consider leaving your uncle's search to the professionals.");
     }
+
     public static void winningDialogue() {
         System.out.println("\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.");
     }

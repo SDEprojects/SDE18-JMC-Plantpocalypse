@@ -20,6 +20,5 @@ public class GameClient {
         catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
