@@ -80,6 +80,8 @@ public class Player {
         currentRoom.enterRoom();
     }
 
+    /* GETTERS AND SETTERS */
+
     public Room getCurrentRoom() {
         return currentRoom;
     }

@@ -30,6 +30,26 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
+    public void enterRoom() {
+        action.entryEvent(this);
+    }
+
+
+    public void displayItems() {
+        items.entrySet().forEach( entry -> {
+            System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
+        });
+    }
+
+    /* GETTERS AND SETTERS */
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void toggleLock() {
+        this.isLocked = !isLocked;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,24 +64,6 @@ public class Room {
 
     public void setNeighboringRooms(HashMap<String, Room> neighboringRooms) {
         this.neighboringRooms = neighboringRooms;
-    }
-
-    public void displayItems() {
-        items.entrySet().forEach( entry -> {
-            System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
-        });
-    }
-
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void toggleLock() {
-        this.isLocked = !isLocked;
-    }
-
-    public void enterRoom() {
-        action.entryEvent(this);
     }
 
     public Action getAction() {
