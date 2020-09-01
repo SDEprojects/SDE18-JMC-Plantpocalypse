@@ -35,8 +35,14 @@ public class Dialogue {
     }
 
     public static void endingDialogue() {
-        System.out.println("WOW! You did great!" +
-                "\nThank you for playing 'PLANTOCALYPSE' be the Rambutan Game Studios!\n" +
-                "\uD83C\uDF31 Jeffrey Haywood, Hunter Clark, Maya Marks \uD83C\uDF31");
+        System.out.println("\nThank you for playing \uD83C\uDF31 PLANTOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
+                "\t Jeffrey Haywood, Hunter Clark, Maya Marks ");
+    }
+
+    public static void losingDialogue() {
+        System.out.println("\nThat's it. Game over. \n You might want to consider leaving your uncle's search to the professionals.");
+    }
+    public static void winningDialogue() {
+        System.out.println("\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.");
     }
 }
