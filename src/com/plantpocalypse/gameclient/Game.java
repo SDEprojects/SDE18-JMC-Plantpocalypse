@@ -24,8 +24,8 @@ public enum Game {
      * Instantiates Player, Rooms and other necessary assets.
      */
     public void loadAssets() {
-        loadItems();
         loadRooms();
+        loadItems();
         addItemsToRooms();
         connectRooms();
         player = new Player(outside);
@@ -39,7 +39,7 @@ public enum Game {
 
         outside = new Room("Outside", new ActionDefault());
         foyer = new Room("Foyer", new ActionFoyer());
-//        foyer.toggleLock();
+        foyer.toggleLock();
         diningRoom = new Room("Dining Room",new ActionDefault());
         kitchen = new Room("Kitchen",new ActionDefault());
         livingRoom = new Room("Living Room",new ActionDefault());
@@ -74,13 +74,13 @@ public enum Game {
     }
 
     private void loadItems() {
-        rambutan1 = new Food("rambutan");
-        rambutan2 = new Food("rambutan");
+        rambutan1 = new Food("rambutan", 1);
+        rambutan2 = new Food("rambutan", 1);
 
-        brassKey = new Key("Brass Key");
-        ironKey = new Key("Iron Key");
-        steelKey = new Key("Steel Key");
-        weedKiller = new Key("Weed Killer");
+        brassKey = new Key("Brass Key", foyer);
+        ironKey = new Key("Iron Key", upperHall);
+        steelKey = new Key("Steel Key", library);
+        weedKiller = new Key("Weed Killer", greenHouseOne);
 
 //        Item journal1 = new Journal("Journal 1");
 //        Item tornPage = new Journal("Torn Page");
@@ -191,29 +191,25 @@ public enum Game {
         titleScreen();
         introDialogue();
 
-//        player.pickUpItem("rambutan");
-
-        // Loop until Player beats the game
+        /* Loop until Player beats the game */
         for (int i = 0; i < ALLOWED_MOVES; i++) {
-            System.out.println("Player current room: " + player.getCurrentRoom().getName());
-
-//            player.getCurrentRoom().displayItems();
-//            if (i == 0) {
-//                player.pickUpItem("rambutan");
-//            }
-//            player.getPoisoned();
-//            player.displayInventory();
-
-//            player.pickUpItem("rambutan");
-
-            player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + ", " + v.getName()));
+            System.out.println("Player current room: " + player.getCurrentRoom().getName() + "\n");
+            player.displayInventory();
+            System.out.println("Connected Rooms: ");
+            player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
+            System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
             player.getCurrentRoom().displayItems();
+
+            if (i == 0) {
+                player.pickUpItem("brass key");
+            }
+
+            player.unlockDoor((Key)brassKey);
 
             if (player.getCurrentRoom().getName().equals("Hidden Office")) { // Win condition will really be if player uses elixir
                 break;
             }
 
-            // Promprt user for input
             nextCommand(player);
         }
 

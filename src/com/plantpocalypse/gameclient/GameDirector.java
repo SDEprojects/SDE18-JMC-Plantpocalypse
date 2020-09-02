@@ -42,7 +42,7 @@ public class GameDirector {
 
     private static void eat(String itemName, Player player) {
         if (itemName != null) {
-            player.eat(itemName);
+            player.use(itemName);
         } else {
             System.out.println("You do not have that item!");
         }
