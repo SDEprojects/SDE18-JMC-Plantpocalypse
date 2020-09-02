@@ -56,6 +56,7 @@ public class Player {
     }
 
     public void displayInventory() {
+        System.out.println("Player Inventory: ");
         for(int i=0; i <inventory.size(); i++){
             System.out.println((i+1) + ". " + inventory.get(i).getName() + "\n");
         }
@@ -67,16 +68,61 @@ public class Player {
         currentRoom.enterRoom(this);
     }
 
-    public void eat(String itemName) {
-        if(retrieveItemFromInventory(itemName) != null) {
-            int health = getCurrentHealth() + 1;
+    public void use(String itemName) {
+        Item selectedItem = retrieveItemFromInventory(itemName);
+        String selectedItemType = selectedItem.getClass().getSimpleName();
+
+        if (selectedItem != null) {
+            switch (selectedItemType) {
+                case "Food":
+                    Food food = (Food) selectedItem;
+                    eat(food);
+                    break;
+
+                case "Key":
+                    Key key = (Key) selectedItem;
+                    unlockDoor(key);
+                    System.out.println("You used a key");
+                    break;
+
+                case "Journal":
+                    System.out.println("You read the journal");
+                    break;
+
+                default:
+                    System.out.println("You cannot use that item, silly.");
+            }
+        }
+    }
+
+    /**
+     * Will restore Player health for the amount of health that
+     * the Food restores.
+     * @param food The Food object that the player is eating
+     */
+    public void eat(Food food) {
+        if (food != null) {
+            int health = getCurrentHealth() + food.getHealthRestored();
 
             if (health <= getMaxHealth()) {
                 setCurrentHealth(health);
-            } else {
+            }
+            else {
                 setCurrentHealth(getMaxHealth());
             }
+            removeItemFromInventory(food.getName());
             System.out.println("Omnomnom! Must have been organic");
+        }
+    }
+
+    public void unlockDoor(Key key) {
+        if (key != null) {
+            boolean validRoom = getCurrentRoom().getNeighboringRooms().containsValue(key.getRoomKeyUnlocks());
+            if (validRoom && key.getRoomKeyUnlocks().isLocked()) {
+                key.getRoomKeyUnlocks().toggleLock();
+                removeItemFromInventory(key.getName());
+                System.out.println("\nYou unlocked the " + key.getRoomKeyUnlocks().getName());
+            }
         }
     }
 
@@ -92,16 +138,25 @@ public class Player {
     private Item retrieveItemFromInventory(String itemName) {
         Item result = null;
         Iterator<Item> iterator = inventory.iterator();
-        inventory.forEach(item -> System.out.println(item.getName()));
         while (iterator.hasNext()) {
             Item item = iterator.next();
             if (item.getName().equals(itemName)) {
                 result = item;
-                inventory.remove(item);
                 break;
             }
         }
         return result;
+    }
+
+    private void removeItemFromInventory(String itemName) {
+        Iterator<Item> iterator = inventory.iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
+            if (item.getName().equals(itemName)) {
+                inventory.remove(item);
+                break;
+            }
+        }
     }
 
     /* GETTERS AND SETTERS */
