@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TextParser {
 
-    // This needs to be changed to handle user input that puts in more than 3 words
+    // good enough for govt work
     public static List<String> getInput() {
         Scanner readin = new Scanner(System.in);
         String input = readin.nextLine().toLowerCase().strip();
