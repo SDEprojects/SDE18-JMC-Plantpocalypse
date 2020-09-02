@@ -7,6 +7,7 @@ public class TextParser {
     // good enough for govt work
     public static List<String> getInput() {
         Scanner readin = new Scanner(System.in);
+        System.out.print("\nenter input> ");
         String input = readin.nextLine().toLowerCase().strip();
         List<String> cmd = new LinkedList<String>(Arrays.asList(input.split("\\s+")));
 

@@ -14,18 +14,19 @@ public class GameDirector {
 
     public static void interact(Player player) {
         List<String> input = TextParser.getInput();
-        List<String> commands = Arrays.asList("go","eat","examine", "get", "quit");
 
-        if (input.size() < 2 || !commands.contains(input.get(0))) {
-            System.out.println("Please enter command with correct format: command [option]");
-        } else if (input.get(0).equals("go")) {
-            go(input.get(1), player);
-        } else if (input.get(0).equals("eat")) {
-            eat(input.get(1), player);
-        } else if (input.get(0).equals("examine")) {
-            examine(input.get(1), player);
-        } else if (input.get(0).equals("get")) {
-            pickup(input.get(1), player);
+        if (input != null) {
+            if (input.get(0).equals("go")) {
+                go(input.get(1), player);
+            } else if (input.get(0).equals("eat")) {
+                eat(input.get(1), player);
+            } else if (input.get(0).equals("examine")) {
+                examine(input.get(1), player);
+            } else if (input.get(0).equals("get")) {
+                pickup(input.get(1), player);
+            } else if (input.get(0).equals("quit")) {
+                quit();
+            }
         }
     }
 
@@ -63,10 +64,10 @@ public class GameDirector {
         }
     }
 
-//
-//    private static void quit() {
-//        System.exit(0);
-//    }
-//
+
+    private static void quit() {
+        System.exit(0);
+    }
+
 
 }
