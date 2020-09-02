@@ -77,10 +77,10 @@ public enum Game {
         rambutan1 = new Food("rambutan", 1);
         rambutan2 = new Food("rambutan", 1);
 
-        brassKey = new Key("Brass Key", foyer);
-        ironKey = new Key("Iron Key", upperHall);
-        steelKey = new Key("Steel Key", library);
-        weedKiller = new Key("Weed Killer", greenHouseOne);
+        brassKey = new Key("brass key", foyer);
+        ironKey = new Key("iron key", upperHall);
+        steelKey = new Key("steel key", library);
+        weedKiller = new Key("weed killer", greenHouseOne);
 
 //        Item journal1 = new Journal("Journal 1");
 //        Item tornPage = new Journal("Torn Page");
@@ -199,12 +199,6 @@ public enum Game {
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
             System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
             player.getCurrentRoom().displayItems();
-
-            if (i == 0) {
-                player.pickUpItem("brass key");
-            }
-
-            player.unlockDoor((Key)brassKey);
 
             if (player.getCurrentRoom().getName().equals("Hidden Office")) { // Win condition will really be if player uses elixir
                 break;

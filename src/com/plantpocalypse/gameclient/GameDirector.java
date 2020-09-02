@@ -20,6 +20,8 @@ public class GameDirector {
                 go(input.get(1), player);
             } else if (input.get(0).equals("eat")) {
                 eat(input.get(1), player);
+            } else if(input.get(0).equals("use")) {
+                use(input.get(1), player);
             } else if (input.get(0).equals("examine")) {
                 examine(input.get(1), player);
             } else if (input.get(0).equals("get")) {
@@ -41,6 +43,14 @@ public class GameDirector {
     }
 
     private static void eat(String itemName, Player player) {
+        if (itemName != null) {
+            player.use(itemName);
+        } else {
+            System.out.println("You do not have that item!");
+        }
+    }
+
+    private static void use(String itemName, Player player) {
         if (itemName != null) {
             player.use(itemName);
         } else {
