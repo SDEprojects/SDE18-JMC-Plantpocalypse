@@ -1,5 +1,6 @@
 package com.plantpocalypse.gameclient;
 
+import com.plantpocalypse.Dialogue;
 import com.plantpocalypse.Item;
 import com.plantpocalypse.Player;
 import com.plantpocalypse.Room;
@@ -28,6 +29,8 @@ public class GameDirector {
                 pickup(input.get(1), player);
             } else if (input.get(0).equals("quit")) {
                 quit();
+            } else if (input.get(0).equals("help")) {
+                help();
             }
         }
     }
@@ -74,10 +77,11 @@ public class GameDirector {
         }
     }
 
-
     private static void quit() {
         System.exit(0);
     }
 
-
+    private static void help() {
+        Dialogue.helpDialogue();
+    }
 }
