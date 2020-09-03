@@ -43,7 +43,7 @@ public class Dialogue {
     }
 
     public static void endingDialogue() {
-        System.out.println("\nThank you for playing \uD83C\uDF31 PLANTOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
+        System.out.println("\nThank you for playing \uD83C\uDF31 PLANTPOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
                 "\t Jeffrey Haywood, Hunter Clark, Maya Marks ");
     }
 
