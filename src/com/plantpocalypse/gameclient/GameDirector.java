@@ -29,6 +29,8 @@ public class GameDirector {
                 pickup(input.get(1), player);
             } else if (input.get(0).equals("quit")) {
                 quit();
+            } else if (input.get(0).equals("inventory")) {
+                inventory(player);
             } else if (input.get(0).equals("help")) {
                 help();
             }
@@ -75,6 +77,10 @@ public class GameDirector {
         } else {
             System.out.println("That item is not in this room.");
         }
+    }
+
+    private static void inventory(Player player) {
+        player.displayInventory();
     }
 
     private static void quit() {

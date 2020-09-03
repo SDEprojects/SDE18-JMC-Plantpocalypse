@@ -194,7 +194,6 @@ public enum Game {
         /* Loop until Player beats the game */
         for (int i = 0; i < ALLOWED_MOVES; i++) {
             System.out.println("Player current room: " + player.getCurrentRoom().getName() + "\n");
-            player.displayInventory();
             System.out.println("Connected Rooms: ");
             player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
             System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
