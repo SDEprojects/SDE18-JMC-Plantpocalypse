@@ -1,17 +1,14 @@
 package com.plantpocalypse.gameclient;
 
 import com.plantpocalypse.*;
-import com.plantpocalypse.util.TextParser;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
 
-    private final int ALLOWED_MOVES = 10;
-    boolean winCondition = false;
+    private final int ALLOWED_MOVES = 20;
+    boolean lostGame = false;
 
     private Player player;
     private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
@@ -189,40 +186,70 @@ public enum Game {
      */
     public void startGame() {
         titleScreen();
-        introDialogue();
+        intro();
 
         /* Loop until Player beats the game */
-        for (int i = 0; i < ALLOWED_MOVES; i++) {
-            System.out.println("Player current room: " + player.getCurrentRoom().getName() + "\n");
-            System.out.println("Connected Rooms: ");
-            player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
-            System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
-            player.getCurrentRoom().displayItems();
+        while (!player.getCurrentRoom().getName().equals("Hidden Office")) {
+            currentRoom();
+            itemsInRoom();
+            neighboringRooms();
 
-            if (player.getCurrentRoom().getName().equals("Hidden Office")) { // Win condition will really be if player uses elixir
+            nextCommand();
+
+            if (player.getMovesMade() >= ALLOWED_MOVES) {
+                lostGame = true;
                 break;
             }
-
-            nextCommand(player);
         }
 
-        endingDialogue();
+        if (lostGame) {
+            lost();
+        }
+        else {
+            won();
+        }
+
+        ending();
     }
 
-    private void nextCommand(Player player) {
+    private void nextCommand() {
+        player.setMovesMade(player.getMovesMade() + 1);
         GameDirector.interact(player);
+    }
+
+    private void currentRoom() {
+        System.out.println("Player current room: " + player.getCurrentRoom().getName() + "\n");
     }
 
     private void titleScreen() {
         Dialogue.titleScreenDialogue();
     }
 
-    private void introDialogue() {
+    private void intro() {
         Dialogue.introDialogue();
     }
 
-    private void endingDialogue() {
+    private void ending() {
         Dialogue.endingDialogue();
+    }
+
+    private void lost() {
+        Dialogue.losingDialogue();
+    }
+
+    private void won() {
+        Dialogue.winningDialogue();
+    }
+
+    /* METHODS FOR TESTING */
+    private void itemsInRoom() {
+        System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
+        player.getCurrentRoom().displayItems();
+    }
+
+    private void neighboringRooms() {
+        System.out.println("Connected Rooms: ");
+        player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
     }
 
 }
