@@ -42,7 +42,7 @@ public enum Game {
         diningRoom = new Room("Dining Room",new ActionDefault());
         kitchen = new Room("Kitchen",new ActionDefault());
         livingRoom = new Room("Living Room",new ActionDefault());
-        guestRoom = new Room("Guest Room",new ActionDefault());
+        guestRoom = new Room("Guest Room",new ActionGuestRoom());
         bathroom = new Room("Bathroom",new ActionDefault());
         greenHouseOne = new Room("Green House Floor 1",new ActionGreenHouseOne());
         library = new Room("Library",new ActionLibrary());
