@@ -14,6 +14,7 @@ public enum Game {
     boolean winCondition = false;
 
     private Player player;
+    private PlantMonster monster;
     private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
@@ -45,7 +46,7 @@ public enum Game {
         livingRoom = new Room("Living Room",new ActionDefault());
         guestRoom = new Room("Guest Room",new ActionDefault());
         bathroom = new Room("Bathroom",new ActionDefault());
-        greenHouseOne = new Room("Green House Floor 1",new ActionDefault());
+        greenHouseOne = new Room("Green House Floor 1",new ActionGreenHouseOne());
         library = new Room("Library",new ActionLibrary());
 //        library.toggleLock();
         hiddenOffice = new Room("Hidden Office",new ActionDefault());

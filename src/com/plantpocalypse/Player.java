@@ -31,8 +31,9 @@ public class Player {
         inventory.add(pickedUpItem);
     }
 
-    public void getHurt(){
-        int health = getCurrentHealth() - 1;
+    public void getHurt(int attack){
+        //attack = monster.getBaseAttack();
+        int health = getCurrentHealth() - attack; // ? - baseAttack by monster
         if (health >0){
             setCurrentHealth(health);
         }
