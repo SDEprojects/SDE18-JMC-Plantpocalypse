@@ -41,7 +41,11 @@ public class GameDirector {
         //List<String> directions = Arrays.asList("north","northwest","up","west","east");
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
         if (adjacentRooms.containsKey(direction)) {
-            player.move(adjacentRooms.get(direction));
+            if (!adjacentRooms.get(direction).isLocked()) {
+                player.move(adjacentRooms.get(direction));
+            } else {
+                System.out.println("The door is locked.");
+            }
         } else {
             System.out.println("Please enter a valid direction.");
         }

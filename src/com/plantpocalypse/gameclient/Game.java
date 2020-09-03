@@ -46,10 +46,11 @@ public enum Game {
         bathroom = new Room("Bathroom",new ActionDefault());
         greenHouseOne = new Room("Green House Floor 1",new ActionGreenHouseOne());
         library = new Room("Library",new ActionLibrary());
-//        library.toggleLock();
+        library.toggleLock();
         hiddenOffice = new Room("Hidden Office",new ActionDefault());
-//        hiddenOffice.toggleLock();
+        //hiddenOffice.toggleLock();
         upperHall = new Room("Upper Hall",new ActionDefault());
+        upperHall.toggleLock();
         masterBedroom = new Room("Master Bedroom",new ActionDefault());
         masterBathroom = new Room("Master Bathroom",new ActionDefault());
         laboratory = new Room("Laboratory",new ActionDefault());
@@ -172,13 +173,13 @@ public enum Game {
 
 //        bathroom.addItem("Journal 1", journal1);
 
-        greenHouseOne.addItem("Steel Key", steelKey);
+        greenHouseOne.addItem("steel key", steelKey);
 
 //        masterBedroom.addItem("Torn Page", tornPage);
 
-        masterBathroom.addItem("Iron Key", ironKey);
+        masterBathroom.addItem("iron key", ironKey);
 
-        laboratory.addItem("Weed Killer", weedKiller);
+        laboratory.addItem("weed killer", weedKiller);
     }
 
     /**
