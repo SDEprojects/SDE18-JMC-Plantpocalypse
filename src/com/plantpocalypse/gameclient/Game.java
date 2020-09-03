@@ -1,7 +1,12 @@
 package com.plantpocalypse.gameclient;
 
 import com.plantpocalypse.*;
+import com.plantpocalypse.events.*;
+import com.plantpocalypse.items.Food;
+import com.plantpocalypse.items.Item;
+import com.plantpocalypse.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
+import com.plantpocalypse.util.Dialogue;
 
 import java.util.HashMap;
 
@@ -197,7 +202,7 @@ public enum Game {
             display();
             nextCommand();
 
-            if (player.getMovesMade() >= ALLOWED_MOVES) {
+            if (player.getMovesMade() >= ALLOWED_MOVES || !player.isAlive()) {
                 lostGame = true;
                 break;
             }

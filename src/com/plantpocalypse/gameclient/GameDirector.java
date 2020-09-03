@@ -1,14 +1,11 @@
 package com.plantpocalypse.gameclient;
 
-import com.plantpocalypse.Dialogue;
-import com.plantpocalypse.Item;
+import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.Player;
 import com.plantpocalypse.Room;
 import com.plantpocalypse.util.TextParser;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class GameDirector {

@@ -1,5 +1,8 @@
 package com.plantpocalypse;
 
+import com.plantpocalypse.events.Action;
+import com.plantpocalypse.items.Item;
+
 import java.util.HashMap;
 
 public class Room {

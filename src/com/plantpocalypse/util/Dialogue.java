@@ -1,4 +1,4 @@
-package com.plantpocalypse;
+package com.plantpocalypse.util;
 
 public class Dialogue {
 

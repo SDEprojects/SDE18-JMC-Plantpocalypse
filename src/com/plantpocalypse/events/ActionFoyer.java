@@ -1,4 +1,7 @@
-package com.plantpocalypse;
+package com.plantpocalypse.events;
+
+import com.plantpocalypse.Player;
+import com.plantpocalypse.Room;
 
 public class ActionFoyer implements Action {
     @Override

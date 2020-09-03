@@ -1,4 +1,6 @@
-package com.plantpocalypse;
+package com.plantpocalypse.items;
+
+import com.plantpocalypse.Room;
 
 public class Key extends Item {
     private Room roomKeyUnlocks;
