@@ -46,6 +46,7 @@ public class ConsoleDisplay {
         slowPrint(output,output.length());
         System.out.println("      Press Enter to Continue...");
         String enter = getUserString();
+        clearConsole();
     }
 
     private static void slowPrint(String output, int length) {
