@@ -1,6 +1,7 @@
 package com.plantpocalypse.gameclient;
 
 import com.plantpocalypse.*;
+import com.plantpocalypse.util.ConsoleDisplay;
 
 import java.util.HashMap;
 
@@ -186,9 +187,9 @@ public enum Game {
      * is true.
      */
     public void startGame() {
+        ConsoleDisplay.welcomeScreen();
         titleScreen();
         intro();
-
         /* Loop until Player beats the game */
         while (!player.getCurrentRoom().getName().equals("Hidden Office")) {
             currentRoom();
@@ -216,6 +217,7 @@ public enum Game {
     private void nextCommand() {
         player.setMovesMade(player.getMovesMade() + 1);
         GameDirector.interact(player);
+        //ConsoleDisplay.clearConsole();
     }
 
     private void currentRoom() {
