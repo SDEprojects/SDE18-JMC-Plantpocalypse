@@ -2,26 +2,41 @@ package com.plantpocalypse;
 
 public class Dialogue {
 
-    public static void helpDialogue() {
-        System.out.println("Valid commands and directions: \n" +
-                "\t === AVAILABLE VERBS === \n" +
-                "\t GO [DIRECTION]\n" +
-                "\t GET [ITEM NAME]\n"+
-                "\t USE [ITEM NAME]\n"+
-                "\t EAT [ITEM NAME]\n"+
-                "\t EXAMINE [ITEM NAME]\n" +
+//    public static void helpDialogue() {
+//        System.out.println("Valid commands and directions: \n" +
+//                "\t === AVAILABLE VERBS === \n" +
+//                "\t GO [DIRECTION]\n" +
+//                "\t GET [ITEM NAME]\n"+
+//                "\t USE [ITEM NAME]\n"+
+//                "\t EAT [ITEM NAME]\n"+
+//                "\t EXAMINE [ITEM NAME]\n" +
+//
+//                "\t === AVAILABLE DIRECTIONS === \n" +
+//                "\t NORTH\n" +
+//                "\t NORTHEAST\n" +
+//                "\t EAST\n" +
+//                "\t SOUTHEAST\n" +
+//                "\t SOUTH\n" +
+//                "\t SOUTHWEST \n" +
+//                "\t WEST\n" +
+//                "\t NORTHWEST\n" +
+//                "\t UP\n" +
+//                "\t DOWN\n");
+//    }
 
-                "\t === AVAILABLE DIRECTIONS === \n" +
-                "\t NORTH\n" +
-                "\t NORTHEAST\n" +
-                "\t EAST\n" +
-                "\t SOUTHEAST\n" +
-                "\t SOUTH\n" +
-                "\t SOUTHWEST \n" +
-                "\t WEST\n" +
-                "\t NORTHWEST\n" +
-                "\t UP\n" +
-                "\t DOWN\n");
+    public static void helpDialogue() {
+        System.out.println("Valid commands and directions: \n");
+        System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
+        System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
+        System.out.printf("\t%-40s \t%-40s\n", "GET [ITEM NAME]", "NORTHEAST");
+        System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
+        System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
+        System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
+        System.out.printf("\t%-40s \t%-40s\n", "", "SOUTHWEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "UP");
+        System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
     }
 
     public static void titleScreenDialogue() {
