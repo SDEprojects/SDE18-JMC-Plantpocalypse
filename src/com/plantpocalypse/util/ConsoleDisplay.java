@@ -40,13 +40,13 @@ public class ConsoleDisplay {
     }
 
     public static void welcomeScreen() {
-        clearConsole();
+        //clearConsole();
         String output = getAsciiArt("banner.txt");
 
         slowPrint(output,output.length());
         System.out.println("      Press Enter to Continue...");
         String enter = getUserString();
-        clearConsole();
+        //clearConsole();
     }
 
     private static void slowPrint(String output, int length) {

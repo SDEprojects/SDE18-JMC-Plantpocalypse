@@ -193,10 +193,8 @@ public enum Game {
         intro();
         /* Loop until Player beats the game */
         while (!player.getCurrentRoom().getName().equals("Hidden Office")) {
-            currentRoom();
-            itemsInRoom();
-            neighboringRooms();
 
+            display();
             nextCommand();
 
             if (player.getMovesMade() >= ALLOWED_MOVES) {
@@ -204,25 +202,22 @@ public enum Game {
                 break;
             }
         }
-
         if (lostGame) {
             lost();
         }
         else {
             won();
         }
-
         ending();
     }
 
     private void nextCommand() {
         player.setMovesMade(player.getMovesMade() + 1);
         GameDirector.interact(player);
-        //ConsoleDisplay.clearConsole();
     }
 
     private void currentRoom() {
-        System.out.println("Player current room: " + player.getCurrentRoom().getName() + "\n");
+        System.out.println("Player current room: " + player.getCurrentRoom().getName());
     }
 
     private void titleScreen() {
@@ -252,8 +247,12 @@ public enum Game {
     }
 
     private void neighboringRooms() {
-        System.out.println("Connected Rooms: ");
+        System.out.println("\nConnected Rooms: ");
         player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
     }
-
+    private void display() {
+        currentRoom();
+        itemsInRoom();
+        neighboringRooms();
+    }
 }
