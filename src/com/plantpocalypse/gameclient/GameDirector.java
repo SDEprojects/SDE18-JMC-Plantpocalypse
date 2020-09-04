@@ -34,6 +34,31 @@ public class GameDirector {
         }
     }
 
+    public static void interactGUI(Player player, String inputFromGUI) {
+        List<String> input = TextParser.getInputFromGUI(inputFromGUI);
+
+        if (input != null) {
+            if (input.get(0).equals("go")) {
+                go(input.get(1), player);
+            } else if (input.get(0).equals("eat")) {
+                eat(input.get(1), player);
+            } else if(input.get(0).equals("use")) {
+                use(input.get(1), player);
+            } else if (input.get(0).equals("examine")) {
+                examine(input.get(1), player);
+            } else if (input.get(0).equals("get")) {
+                pickup(input.get(1), player);
+            } else if (input.get(0).equals("quit")) {
+                quit();
+            } else if (input.get(0).equals("inventory")) {
+                inventory(player);
+            } else if (input.get(0).equals("help")) {
+                help();
+            }
+        }
+    }
+
+
     private static void go(String direction, Player player) {
         //List<String> directions = Arrays.asList("north","northwest","up","west","east");
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();

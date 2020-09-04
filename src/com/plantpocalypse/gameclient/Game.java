@@ -14,7 +14,8 @@ public enum Game {
     GAME_INSTANCE;
 
     private final int ALLOWED_MOVES = 20;
-    boolean lostGame = false;
+    private boolean lostGame = false;
+    private boolean gameOver = false;
 
     private Player player;
     private PlantMonster monster;
@@ -216,8 +217,30 @@ public enum Game {
         ending();
     }
 
+    public void startGameGUI() {
+        GameGUI gameGUI = new GameGUI();
+
+        if (lostGame) {
+            lost();
+        }
+        else {
+            won();
+        }
+        ending();
+    }
+
+    public void gameStatus() {
+        if (player.getMovesMade() >= ALLOWED_MOVES || !player.isAlive()) {
+            lostGame = true;
+            gameOver = true;
+        }
+        else if (player.getCurrentRoom().getName().equals("Hidden Office")) {
+            gameOver = true;
+        }
+    }
+
     private void nextCommand() {
-        player.setMovesMade(player.getMovesMade() + 1);
+        //player.setMovesMade(player.getMovesMade() + 1);
         GameDirector.interact(player);
     }
 
@@ -243,6 +266,19 @@ public enum Game {
 
     private void won() {
         Dialogue.winningDialogue();
+    }
+
+    /* GETTERS AND SETTERS */
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean lostGame() {
+        return lostGame;
+    }
+
+    public boolean gameOver() {
+        return gameOver;
     }
 
     /* METHODS FOR TESTING */

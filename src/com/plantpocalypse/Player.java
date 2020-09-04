@@ -71,6 +71,7 @@ public class Player {
         currentRoom = nextRoom;
         currentAction = currentRoom.getAction();
         currentRoom.enterRoom(this);
+        setMovesMade(getMovesMade() + 1);
     }
 
     public void use(String itemName) {

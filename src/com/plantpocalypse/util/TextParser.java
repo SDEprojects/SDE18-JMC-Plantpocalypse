@@ -28,6 +28,27 @@ public class TextParser {
         }
     }
 
+    public static List<String> getInputFromGUI(String inputFromGUI) {
+        inputFromGUI = inputFromGUI.toLowerCase().strip();
+        List<String> cmd = new ArrayList<String>(Arrays.asList(inputFromGUI.split("\\s+")));
+
+        if (cmd.size() == 3) {
+            String word1 = cmd.get(1);
+            String word2 = cmd.get(2);
+
+            String item = String.join(" ",word1,word2);
+            cmd.remove(2);
+            cmd.remove(1);
+            cmd.add(1,item);
+        }
+
+        if (checkValidInput(cmd)) {
+            return cmd;
+        } else {
+            return null;
+        }
+    }
+
     private static boolean checkValidInput(List<String> input) {
         boolean isValid = false;
         List<String> oneWordCommands = Arrays.asList("inventory","help","quit");

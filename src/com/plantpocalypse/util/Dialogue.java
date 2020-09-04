@@ -1,5 +1,7 @@
 package com.plantpocalypse.util;
 
+import com.plantpocalypse.gameclient.Game;
+
 public class Dialogue {
 
 //    public static void helpDialogue() {
@@ -57,6 +59,8 @@ public class Dialogue {
                 "will find the answers you are looking for...\n");
     }
 
+
+
     public static void endingDialogue() {
         System.out.println("\nThank you for playing \uD83C\uDF31 PLANTPOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
                 "\t Jeffrey Haywood, Hunter Clark, Maya Marks ");
@@ -68,5 +72,9 @@ public class Dialogue {
 
     public static void winningDialogue() {
         System.out.println("\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.");
+    }
+
+    public static String enterCommandDialogue() {
+        return Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getName();
     }
 }

@@ -15,7 +15,9 @@ public class GameClient {
     public static void main(String[] args) {
         try {
             Game.GAME_INSTANCE.loadAssets();
-            Game.GAME_INSTANCE.startGame();
+//            new GameGUI();
+//            Game.GAME_INSTANCE.startGame();
+            Game.GAME_INSTANCE.startGameGUI();
         }
         catch (Exception e) {
             e.printStackTrace();
