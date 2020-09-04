@@ -61,7 +61,7 @@ public class GameGUI {
     }
 
     public void printToTextArea() {
-        currentRoomLabel.setText(Dialogue.enterCommandDialogue());
+        currentRoomLabel.setText("Current Room: " + Dialogue.enterCommandDialogue());
     }
 
 }
