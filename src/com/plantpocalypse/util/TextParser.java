@@ -1,12 +1,15 @@
 package com.plantpocalypse.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class TextParser {
 
     // good enough for govt work
     public static List<String> getInput() {
-        Scanner readin = new Scanner(System.in);
+        Scanner readin = new Scanner(System.in); // how to create scanner from file
         System.out.print("\nenter input> ");
         String input = readin.nextLine().toLowerCase().strip();
         List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
@@ -70,11 +73,4 @@ public class TextParser {
         return result;
     }
 
-//    public static void main(String[] args) {
-//         while (true) {
-//             System.out.println("Enter a Command: ");
-//             List<String> input = getInput();
-//             System.out.println(input);
-//         }
-//    }
 }

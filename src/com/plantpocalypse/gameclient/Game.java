@@ -1,7 +1,6 @@
 package com.plantpocalypse.gameclient;
 
 import com.plantpocalypse.*;
-import com.plantpocalypse.events.*;
 import com.plantpocalypse.items.Food;
 import com.plantpocalypse.items.Item;
 import com.plantpocalypse.items.Key;
@@ -17,8 +16,8 @@ public enum Game {
     boolean lostGame = false;
 
     private Player player;
-    private PlantMonster monster;
     private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
+    private PlantMonster cactus, poisonIvy;
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
     private HashMap<String, Room> mansion;
@@ -30,7 +29,9 @@ public enum Game {
     public void loadAssets() {
         loadRooms();
         loadItems();
+        loadMonsters();
         addItemsToRooms();
+        addMonstersToRooms();
         connectRooms();
         player = new Player(outside);
     }
@@ -41,25 +42,25 @@ public enum Game {
     private void loadRooms() {
         mansion = new HashMap<>();
 
-        outside = new Room("Outside", new ActionDefault());
-        foyer = new Room("Foyer", new ActionFoyer());
+        outside = new Room("Outside");
+        foyer = new Room("Foyer");
         foyer.toggleLock();
-        diningRoom = new Room("Dining Room",new ActionDefault());
-        kitchen = new Room("Kitchen",new ActionDefault());
-        livingRoom = new Room("Living Room",new ActionDefault());
-        guestRoom = new Room("Guest Room",new ActionGuestRoom());
-        bathroom = new Room("Bathroom",new ActionDefault());
-        greenHouseOne = new Room("Green House Floor 1",new ActionGreenHouseOne());
-        library = new Room("Library",new ActionLibrary());
+        diningRoom = new Room("Dining Room");
+        kitchen = new Room("Kitchen");
+        livingRoom = new Room("Living Room");
+        guestRoom = new Room("Guest Room");
+        bathroom = new Room("Bathroom");
+        greenHouseOne = new Room("Green House Floor 1");
+        library = new Room("Library");
         library.toggleLock();
-        hiddenOffice = new Room("Hidden Office",new ActionDefault());
+        hiddenOffice = new Room("Hidden Office");
         //hiddenOffice.toggleLock();
-        upperHall = new Room("Upper Hall",new ActionDefault());
+        upperHall = new Room("Upper Hall");
         upperHall.toggleLock();
-        masterBedroom = new Room("Master Bedroom",new ActionDefault());
-        masterBathroom = new Room("Master Bathroom",new ActionDefault());
-        laboratory = new Room("Laboratory",new ActionDefault());
-        greenHouseTwo = new Room("Green House Floor 2",new ActionDefault());
+        masterBedroom = new Room("Master Bedroom");
+        masterBathroom = new Room("Master Bathroom");
+        laboratory = new Room("Laboratory");
+        greenHouseTwo = new Room("Green House Floor 2");
 
         mansion.put("Outside", outside);
         mansion.put("Foyer", foyer);
@@ -89,6 +90,11 @@ public enum Game {
 
 //        Item journal1 = new Journal("Journal 1");
 //        Item tornPage = new Journal("Torn Page");
+    }
+
+    private void loadMonsters() {
+        cactus = new PlantMonster("Cactus", 10);
+        poisonIvy = new PlantMonster("Poison Ivy", 2);
     }
 
     private void connectRooms() {
@@ -187,6 +193,11 @@ public enum Game {
         laboratory.addItem("weed killer", weedKiller);
     }
 
+    private void addMonstersToRooms() {
+        greenHouseOne.setMonster(cactus);
+        guestRoom.setMonster(poisonIvy);
+    }
+
     /**
      * Calls all necessary functions for game to perform in the sequence
      * that it should. Will continue looping until Player's win condition
@@ -217,7 +228,6 @@ public enum Game {
     }
 
     private void nextCommand() {
-        player.setMovesMade(player.getMovesMade() + 1);
         GameDirector.interact(player);
     }
 
@@ -264,6 +274,7 @@ public enum Game {
         System.out.println("\nConnected Rooms: ");
         player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
     }
+
     private void display() {
         currentRoom();
         itemsInRoom();
