@@ -4,28 +4,6 @@ import com.plantpocalypse.gameclient.Game;
 
 public class Dialogue {
 
-//    public static void helpDialogue() {
-//        System.out.println("Valid commands and directions: \n" +
-//                "\t === AVAILABLE VERBS === \n" +
-//                "\t GO [DIRECTION]\n" +
-//                "\t GET [ITEM NAME]\n"+
-//                "\t USE [ITEM NAME]\n"+
-//                "\t EAT [ITEM NAME]\n"+
-//                "\t EXAMINE [ITEM NAME]\n" +
-//
-//                "\t === AVAILABLE DIRECTIONS === \n" +
-//                "\t NORTH\n" +
-//                "\t NORTHEAST\n" +
-//                "\t EAST\n" +
-//                "\t SOUTHEAST\n" +
-//                "\t SOUTH\n" +
-//                "\t SOUTHWEST \n" +
-//                "\t WEST\n" +
-//                "\t NORTHWEST\n" +
-//                "\t UP\n" +
-//                "\t DOWN\n");
-//    }
-
     public static void helpDialogue() {
         System.out.println("Valid commands and directions: \n");
         System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");

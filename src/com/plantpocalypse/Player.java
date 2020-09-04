@@ -1,16 +1,16 @@
 package com.plantpocalypse;
 
-import com.plantpocalypse.events.Action;
 import com.plantpocalypse.items.Food;
 import com.plantpocalypse.items.Item;
 import com.plantpocalypse.items.Key;
 import com.plantpocalypse.util.Dialogue;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Player {
     private Room currentRoom;
-    private Action currentAction;
     private List<Item> inventory;
 
     private int movesMade = 0;
@@ -21,7 +21,6 @@ public class Player {
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
         setCurrentRoom(startingLocation);
-        setCurrentAction(startingLocation.getAction());
         inventory = new ArrayList<Item>();
     }
 
@@ -30,14 +29,20 @@ public class Player {
      * Will put an item in the Player's inventory if it is in the Player's current room.
      * @param itemName Name of the item to be passed in as a key to a HashMap to get a Item object.
      */
-    public void pickUpItem(String itemName) {
+    public boolean pickUpItem(String itemName) {
         Item pickedUpItem = currentRoom.getItem(itemName);
-        inventory.add(pickedUpItem);
+
+        if (pickedUpItem != null) {
+            inventory.add(pickedUpItem);
+            return true;
+        }
+
+        return false;
     }
 
     public void getHurt(int attack){
-        //attack = monster.getBaseAttack();
-        int health = getCurrentHealth() - attack; // ? - baseAttack by monster
+        int health = getCurrentHealth() - attack;
+
         if (health > 0){
             setCurrentHealth(health);
         }
@@ -67,28 +72,31 @@ public class Player {
         }
     }
 
-    public void move(Room nextRoom) {
-        currentRoom = nextRoom;
-        currentAction = currentRoom.getAction();
-        currentRoom.enterRoom(this);
-        setMovesMade(getMovesMade() + 1);
+    public boolean move(Room nextRoom) {
+        if (!nextRoom.isLocked()) {
+            currentRoom = nextRoom;
+            setMovesMade(getMovesMade() + 1);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public void use(String itemName) {
+    public boolean use(String itemName) {
         Item selectedItem = retrieveItemFromInventory(itemName);
-        String selectedItemType = selectedItem.getClass().getSimpleName();
 
         if (selectedItem != null) {
+            String selectedItemType = selectedItem.getClass().getSimpleName();
+
             switch (selectedItemType) {
                 case "Food":
-                    Food food = (Food) selectedItem;
-                    eat(food);
+                    eat(itemName);
                     break;
 
                 case "Key":
                     Key key = (Key) selectedItem;
                     unlockDoor(key);
-                    System.out.println("You used a key");
                     break;
 
                 case "Journal":
@@ -98,27 +106,40 @@ public class Player {
                 default:
                     System.out.println("You cannot use that item, silly.");
             }
+            return true;
         }
+        return false;
     }
 
     /**
      * Will restore Player health for the amount of health that
      * the Food restores.
-     * @param food The Food object that the player is eating
+     * @param itemName The Food object that the player is eating
      */
-    public void eat(Food food) {
-        if (food != null) {
-            int health = getCurrentHealth() + food.getHealthRestored();
+    public boolean eat(String itemName) {
+        Item selectedItem = retrieveItemFromInventory(itemName);
 
-            if (health <= getMaxHealth()) {
-                setCurrentHealth(health);
+        if (selectedItem != null) {
+            if (selectedItem.getClass().getSimpleName().equals("Food")) {
+                Food selectedFood = (Food)selectedItem;
+
+                int health = getCurrentHealth() + selectedFood.getHealthRestored();
+
+                if (health <= getMaxHealth()) {
+                    setCurrentHealth(health);
+                } else {
+                    setCurrentHealth(getMaxHealth());
+                }
+                System.out.println("Omnomnom! Must have been organic");
             }
             else {
-                setCurrentHealth(getMaxHealth());
+                System.out.println("You ate the " + selectedItem.getName() + ", what's wrong with you?");
             }
-            removeItemFromInventory(food.getName());
-            System.out.println("Omnomnom! Must have been organic");
+            removeItemFromInventory(selectedItem.getName());
+            return true;
         }
+
+        return false;
     }
 
     public void unlockDoor(Key key) {
@@ -132,13 +153,15 @@ public class Player {
         }
     }
 
-    public void examine(String itemName) {
+    public boolean examine(String itemName) {
         Item item = retrieveItemFromInventory(itemName);
+
         if (item != null) {
-            currentAction.examine(item);
-        } else {
-            System.out.println("You do not have that item!");
+            System.out.println(item.getDescription());
+            return true;
         }
+
+        return false;
     }
 
     private Item retrieveItemFromInventory(String itemName) {
@@ -172,14 +195,6 @@ public class Player {
 
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
-    }
-
-    public Action getCurrentAction() {
-        return currentAction;
-    }
-
-    public void setCurrentAction(Action currentAction) {
-        this.currentAction = currentAction;
     }
 
     public int getMovesMade() {

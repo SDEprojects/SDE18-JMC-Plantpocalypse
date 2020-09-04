@@ -1,6 +1,5 @@
 package com.plantpocalypse;
 
-import com.plantpocalypse.events.Action;
 import com.plantpocalypse.items.Item;
 
 import java.util.HashMap;
@@ -10,21 +9,19 @@ public class Room {
     private String description;
     private boolean isLocked = false;
 
-    private Action action;
     private HashMap<String, Room> neighboringRooms;
     private HashMap<String, Item> items = new HashMap<String, Item>();
+    private PlantMonster monster;
 
     /* CONSTRUCTORS */
-    public Room(String name, Action action) {
+    public Room(String name) {
         setName(name);
         setDescription("This is the " + name);
-        setAction(action);
     }
 
     // Might use later, for now just calling setNeighboringRooms in Game.
-    public Room(String name, HashMap<String, Room> neighboringRooms, Action action) {
+    public Room(String name, HashMap<String, Room> neighboringRooms) {
         setName(name);
-        setAction(action);
         setDescription("This is the " + name);
         setNeighboringRooms(neighboringRooms);
     }
@@ -38,10 +35,6 @@ public class Room {
         Item pickedUpItem = items.get(itemName);
         items.remove(itemName);
         return pickedUpItem;
-    }
-
-    public void enterRoom(Player player) {
-        action.entryEvent(player,this);
     }
 
     public void displayItems() {
@@ -75,14 +68,6 @@ public class Room {
         this.isLocked = !isLocked;
     }
 
-    public Action getAction() {
-        return action;
-    }
-
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
     public HashMap<String, Room> getNeighboringRooms() {
         return neighboringRooms;
     }
@@ -97,5 +82,13 @@ public class Room {
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    public PlantMonster getMonster() {
+        return monster;
+    }
+
+    public void setMonster(PlantMonster monster) {
+        this.monster = monster;
     }
 }

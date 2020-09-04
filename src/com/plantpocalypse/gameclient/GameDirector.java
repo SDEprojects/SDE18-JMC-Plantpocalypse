@@ -14,22 +14,18 @@ public class GameDirector {
         List<String> input = TextParser.getInput();
 
         if (input != null) {
-            if (input.get(0).equals("go")) {
-                go(input.get(1), player);
-            } else if (input.get(0).equals("eat")) {
-                eat(input.get(1), player);
-            } else if(input.get(0).equals("use")) {
-                use(input.get(1), player);
-            } else if (input.get(0).equals("examine")) {
-                examine(input.get(1), player);
-            } else if (input.get(0).equals("get")) {
-                pickup(input.get(1), player);
-            } else if (input.get(0).equals("quit")) {
-                quit();
-            } else if (input.get(0).equals("inventory")) {
-                inventory(player);
-            } else if (input.get(0).equals("help")) {
-                help();
+            String command = input.get(0);
+            String argument = input.size() == 2 ? input.get(1) : null;
+
+            switch (command) {
+                case "go" -> go(argument, player);
+                case "eat" -> eat(argument, player);
+                case "use" -> use(argument, player);
+                case "examine" -> examine(argument, player);
+                case "get" -> pickup(argument, player);
+                case "inventory" -> inventory(player);
+                case "help" -> help();
+                case "quit" -> quit();
             }
         }
     }
@@ -60,11 +56,16 @@ public class GameDirector {
 
 
     private static void go(String direction, Player player) {
-        //List<String> directions = Arrays.asList("north","northwest","up","west","east");
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
+
         if (adjacentRooms.containsKey(direction)) {
-            if (!adjacentRooms.get(direction).isLocked()) {
-                player.move(adjacentRooms.get(direction));
+            if (player.move(adjacentRooms.get(direction))) {
+                System.out.println("Moved to " + player.getCurrentRoom().getName());
+
+                if (player.getCurrentRoom().getMonster() != null) {
+                    player.getCurrentRoom().getMonster().attackPlayer(player);
+                }
+
             } else {
                 System.out.println("The door is locked.");
             }
@@ -74,32 +75,32 @@ public class GameDirector {
     }
 
     private static void eat(String itemName, Player player) {
-        if (itemName != null) {
-            player.use(itemName);
+        if (itemName != null && player.eat(itemName)) {
+            System.out.println("You ate the " + itemName);
         } else {
             System.out.println("You do not have that item!");
         }
     }
 
     private static void use(String itemName, Player player) {
-        if (itemName != null) {
-            player.use(itemName);
+        if (itemName != null && player.use(itemName)) {
+            System.out.println("You used " + itemName);
         } else {
             System.out.println("You do not have that item!");
         }
     }
 
     private static void examine(String itemName, Player player) {
-        if (itemName != null) {
-            player.examine(itemName);
+        if (itemName != null && player.examine(itemName)) {
+            System.out.println("Examined: " + itemName);
         } else {
             System.out.println("You do not have that item!");
         }
     }
 
     private static void pickup(String itemName, Player player) {
-        if (itemName != null) {
-            player.pickUpItem(itemName);
+        if (itemName != null && player.pickUpItem(itemName)) {
+            System.out.println("Picked up " + itemName);
         } else {
             System.out.println("That item is not in this room.");
         }

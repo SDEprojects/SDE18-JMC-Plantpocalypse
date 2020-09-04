@@ -1,11 +1,8 @@
 package com.plantpocalypse;
 
-import java.util.ArrayList;
-
 public class PlantMonster {
     private String monsterName;
     private int baseAttack = 2;
-    private Room roomWithMonster;
     private String monsterDescription;
 
     /* CONSTRUCTORS */
@@ -16,7 +13,6 @@ public class PlantMonster {
     public PlantMonster(String monsterName, int baseAttack){
         setMonsterName(monsterName);
         setBaseAttack(baseAttack);
-        //setRoomWithMonster(roomWithMonster);
     }
 
     /* BUSINESS METHODS */
@@ -42,14 +38,6 @@ public class PlantMonster {
 
     public void setBaseAttack(int baseAttack) {
         this.baseAttack = baseAttack;
-    }
-
-    public Room getRoomWithMonster() {
-        return roomWithMonster;
-    }
-
-    public void setRoomWithMonster(Room roomWithMonster) {
-        this.roomWithMonster = roomWithMonster;
     }
 
     public String getMonsterDescription() {
