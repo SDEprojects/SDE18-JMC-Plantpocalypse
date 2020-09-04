@@ -245,6 +245,15 @@ public enum Game {
         Dialogue.winningDialogue();
     }
 
+    /* GETTERS AND SETTERS */
+    public Player getPlayer() {
+        return player;
+    }
+
+    public HashMap<String, Room> getMansion() {
+        return mansion;
+    }
+
     /* METHODS FOR TESTING */
     private void itemsInRoom() {
         System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
