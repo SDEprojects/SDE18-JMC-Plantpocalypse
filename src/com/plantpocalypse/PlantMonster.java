@@ -19,14 +19,13 @@ public class PlantMonster {
         //setRoomWithMonster(roomWithMonster);
     }
 
-
     /* BUSINESS METHODS */
    public void attackPlayer(Player player){
-       player.getHurt(getBaseAttack());
-       System.out.println("You were attacked by " + getMonsterName() + " and lost " + getBaseAttack() + " health points.");
+       if (player != null) {
+           player.getHurt(getBaseAttack());
+           System.out.println("You were attacked by " + getMonsterName() + " and lost " + getBaseAttack() + " health points.");
+       }
    }
-
-
 
     /* GETTERS AND SETTERS */
     public String getMonsterName() {

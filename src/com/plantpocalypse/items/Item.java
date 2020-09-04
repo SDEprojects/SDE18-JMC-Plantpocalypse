@@ -1,4 +1,4 @@
-package com.plantpocalypse;
+package com.plantpocalypse.items;
 
 public abstract class Item {
     private String name;

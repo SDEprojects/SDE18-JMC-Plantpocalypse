@@ -1,6 +1,8 @@
-package com.plantpocalypse;
+package com.plantpocalypse.events;
 
-import java.util.List;
+import com.plantpocalypse.Player;
+import com.plantpocalypse.Room;
+import com.plantpocalypse.items.Item;
 
 public interface Action {
     public void entryEvent(Player player, Room room);

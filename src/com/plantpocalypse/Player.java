@@ -1,7 +1,10 @@
 package com.plantpocalypse;
 
-import com.plantpocalypse.gameclient.Game;
-import com.plantpocalypse.util.TextParser;
+import com.plantpocalypse.events.Action;
+import com.plantpocalypse.items.Food;
+import com.plantpocalypse.items.Item;
+import com.plantpocalypse.items.Key;
+import com.plantpocalypse.util.Dialogue;
 
 import java.util.*;
 
@@ -13,6 +16,7 @@ public class Player {
     private int movesMade = 0;
     static final int MAX_HEALTH = 10;
     private int currentHealth = MAX_HEALTH;
+    private boolean isAlive = true;
 
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
@@ -34,11 +38,11 @@ public class Player {
     public void getHurt(int attack){
         //attack = monster.getBaseAttack();
         int health = getCurrentHealth() - attack; // ? - baseAttack by monster
-        if (health >0){
+        if (health > 0){
             setCurrentHealth(health);
         }
         else {
-            Dialogue.endingDialogue();
+            isAlive = false;
         }
         System.out.println("Ouch!");
     }
@@ -195,6 +199,14 @@ public class Player {
 
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 
     public List<Item> getInventory() {
