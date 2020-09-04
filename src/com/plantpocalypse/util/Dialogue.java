@@ -1,19 +1,20 @@
-package com.plantpocalypse;
+package com.plantpocalypse.util;
 
 public class Dialogue {
+
     public static void helpDialogue() {
-        System.out.println("Valid commands and directions: \n" +
-                "\t MOVE - \n" +
-                "\t GO - \n" +
-                "\t INSPECT - \n" +
-                "\t GRAB - \n"+
-                "\t TAKE - \n" +
-                "\t NORTH - \n" +
-                "\t SOUTH - \n " +
-                "\t EAST - \n" +
-                "\t WEST - \n" +
-                "\t UP - \n" +
-                "\t DOWN - \n");
+        System.out.println("Valid commands and directions: \n");
+        System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
+        System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
+        System.out.printf("\t%-40s \t%-40s\n", "GET [ITEM NAME]", "NORTHEAST");
+        System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
+        System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
+        System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
+        System.out.printf("\t%-40s \t%-40s\n", "", "SOUTHWEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
+        System.out.printf("\t%-40s \t%-40s\n", "", "UP");
+        System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
     }
 
     public static void titleScreenDialogue() {
@@ -35,13 +36,14 @@ public class Dialogue {
     }
 
     public static void endingDialogue() {
-        System.out.println("\nThank you for playing \uD83C\uDF31 PLANTOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
+        System.out.println("\nThank you for playing \uD83C\uDF31 PLANTPOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
                 "\t Jeffrey Haywood, Hunter Clark, Maya Marks ");
     }
 
     public static void losingDialogue() {
         System.out.println("\nThat's it. Game over. \n You might want to consider leaving your uncle's search to the professionals.");
     }
+
     public static void winningDialogue() {
         System.out.println("\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.");
     }

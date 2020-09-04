@@ -1,15 +1,32 @@
 package com.plantpocalypse;
 
+import com.plantpocalypse.items.Item;
+
 import java.util.HashMap;
 
 public class Room {
-    private Action action;
-    private String name;  //name of room
-    private HashMap<String, Room> neighboringRooms; //names of neighboring rooms
-    //private String description;  //short descr
-    private HashMap<String, Item> items = new HashMap<String, Item>(); //items in the room
+    private String name;
+    private String description;
     private boolean isLocked = false;
 
+    private HashMap<String, Room> neighboringRooms;
+    private HashMap<String, Item> items = new HashMap<String, Item>();
+    private PlantMonster monster;
+
+    /* CONSTRUCTORS */
+    public Room(String name) {
+        setName(name);
+        setDescription("This is the " + name);
+    }
+
+    // Might use later, for now just calling setNeighboringRooms in Game.
+    public Room(String name, HashMap<String, Room> neighboringRooms) {
+        setName(name);
+        setDescription("This is the " + name);
+        setNeighboringRooms(neighboringRooms);
+    }
+
+    /* BUSINESS METHODS */
     public void addItem(String itemName, Item item){
         items.put(itemName, item);
     }
@@ -20,21 +37,6 @@ public class Room {
         return pickedUpItem;
     }
 
-    public Room(String name, Action action) {
-        this.name = name;
-        this.action = action;
-    }
-
-    public Room(String name, HashMap<String, Room> neighboringRooms) {
-        this.name = name;
-        this.neighboringRooms = neighboringRooms;
-    }
-
-    public void enterRoom(Player player) {
-        action.entryEvent(player,this);
-    }
-
-
     public void displayItems() {
         items.entrySet().forEach( entry -> {
             System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
@@ -42,20 +44,28 @@ public class Room {
     }
 
     /* GETTERS AND SETTERS */
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void toggleLock() {
-        this.isLocked = !isLocked;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void toggleLock() {
+        this.isLocked = !isLocked;
     }
 
     public HashMap<String, Room> getNeighboringRooms() {
@@ -66,7 +76,19 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
-    public Action getAction() {
-        return action;
+    public HashMap<String, Item> getItems() {
+        return this.items;
+    }
+
+    public void setItems(HashMap<String, Item> items) {
+        this.items = items;
+    }
+
+    public PlantMonster getMonster() {
+        return monster;
+    }
+
+    public void setMonster(PlantMonster monster) {
+        this.monster = monster;
     }
 }

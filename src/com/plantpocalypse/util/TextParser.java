@@ -6,43 +6,71 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TextParser {
+
+    // good enough for govt work
     public static List<String> getInput() {
-        Scanner readin = new Scanner(System.in);
-        String input = readin.nextLine().toLowerCase();
-        List<String> cmd = Arrays.asList(input.split("\\s+"));
-        return cmd;
-    }
+        Scanner readin = new Scanner(System.in); // how to create scanner from file
+        System.out.print("\nenter input> ");
+        String input = readin.nextLine().toLowerCase().strip();
+        List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 
-    public void doCommand(List<String> command) {
-        List<String> commands = Arrays.asList("go");
-        if (command.size() < 2 || !commands.contains(command.get(0))) {
-            System.out.println("Please enter command with correct format: command [option]");
+        if (cmd.size() == 3) {
+            String word1 = cmd.get(1);
+            String word2 = cmd.get(2);
+
+            String item = String.join(" ",word1,word2);
+            cmd.remove(2);
+            cmd.remove(1);
+            cmd.add(1,item);
         }
-        if (command.get(0).equals("go")) {
-            go(command.get(1));
-        }
-    }
 
-    public void displayCommands() {
-        System.out.println("Commands: ");
-        System.out.println("go [north/east/south/west]");
-    }
-
-    private void go(String direction) {
-        List<String> directions = Arrays.asList("north","south","west","east");
-        if (directions.contains(direction)) {
-            System.out.println("Going "+direction);
+        if (checkValidInput(cmd)) {
+            return cmd;
         } else {
-            System.out.println("Please enter a valid direction.");
+            return null;
         }
     }
 
-//    public static void main(String[] args) {
-//        TextParser uip = new TextParser();
-//        while(true) {
-//            uip.displayCommands();
-//            List<String> cmd = uip.getInput();
-//            uip.doCommand(cmd);
-//        }
-//    }
+    private static boolean checkValidInput(List<String> input) {
+        boolean isValid = false;
+        List<String> oneWordCommands = Arrays.asList("inventory","help","quit");
+        List<String> twoWordCommands = Arrays.asList("go","eat","use","examine", "get");
+        if (input.size() == 0) {
+            System.out.println("Please enter command with correct format: command [arg]");
+        } else {
+            input.set(0,checkAndReplaceSynonyms(input.get(0)));
+            if (input.size() == 1) {
+                if(oneWordCommands.contains(input.get(0))) {
+                    isValid = true;
+                } else {
+                    System.out.println("Not a valid command");
+                }
+            } else if (input.size() == 2) {
+                if(twoWordCommands.contains(input.get(0))) {
+                    isValid = true;
+                } else {
+                    System.out.println("Not a valid command");
+                }
+            } else {
+                System.out.println("You entered too many arguments...");
+            }
+        }
+        return isValid;
+    }
+
+    private static String checkAndReplaceSynonyms(String word) {
+        String result = word;
+        List<String> goWords = Arrays.asList("walk","run","jump","hop","skip");
+        List<String> quitWords = Arrays.asList("exit","leave");
+        List<String> getWords = Arrays.asList("grab","take");
+        if (goWords.contains(word)) {
+            result = "go";
+        } else if (quitWords.contains(word)) {
+            result = "quit";
+        } else if (getWords.contains(word)) {
+            result = "get";
+        }
+        return result;
+    }
+
 }
