@@ -4,6 +4,8 @@ public class Food extends Item {
     private int healthRestored;
 
     /* CONSTRUCTORS */
+    public Food() {}
+
     public Food(String name, int healthRestored) {
         super(name);
         setHealthRestored(healthRestored);

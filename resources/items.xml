@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <item type="key">
+        <name>brass key</name>
+        <roomUnlock>Foyer</roomUnlock>
+        <location>Outside</location>
+    </item>
+    <item type="food">
+        <name>rambutan</name>
+        <healthRestored>1</healthRestored>
+        <location>Outside</location>
+    </item>
+</config>
