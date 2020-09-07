@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <room name="Foyer">
+         <description>This is the Foyer</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Dining Room">
+         <description>This is the Dining Room</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Library">
+         <description>This is the library</description>
+        <isLocked>true</isLocked>
+    </room>
+    <room name="Living Room">
+        <description>This is the Living Room</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Upper Hall">
+        <description>This is the Upper Hall</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Outside">
+        <description>This is Outside</description>
+        <isLocked>false</isLocked>
+    </room>
+</config>

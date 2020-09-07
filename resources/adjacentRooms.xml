@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <room name="Foyer">
+        <adjacentRoom direction="north">Living Room</adjacentRoom>
+        <adjacentRoom direction="east">Library</adjacentRoom>
+        <adjacentRoom direction="south">Outside</adjacentRoom>
+        <adjacentRoom direction="west">Dining Room</adjacentRoom>
+        <adjacentRoom direction="up">Upper Hall</adjacentRoom>
+    </room>
+    <room>
+        <adjacentRoom direction="north">Foyer</adjacentRoom>
+    </room>
+</config>

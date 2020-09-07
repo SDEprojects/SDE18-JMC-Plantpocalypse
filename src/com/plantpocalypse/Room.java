@@ -9,11 +9,14 @@ public class Room {
     private String description;
     private boolean isLocked = false;
 
-    private HashMap<String, Room> neighboringRooms;
+    private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
 
     /* CONSTRUCTORS */
+    public Room() {
+
+    };
     public Room(String name) {
         setName(name);
         setDescription("This is the " + name);
@@ -76,6 +79,10 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
+    public void addNeighboringRoom(String direction, Room room) {
+        this.neighboringRooms.put(direction, room);
+    }
+
     public HashMap<String, Item> getItems() {
         return this.items;
     }
@@ -90,5 +97,16 @@ public class Room {
 
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
+    }
+
+    // toString
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isLocked=" + isLocked + '\'' +
+                '}';
     }
 }
