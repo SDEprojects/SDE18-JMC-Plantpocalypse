@@ -5,7 +5,7 @@
  * @date August 31, 2020
  * @version 0.1
  */
-package com.plantpocalypse.util;
+package com.plantpocalypse;
 
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.view.GameGUI;
