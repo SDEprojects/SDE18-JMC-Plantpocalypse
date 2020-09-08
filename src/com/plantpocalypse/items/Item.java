@@ -5,6 +5,7 @@ public abstract class Item {
     private String Description;
 
     /* CONSTRUCTORS */
+    public Item() {}
     public Item(String name){
         setName(name);
         setDescription("This is a " + name);
@@ -29,5 +30,12 @@ public abstract class Item {
     public void setDescription(String description) {
         Description = description;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Item{" +
+//                "Description='I am an item'" + '\'' +
+//                '}';
+//    }
 }
 

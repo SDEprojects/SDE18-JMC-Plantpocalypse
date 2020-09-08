@@ -9,6 +9,9 @@ public class Room {
     private String description;
     private boolean isLocked = false;
 
+    // Initialized this here to use code from xml parser
+    // using setNeighboringRooms seems to just overwrite it
+    // with no issues
     private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
