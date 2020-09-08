@@ -32,6 +32,7 @@ public class GameDirector {
                 case "help" -> result = help();
                 case "quit" -> quit();
                 case "open" -> result = open(argument, player);
+                case "save" -> Game.GAME_INSTANCE.saveGame();
             }
         }
 

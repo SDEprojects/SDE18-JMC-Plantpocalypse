@@ -6,6 +6,7 @@ import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.model.items.FloorPlan;
 import com.plantpocalypse.util.*;
 
+import java.io.*;
 import java.util.HashMap;
 
 public enum Game {
@@ -25,6 +26,8 @@ public enum Game {
      * Instantiates Player, Rooms and other necessary assets.
      */
     public void loadAssets() {
+
+        //loadGame();
         loadRooms();
         loadItems();
         loadMonsters();
@@ -40,7 +43,7 @@ public enum Game {
      */
     private void loadRooms() {
 //        StaxRoomParser readRooms = new StaxRoomParser();
-//        mansion = readRooms.readRoomsXML("./resources/rooms.xml");
+//        mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
         mansion = new HashMap<>();
 
         outside = new Room("Outside");
@@ -82,7 +85,7 @@ public enum Game {
 
     private void loadItems() {
 //        StaxItemParser readItems = new StaxItemParser();
-//        readItems.readItemsXML("./resources/items.xml",mansion);
+//        readItems.readItemsXML("./resources/newGame/items.xml",mansion);
 
         rambutan1 = new Food("rambutan", 1);
         rambutan2 = new Food("rambutan", 1);
@@ -99,14 +102,14 @@ public enum Game {
 
     private void loadMonsters() {
 //        StaxMonsterParser readMonsters = new StaxMonsterParser();
-//        readMonsters.readMonstersXML("./resources/monsters.xml",mansion);
+//        readMonsters.readMonstersXML("./resources/newGame/monsters.xml",mansion);
         cactus = new PlantMonster("Cactus", 10);
         poisonIvy = new PlantMonster("Poison Ivy", 2);
     }
 
     private void connectRooms() {
 //        StaxAdjacentRoomParser readAdjacentRooms = new StaxAdjacentRoomParser();
-//        readAdjacentRooms.readAdjacentRoomsXML("./resources/adjacentRooms.xml",mansion);
+//        readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",mansion);
 
         HashMap<String, Room> outsideAdjRooms = new HashMap<>();
         outsideAdjRooms.put("north", foyer);
@@ -221,6 +224,39 @@ public enum Game {
         return player.getCurrentRoom().getName().equals("Hidden Office")
                 || player.getMovesMade() >= ALLOWED_MOVES
                 || !player.isAlive();
+    }
+
+    public void saveGame() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("./resources/saveGame/00.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(player);
+            out.writeObject(mansion);
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in ./resources/saveGame/00.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
+    }
+
+    public void loadGame() {
+        try {
+            FileInputStream fileIn = new FileInputStream("./resources/saveGame/00.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            player = (Player) in.readObject();
+            mansion = (HashMap<String, Room>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Player class not found");
+            e.printStackTrace();
+            return;
+        }
     }
 
     /* GETTERS AND SETTERS */
