@@ -3,6 +3,7 @@ package com.plantpocalypse;
 import com.plantpocalypse.items.Food;
 import com.plantpocalypse.items.Item;
 import com.plantpocalypse.items.Key;
+import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
 import java.util.ArrayList;
@@ -103,6 +104,11 @@ public class Player {
                     System.out.println("You read the journal");
                     break;
 
+                case "FloorPlan":
+                    System.out.println("You opened the floor plan");
+                    seeFloorPlan(itemName);
+                    break;
+
                 default:
                     System.out.println("You cannot use that item, silly.");
             }
@@ -163,6 +169,14 @@ public class Player {
 
         return false;
     }
+    public boolean seeFloorPlan(String itemName) {
+
+        if (itemName != null) {
+            ConsoleDisplay.printFloorPlan();
+            return true;
+        }
+        return false;
+    }
 
     private Item retrieveItemFromInventory(String itemName) {
         Item result = null;
@@ -187,6 +201,7 @@ public class Player {
             }
         }
     }
+
 
     /* GETTERS AND SETTERS */
     public Room getCurrentRoom() {

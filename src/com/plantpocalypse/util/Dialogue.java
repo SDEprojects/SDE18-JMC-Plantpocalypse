@@ -47,4 +47,8 @@ public class Dialogue {
     public static void winningDialogue() {
         System.out.println("\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.");
     }
+
+    public static void printMap() {
+        System.out.println("\nfloor plan goes here");
+    }
 }
