@@ -16,10 +16,10 @@ public class TestParsing {
         HashMap<String, Room> rooms = readRooms.readRoomsXML("./resources/rooms.xml");
         readAdjacentRooms.readAdjacentRoomsXML("./resources/adjacentRooms.xml",rooms);
         readItems.readItemsXML("./resources/items.xml",rooms);
-//        for (Map.Entry entry : rooms.entrySet()) {
-//            System.out.println(entry.getKey());
-//            System.out.println(entry.getValue());
-//        }
+        for (Map.Entry entry : rooms.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+        }
 
         //System.out.println(rooms.get("Foyer").getNeighboringRooms());
         rooms.get("Outside").getItems().values().forEach( item -> System.out.println(item.getName()));

@@ -7,7 +7,59 @@
         <adjacentRoom direction="west">Dining Room</adjacentRoom>
         <adjacentRoom direction="up">Upper Hall</adjacentRoom>
     </room>
-    <room>
+    <room name="Outside">
         <adjacentRoom direction="north">Foyer</adjacentRoom>
+    </room>
+    <room name="Dining Room">
+        <adjacentRoom direction="north">Kitchen</adjacentRoom>
+        <adjacentRoom direction="east">Foyer</adjacentRoom>
+    </room>
+    <room name="Kitchen">
+        <adjacentRoom direction="east">Living Room</adjacentRoom>
+        <adjacentRoom direction="south">Dining Room</adjacentRoom>
+        <adjacentRoom direction="up">Master Bedroom</adjacentRoom>
+    </room>
+    <room name="Living Room">
+        <adjacentRoom direction="north">Bathroom</adjacentRoom>
+        <adjacentRoom direction="east">Green House Floor 1</adjacentRoom>
+        <adjacentRoom direction="south">Foyer</adjacentRoom>
+        <adjacentRoom direction="west">Kitchen</adjacentRoom>
+        <adjacentRoom direction="northwest">Guest Room</adjacentRoom>
+    </room>
+    <room name="Guest Room">
+        <adjacentRoom direction="southeast">Living Room</adjacentRoom>
+    </room>
+    <room name="Bathroom">
+        <adjacentRoom direction="south">Living Room</adjacentRoom>
+    </room>
+    <room name="Green House Floor 1">
+        <adjacentRoom direction="west">Living Room</adjacentRoom>
+    </room>
+    <room name="Library">
+        <adjacentRoom direction="east">Hidden Office</adjacentRoom>
+        <adjacentRoom direction="west">Foyer</adjacentRoom>
+    </room>
+    <room name="Hidden Office">
+        <adjacentRoom direction="west">Library</adjacentRoom>
+    </room>
+    <room name="Upper Hall">
+        <adjacentRoom direction="northwest">Master Bedroom</adjacentRoom>
+        <adjacentRoom direction="southwest">Master Bathroom</adjacentRoom>
+        <adjacentRoom direction="east">Laboratory</adjacentRoom>
+    </room>
+    <room name="Master Bedroom">
+        <adjacentRoom direction="east">Upper Hall</adjacentRoom>
+        <adjacentRoom direction="south">Master Bathroom</adjacentRoom>
+    </room>
+    <room name="Master Bathroom">
+        <adjacentRoom direction="north">Master Bedroom</adjacentRoom>
+        <adjacentRoom direction="east">Upper Hall</adjacentRoom>
+    </room>
+    <room name="Laboratory">
+        <adjacentRoom direction="north">Green House Floor 2</adjacentRoom>
+        <adjacentRoom direction="west">Upper Hall</adjacentRoom>
+    </room>
+    <room name="Green House Floor 2">
+        <adjacentRoom direction="south">Laboratory</adjacentRoom>
     </room>
 </config>
