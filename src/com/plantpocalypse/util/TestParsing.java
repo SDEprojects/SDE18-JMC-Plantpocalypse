@@ -1,6 +1,7 @@
 package com.plantpocalypse.util;
 
-import com.plantpocalypse.Room;
+
+import com.plantpocalypse.model.Room;
 
 import java.util.HashMap;
 import java.util.List;
