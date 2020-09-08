@@ -68,10 +68,6 @@ public class Player {
     public boolean displayInventory() {
 
         if (inventory.size() > 0) {
-            System.out.println("Player Inventory: ");
-            for (int i = 0; i < inventory.size(); i++) {
-                System.out.println((i + 1) + ". " + inventory.get(i).getName() + "\n");
-            }
             return true;
         }
 
