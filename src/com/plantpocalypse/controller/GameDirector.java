@@ -113,7 +113,7 @@ public class GameDirector {
         List<Item> inventory = player.getInventory();
 
         if (player.displayInventory()) {
-            result = "";
+            result = "Player Inventory:\n";
 
             for (int i = 0; i < inventory.size(); i++) {
                 result += (i + 1) + ". " + inventory.get(i).getName() + "\n";
