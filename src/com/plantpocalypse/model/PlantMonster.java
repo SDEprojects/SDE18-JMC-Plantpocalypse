@@ -1,4 +1,4 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
 public class PlantMonster {
     private String monsterName;
@@ -19,7 +19,6 @@ public class PlantMonster {
    public void attackPlayer(Player player){
        if (player != null) {
            player.getHurt(getBaseAttack());
-           System.out.println("You were attacked by " + getMonsterName() + " and lost " + getBaseAttack() + " health points.");
        }
    }
 

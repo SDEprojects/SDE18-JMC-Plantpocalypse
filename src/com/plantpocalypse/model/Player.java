@@ -1,8 +1,8 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.items.Food;
-import com.plantpocalypse.items.Item;
-import com.plantpocalypse.items.Key;
+import com.plantpocalypse.model.items.Food;
+import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.Dialogue;
 
 import java.util.ArrayList;
@@ -47,9 +47,9 @@ public class Player {
             setCurrentHealth(health);
         }
         else {
+            setCurrentHealth(0);
             isAlive = false;
         }
-        System.out.println("Ouch!");
     }
 
     public void getPoisoned(){
@@ -65,11 +65,13 @@ public class Player {
         System.out.println(getCurrentHealth());
     }
 
-    public void displayInventory() {
-        System.out.println("Player Inventory: ");
-        for(int i=0; i <inventory.size(); i++){
-            System.out.println((i+1) + ". " + inventory.get(i).getName() + "\n");
+    public boolean displayInventory() {
+
+        if (inventory.size() > 0) {
+            return true;
         }
+
+        return false;
     }
 
     public boolean move(Room nextRoom) {
@@ -90,21 +92,11 @@ public class Player {
             String selectedItemType = selectedItem.getClass().getSimpleName();
 
             switch (selectedItemType) {
-                case "Food":
-                    eat(itemName);
-                    break;
-
-                case "Key":
+                case "Food" -> eat(itemName);
+                case "Key" -> {
                     Key key = (Key) selectedItem;
                     unlockDoor(key);
-                    break;
-
-                case "Journal":
-                    System.out.println("You read the journal");
-                    break;
-
-                default:
-                    System.out.println("You cannot use that item, silly.");
+                }
             }
             return true;
         }
@@ -130,7 +122,6 @@ public class Player {
                 } else {
                     setCurrentHealth(getMaxHealth());
                 }
-                System.out.println("Omnomnom! Must have been organic");
             }
             else {
                 System.out.println("You ate the " + selectedItem.getName() + ", what's wrong with you?");
@@ -148,7 +139,6 @@ public class Player {
             if (validRoom && key.getRoomKeyUnlocks().isLocked()) {
                 key.getRoomKeyUnlocks().toggleLock();
                 removeItemFromInventory(key.getName());
-                System.out.println("\nYou unlocked the " + key.getRoomKeyUnlocks().getName());
             }
         }
     }
@@ -157,14 +147,13 @@ public class Player {
         Item item = retrieveItemFromInventory(itemName);
 
         if (item != null) {
-            System.out.println(item.getDescription());
             return true;
         }
 
         return false;
     }
 
-    private Item retrieveItemFromInventory(String itemName) {
+    public Item retrieveItemFromInventory(String itemName) {
         Item result = null;
         Iterator<Item> iterator = inventory.iterator();
         while (iterator.hasNext()) {

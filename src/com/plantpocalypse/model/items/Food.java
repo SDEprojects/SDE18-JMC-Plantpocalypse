@@ -1,4 +1,4 @@
-package com.plantpocalypse.items;
+package com.plantpocalypse.model.items;
 
 public class Food extends Item {
     private int healthRestored;

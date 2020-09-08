@@ -1,6 +1,6 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.items.Item;
+import com.plantpocalypse.model.items.Item;
 
 import java.util.HashMap;
 

@@ -7,11 +7,18 @@ import java.util.Scanner;
 
 public class TextParser {
 
-    // good enough for govt work
-    public static List<String> getInput() {
-        Scanner readin = new Scanner(System.in); // how to create scanner from file
-        System.out.print("\nenter input> ");
-        String input = readin.nextLine().toLowerCase().strip();
+    public static List<String> getInputFromCLI() {
+        Scanner readIn = new Scanner(System.in);
+
+        return parseInput(readIn.nextLine());
+    }
+
+    public static List<String> getInputFromGUI(String input) {
+        return parseInput(input);
+    }
+
+    private static List<String> parseInput(String input) {
+        input = input.toLowerCase().strip();
         List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 
         if (cmd.size() == 3) {
