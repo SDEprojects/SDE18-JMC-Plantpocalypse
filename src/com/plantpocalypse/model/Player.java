@@ -1,8 +1,8 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.items.Food;
-import com.plantpocalypse.items.Item;
-import com.plantpocalypse.items.Key;
+import com.plantpocalypse.model.items.Food;
+import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.Dialogue;
 
 import java.util.ArrayList;
@@ -47,6 +47,7 @@ public class Player {
             setCurrentHealth(health);
         }
         else {
+            setCurrentHealth(0);
             isAlive = false;
         }
         System.out.println("Ouch!");

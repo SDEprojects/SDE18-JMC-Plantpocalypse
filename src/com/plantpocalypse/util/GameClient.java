@@ -5,7 +5,10 @@
  * @date August 31, 2020
  * @version 0.1
  */
-package com.plantpocalypse.gameclient;
+package com.plantpocalypse.util;
+
+import com.plantpocalypse.model.Game;
+import com.plantpocalypse.view.GameGUI;
 
 public class GameClient {
     /**
@@ -15,9 +18,7 @@ public class GameClient {
     public static void main(String[] args) {
         try {
             Game.GAME_INSTANCE.loadAssets();
-//            new GameGUI();
-//            Game.GAME_INSTANCE.startGame();
-            Game.GAME_INSTANCE.startGameGUI();
+            new GameGUI();
         }
         catch (Exception e) {
             e.printStackTrace();

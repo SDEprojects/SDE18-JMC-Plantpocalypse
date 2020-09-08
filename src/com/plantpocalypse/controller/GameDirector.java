@@ -1,21 +1,21 @@
-package com.plantpocalypse.gameclient;
+package com.plantpocalypse.controller;
 
+import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.Dialogue;
-import com.plantpocalypse.Player;
-import com.plantpocalypse.Room;
-import com.plantpocalypse.util.TextParser;
+import com.plantpocalypse.model.Player;
+import com.plantpocalypse.model.Room;
+import com.plantpocalypse.view.GameGUI;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class GameDirector {
 
-    public static void interact(Player player) {
-        List<String> input = TextParser.getInput();
-
+    public static void interact(List<String> input) {
         if (input != null) {
             String command = input.get(0);
             String argument = input.size() == 2 ? input.get(1) : null;
+            Player player = Game.GAME_INSTANCE.getPlayer();
 
             switch (command) {
                 case "go" -> go(argument, player);
@@ -29,31 +29,6 @@ public class GameDirector {
             }
         }
     }
-
-    public static void interactGUI(Player player, String inputFromGUI) {
-        List<String> input = TextParser.getInputFromGUI(inputFromGUI);
-
-        if (input != null) {
-            if (input.get(0).equals("go")) {
-                go(input.get(1), player);
-            } else if (input.get(0).equals("eat")) {
-                eat(input.get(1), player);
-            } else if(input.get(0).equals("use")) {
-                use(input.get(1), player);
-            } else if (input.get(0).equals("examine")) {
-                examine(input.get(1), player);
-            } else if (input.get(0).equals("get")) {
-                pickup(input.get(1), player);
-            } else if (input.get(0).equals("quit")) {
-                quit();
-            } else if (input.get(0).equals("inventory")) {
-                inventory(player);
-            } else if (input.get(0).equals("help")) {
-                help();
-            }
-        }
-    }
-
 
     private static void go(String direction, Player player) {
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
@@ -117,4 +92,5 @@ public class GameDirector {
     private static void help() {
         Dialogue.helpDialogue();
     }
+
 }

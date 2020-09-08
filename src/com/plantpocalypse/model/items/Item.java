@@ -1,4 +1,4 @@
-package com.plantpocalypse.items;
+package com.plantpocalypse.model.items;
 
 public abstract class Item {
     private String name;

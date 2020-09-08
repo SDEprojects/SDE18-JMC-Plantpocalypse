@@ -7,33 +7,19 @@ import java.util.Scanner;
 
 public class TextParser {
 
-    // good enough for govt work
-    public static List<String> getInput() {
-        Scanner readin = new Scanner(System.in); // how to create scanner from file
-        System.out.print("\nenter input> ");
-        String input = readin.nextLine().toLowerCase().strip();
-        List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
+    public static List<String> getInputFromCLI() {
+        Scanner readIn = new Scanner(System.in);
 
-        if (cmd.size() == 3) {
-            String word1 = cmd.get(1);
-            String word2 = cmd.get(2);
-
-            String item = String.join(" ",word1,word2);
-            cmd.remove(2);
-            cmd.remove(1);
-            cmd.add(1,item);
-        }
-
-        if (checkValidInput(cmd)) {
-            return cmd;
-        } else {
-            return null;
-        }
+        return parseInput(readIn.nextLine());
     }
 
-    public static List<String> getInputFromGUI(String inputFromGUI) {
-        inputFromGUI = inputFromGUI.toLowerCase().strip();
-        List<String> cmd = new ArrayList<String>(Arrays.asList(inputFromGUI.split("\\s+")));
+    public static List<String> getInputFromGUI(String input) {
+        return parseInput(input);
+    }
+
+    private static List<String> parseInput(String input) {
+        input = input.toLowerCase().strip();
+        List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 
         if (cmd.size() == 3) {
             String word1 = cmd.get(1);

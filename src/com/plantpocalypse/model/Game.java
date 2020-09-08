@@ -1,11 +1,12 @@
-package com.plantpocalypse.gameclient;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.*;
-import com.plantpocalypse.items.Food;
-import com.plantpocalypse.items.Item;
-import com.plantpocalypse.items.Key;
-import com.plantpocalypse.util.ConsoleDisplay;
-import com.plantpocalypse.util.Dialogue;
+import com.plantpocalypse.controller.GameDirector;
+
+import com.plantpocalypse.model.items.Food;
+import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.util.TextParser;
+
 
 import java.util.HashMap;
 
@@ -13,8 +14,6 @@ public enum Game {
     GAME_INSTANCE;
 
     private final int ALLOWED_MOVES = 20;
-    private boolean lostGame = false;
-    private boolean gameOver = false;
 
     private Player player;
     private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
@@ -199,83 +198,17 @@ public enum Game {
         guestRoom.setMonster(poisonIvy);
     }
 
-    /**
-     * Calls all necessary functions for game to perform in the sequence
-     * that it should. Will continue looping until Player's win condition
-     * is true.
-     */
-    public void startGame() {
-        ConsoleDisplay.welcomeScreen();
-        titleScreen();
-        intro();
-        /* Loop until Player beats the game */
-        while (!player.getCurrentRoom().getName().equals("Hidden Office")) {
-
-            display();
-            nextCommand();
-
-            if (player.getMovesMade() >= ALLOWED_MOVES || !player.isAlive()) {
-                lostGame = true;
-                break;
-            }
-        }
-        if (lostGame) {
-            lost();
-        }
-        else {
-            won();
-        }
-        ending();
+    public boolean checkLostGame() {
+        /* Change to real lose condition when possible */
+        return player.getMovesMade() >= ALLOWED_MOVES
+                || !player.isAlive();
     }
 
-    public void startGameGUI() {
-        GameGUI gameGUI = new GameGUI();
-
-        if (lostGame) {
-            lost();
-        }
-        else {
-            won();
-        }
-        ending();
-    }
-
-    public void gameStatus() {
-        if (player.getMovesMade() >= ALLOWED_MOVES || !player.isAlive()) {
-            lostGame = true;
-            gameOver = true;
-        }
-        else if (player.getCurrentRoom().getName().equals("Hidden Office")) {
-            gameOver = true;
-        }
-    }
-
-    private void nextCommand() {
-        GameDirector.interact(player);
-    }
-
-    private void currentRoom() {
-        System.out.println("Player current room: " + player.getCurrentRoom().getName());
-    }
-
-    private void titleScreen() {
-        Dialogue.titleScreenDialogue();
-    }
-
-    private void intro() {
-        Dialogue.introDialogue();
-    }
-
-    private void ending() {
-        Dialogue.endingDialogue();
-    }
-
-    private void lost() {
-        Dialogue.losingDialogue();
-    }
-
-    private void won() {
-        Dialogue.winningDialogue();
+    public boolean checkGameOver() {
+        /* Change to real game over condition when possible */
+        return player.getCurrentRoom().getName().equals("Hidden Office")
+                || player.getMovesMade() >= ALLOWED_MOVES
+                || !player.isAlive();
     }
 
     /* GETTERS AND SETTERS */
@@ -283,19 +216,15 @@ public enum Game {
         return player;
     }
 
-    public boolean lostGame() {
-        return lostGame;
-    }
-
-    public boolean gameOver() {
-        return gameOver;
+    public int getAllowedMoves() {
+        return ALLOWED_MOVES;
     }
 
     public HashMap<String, Room> getMansion() {
         return mansion;
     }
 
-    /* METHODS FOR TESTING */
+    /* METHODS FOR TESTING AND OTHER TEMPORARY METHODS*/
     private void itemsInRoom() {
         System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
         player.getCurrentRoom().displayItems();
@@ -306,9 +235,14 @@ public enum Game {
         player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
     }
 
-    private void display() {
-        currentRoom();
+    private void showItemsAndRooms() {
         itemsInRoom();
         neighboringRooms();
     }
+
+    /* Used for CLI Version */
+    private void nextCommand() {
+        GameDirector.interact(TextParser.getInputFromCLI());
+    }
+
 }

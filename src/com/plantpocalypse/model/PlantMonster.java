@@ -1,4 +1,4 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
 public class PlantMonster {
     private String monsterName;
