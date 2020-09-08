@@ -1,12 +1,8 @@
 package com.plantpocalypse.model;
 
-import com.plantpocalypse.controller.GameDirector;
-
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
-import com.plantpocalypse.util.TextParser;
-
 
 import java.util.HashMap;
 
@@ -223,26 +219,4 @@ public enum Game {
     public HashMap<String, Room> getMansion() {
         return mansion;
     }
-
-    /* METHODS FOR TESTING AND OTHER TEMPORARY METHODS*/
-    private void itemsInRoom() {
-        System.out.println("\nItems in " + player.getCurrentRoom().getName() + ":");
-        player.getCurrentRoom().displayItems();
-    }
-
-    private void neighboringRooms() {
-        System.out.println("\nConnected Rooms: ");
-        player.getCurrentRoom().getNeighboringRooms().forEach( (k,v) -> System.out.println(k + " => " + v.getName()));
-    }
-
-    private void showItemsAndRooms() {
-        itemsInRoom();
-        neighboringRooms();
-    }
-
-    /* Used for CLI Version */
-    private void nextCommand() {
-        GameDirector.interact(TextParser.getInputFromCLI());
-    }
-
 }

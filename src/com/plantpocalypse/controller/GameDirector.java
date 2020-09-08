@@ -1,6 +1,8 @@
 package com.plantpocalypse.controller;
 
 import com.plantpocalypse.model.Game;
+import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.model.Player;
 import com.plantpocalypse.model.Room;
@@ -10,86 +12,123 @@ import java.util.List;
 
 public class GameDirector {
 
-    public static void interact(List<String> input) {
+    /* Return a string so GUI can print action to TextArea? */
+    public static String interact(List<String> input) {
+        String result = "";
+
         if (input != null) {
             String command = input.get(0);
             String argument = input.size() == 2 ? input.get(1) : null;
             Player player = Game.GAME_INSTANCE.getPlayer();
 
             switch (command) {
-                case "go" -> go(argument, player);
-                case "eat" -> eat(argument, player);
-                case "use" -> use(argument, player);
-                case "examine" -> examine(argument, player);
-                case "get" -> pickup(argument, player);
-                case "inventory" -> inventory(player);
-                case "help" -> help();
+                case "go" -> result = go(argument, player);
+                case "eat" -> result = eat(argument, player);
+                case "use" -> result = use(argument, player);
+                case "examine" -> result = examine(argument, player);
+                case "get" -> result = pickup(argument, player);
+                case "inventory" -> result = inventory(player);
+                case "help" -> result = help();
                 case "quit" -> quit();
             }
         }
+
+        return result;
     }
 
-    private static void go(String direction, Player player) {
+
+    private static String go(String direction, Player player) {
+        String result = "Please enter a valid direction.";
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
 
         if (adjacentRooms.containsKey(direction)) {
             if (player.move(adjacentRooms.get(direction))) {
-                System.out.println("Moved to " + player.getCurrentRoom().getName());
+                result = "Moved to " + player.getCurrentRoom().getName();
 
                 if (player.getCurrentRoom().getMonster() != null) {
+                    result += "\nYou were attacked by a monstrous " + player.getCurrentRoom().getMonster().getMonsterName();
+                    result += "\nYou lost " + player.getCurrentRoom().getMonster().getBaseAttack() + " health points.";
                     player.getCurrentRoom().getMonster().attackPlayer(player);
                 }
-
             } else {
-                System.out.println("The door is locked.");
+                result = "The door is locked.";
             }
-        } else {
-            System.out.println("Please enter a valid direction.");
         }
+
+        return result;
     }
 
-    private static void eat(String itemName, Player player) {
+    private static String eat(String itemName, Player player) {
+        String result = "You do not have one of those!";
+        Item item = player.retrieveItemFromInventory(itemName);
+
         if (itemName != null && player.eat(itemName)) {
-            System.out.println("You ate the " + itemName);
-        } else {
-            System.out.println("You do not have that item!");
+            result = "Omnomnom! Must have been organic";
+            result += "\nYou ate the " + item.getName();
         }
+
+        return result;
     }
 
-    private static void use(String itemName, Player player) {
+    private static String use(String itemName, Player player) {
+        String result = "You do not have that item!";
+        Item item = player.retrieveItemFromInventory(itemName);
+
         if (itemName != null && player.use(itemName)) {
-            System.out.println("You used " + itemName);
-        } else {
-            System.out.println("You do not have that item!");
+            result = "You used the " + item.getName();
+
+            if (itemName.contains("key")) {
+                Key key = (Key) item;
+                result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
+            }
         }
+
+        return result;
     }
 
-    private static void examine(String itemName, Player player) {
+    private static String examine(String itemName, Player player) {
+        String result = "You do not have that item!";
+        Item item = player.retrieveItemFromInventory(itemName);
+
         if (itemName != null && player.examine(itemName)) {
-            System.out.println("Examined: " + itemName);
-        } else {
-            System.out.println("You do not have that item!");
+            result = ("You examine the " + item.getName());
+            result += ("\n" + item.getDescription());
         }
+
+        return result;
     }
 
-    private static void pickup(String itemName, Player player) {
+    private static String pickup(String itemName, Player player) {
+        String result = "That item is not in this room.";
+
         if (itemName != null && player.pickUpItem(itemName)) {
-            System.out.println("Picked up " + itemName);
-        } else {
-            System.out.println("That item is not in this room.");
+            result = "Picked up a " + itemName;
         }
+
+        return result;
     }
 
-    private static void inventory(Player player) {
-        player.displayInventory();
+    private static String inventory(Player player) {
+        String result = "There are no items in your inventory.";
+        List<Item> inventory = player.getInventory();
+
+        if (player.displayInventory()) {
+            result = "";
+
+            for (int i = 0; i < inventory.size(); i++) {
+                result += (i + 1) + ". " + inventory.get(i).getName() + "\n";
+            }
+        }
+
+        return result;
     }
 
     private static void quit() {
         System.exit(0);
     }
 
-    private static void help() {
-        Dialogue.helpDialogue();
+    private static String help() {
+        return Dialogue.helpDialogue();
     }
 
 }

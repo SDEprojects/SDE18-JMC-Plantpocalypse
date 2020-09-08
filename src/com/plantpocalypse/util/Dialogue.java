@@ -4,7 +4,8 @@ import com.plantpocalypse.model.Game;
 
 public class Dialogue {
 
-    public static void helpDialogue() {
+    public static String helpDialogue() {
+
         System.out.println("Valid commands and directions: \n");
         System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
         System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
@@ -17,6 +18,20 @@ public class Dialogue {
         System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
         System.out.printf("\t%-40s \t%-40s\n", "", "UP");
         System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
+
+        return "Valid commands and directions: \n" +
+                "\n" +
+                "\t=== AVAILABLE VERBS ===                  \t=== AVAILABLE DIRECTIONS ===            \n" +
+                "\tGO [DIRECTION]                           \tNORTH                                   \n" +
+                "\tGET [ITEM NAME]                          \tNORTHEAST                               \n" +
+                "\tUSE [ITEM NAME]                          \tEAST                                    \n" +
+                "\tEAT [ITEM NAME]                          \tSOUTHEAST                               \n" +
+                "\tEXAMINE [ITEM NAME]                      \tSOUTH                                   \n" +
+                "\t                                         \tSOUTHWEST                               \n" +
+                "\t                                         \tWEST                                    \n" +
+                "\t                                         \tNORTHWEST                               \n" +
+                "\t                                         \tUP                                      \n" +
+                "\t                                         \tDOWN ";
     }
 
     public static String titleScreenDialogue() {
@@ -35,7 +50,7 @@ public class Dialogue {
                 "answers, you ignore these superstitious ramblings and head toward the estate.\n\n" +
                 "Upon your arrival, you see that his secluded mansion has been overrun by\n" +
                 "all sorts of strange plants. Undeterred, you proceed onto the property, hoping you\n" +
-                "will find the answers you are looking for...";
+                "will find the answers you are looking for...\n";
     }
 
 
@@ -51,9 +66,5 @@ public class Dialogue {
 
     public static String winningDialogue() {
         return "\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.";
-    }
-
-    public static String enterCommandDialogue() {
-        return Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getName();
     }
 }

@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameGUI {
-    Game game = Game.GAME_INSTANCE;
+    private final Game game = Game.GAME_INSTANCE;
 
     private final JLabel currentRoomLabel, currentHealthLabel, movesMadeLabel;
     private final JTextArea dialogueText;
@@ -55,16 +55,17 @@ public class GameGUI {
             if (!Game.GAME_INSTANCE.checkGameOver()) {
                 String inputString = inputField.getText();
                 inputField.setText("");
-                GameDirector.interact(TextParser.getInputFromGUI(inputString));
+
+                displayDialogue(GameDirector.interact(TextParser.getInputFromGUI(inputString)));
+
+                displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
+                displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
+                displayMovesMade(game.getPlayer().getMovesMade());
 
                 if (game.checkGameOver()) {
                     if (game.checkLostGame()) lost(); else won();
                     gameOver();
                 }
-
-                displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
-                displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
-                displayMovesMade(game.getPlayer().getMovesMade());
             }
         });
 
