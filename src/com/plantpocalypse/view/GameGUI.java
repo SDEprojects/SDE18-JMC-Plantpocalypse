@@ -17,19 +17,12 @@ public class GameGUI {
     public GameGUI() {
         /* Instantiate Window and Containers */
         JFrame applicationWindow = new JFrame();
+
+        /* Create JPanel placeholder so component can be put in specific Grid cell */
         int rows = 2;
         int cols = 3;
         JPanel userInputPanel = new JPanel(new GridLayout(rows, cols));
-        JPanel dialoguePanel = new JPanel();
-
         JPanel[][] panelHolderInput = new JPanel[rows][cols];
-
-        /* Set attributes for Window */
-        applicationWindow.setLayout(new BorderLayout());
-        applicationWindow.setTitle("Plantpocalypse");
-        applicationWindow.setSize(600,600);
-        applicationWindow.add(userInputPanel, BorderLayout.SOUTH);
-        applicationWindow.add(dialoguePanel, BorderLayout.NORTH);
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -38,11 +31,15 @@ public class GameGUI {
             }
         }
 
-        /* Instantiate and set attributes for User Input section */
+        /* Set attributes for Window */
+        applicationWindow.setLayout(new BorderLayout());
+        applicationWindow.setTitle("Plantpocalypse");
+        applicationWindow.setSize(700,600);
+        applicationWindow.add(userInputPanel, BorderLayout.SOUTH);
+
+        /* Instantiate components for User Input section */
         JLabel inputFieldLabel = new JLabel("Enter command: ");
         JTextField inputField = new JTextField(16);
-
-        /* Instantiate Label for current room, health, moves */
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
@@ -50,7 +47,10 @@ public class GameGUI {
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
         dialogueText.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(dialogueText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        applicationWindow.add(scrollPane);
 
+        /* Event listener for when Player press enter in the input field */
         inputField.addActionListener(e -> {
             if (!Game.GAME_INSTANCE.checkGameOver()) {
                 String inputString = inputField.getText();
@@ -69,10 +69,7 @@ public class GameGUI {
             }
         });
 
-        /* Add related components to dialogue container */
-        dialoguePanel.add(dialogueText);
-
-        /* Add related components to userInput container */
+        /* Add related components to user input Grid */
         panelHolderInput[0][0].add(currentRoomLabel);
         panelHolderInput[0][1].add(currentHealthLabel);
         panelHolderInput[0][2].add(movesMadeLabel);
@@ -83,6 +80,7 @@ public class GameGUI {
         applicationWindow.setDefaultCloseOperation(applicationWindow.EXIT_ON_CLOSE);
         applicationWindow.setVisible(true);
 
+        /* Initial loading of Gama data to UI elements */
         startGame();
     }
 
