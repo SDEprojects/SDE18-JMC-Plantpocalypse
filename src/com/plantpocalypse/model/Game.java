@@ -3,6 +3,7 @@ package com.plantpocalypse.model;
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.model.items.FloorPlan;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ public enum Game {
     private final int ALLOWED_MOVES = 20;
 
     private Player player;
-    private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller;
+    private Item rambutan1, rambutan2, brassKey, ironKey, steelKey, weedKiller, floorPlan;
     private PlantMonster cactus, poisonIvy;
     private Room outside, foyer, diningRoom, kitchen, guestRoom, livingRoom, bathroom, library, greenHouseOne, hiddenOffice,
             upperHall, masterBedroom, masterBathroom, laboratory, greenHouseTwo;
@@ -84,6 +85,7 @@ public enum Game {
         steelKey = new Key("steel key", library);
         weedKiller = new Key("weed killer", greenHouseOne);
 
+        floorPlan = new FloorPlan("floor plan");
 //        Item journal1 = new Journal("Journal 1");
 //        Item tornPage = new Journal("Torn Page");
     }
@@ -187,6 +189,8 @@ public enum Game {
         masterBathroom.addItem("iron key", ironKey);
 
         laboratory.addItem("weed killer", weedKiller);
+
+        livingRoom.addItem("floor plan", floorPlan);
     }
 
     private void addMonstersToRooms() {

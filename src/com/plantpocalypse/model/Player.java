@@ -3,6 +3,7 @@ package com.plantpocalypse.model;
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
 import java.util.ArrayList;
@@ -97,6 +98,11 @@ public class Player {
                     Key key = (Key) selectedItem;
                     unlockDoor(key);
                 }
+                case "Journal" -> System.out.println("You read the journal.");
+                case "FloorPlan" -> {
+                    System.out.println("You opened the floor plan");
+                    seeFloorPlan(itemName);
+                }
             }
             return true;
         }
@@ -150,6 +156,14 @@ public class Player {
             return true;
         }
 
+        return false;
+    }
+    public boolean seeFloorPlan(String itemName) {
+
+        if (itemName != null) {
+            ConsoleDisplay.printFloorPlan();
+            return true;
+        }
         return false;
     }
 
