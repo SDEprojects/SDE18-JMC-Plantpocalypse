@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <item type="key">
-        <name>brass key</name>
-        <roomUnlock>Foyer</roomUnlock>
+    <item type="food">
+        <name>rambutan</name>
+        <healthRestored>1</healthRestored>
         <location>Outside</location>
     </item>
     <item type="food">
         <name>rambutan</name>
         <healthRestored>1</healthRestored>
+        <location>Dining Room</location>
+    </item>
+    <item type="key">
+        <name>brass key</name>
+        <roomUnlock>Foyer</roomUnlock>
         <location>Outside</location>
+    </item>
+    <item type="key">
+        <name>steel key</name>
+        <roomUnlock>Library</roomUnlock>
+        <location>Green House Floor 1</location>
+    </item>
+    <item type="key">
+        <name>iron key</name>
+        <roomUnlock>Upper Hall</roomUnlock>
+        <location>Master Bathroom</location>
+    </item>
+    <item type="key">
+        <name>weed killer</name>
+        <roomUnlock>Green House Floor 1</roomUnlock>
+        <location>Laboratory</location>
+    </item>
+    <item type="floorPlan">
+        <name>floor plan</name>
+        <location>Living Room</location>
     </item>
 </config>

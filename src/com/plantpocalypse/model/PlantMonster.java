@@ -6,6 +6,7 @@ public class PlantMonster {
     private String monsterDescription;
 
     /* CONSTRUCTORS */
+    public PlantMonster() {}
     public PlantMonster(String monsterName){
         setMonsterName(monsterName);
     }
