@@ -28,6 +28,7 @@ public class GameDirector {
                 case "use" -> result = use(argument, player);
                 case "examine" -> result = examine(argument, player);
                 case "get" -> result = pickup(argument, player);
+                case "look" -> result = look(player);
                 case "inventory" -> result = inventory(player);
                 case "help" -> result = help();
                 case "quit" -> quit();
@@ -122,19 +123,52 @@ public class GameDirector {
         return result;
     }
 
+    private static String look(Player player) {
+        StringBuilder result = new StringBuilder(player.getCurrentRoom().getDescription());
+        Room currentRoom = player.getCurrentRoom();
+
+        result.append("\nYou notice a door to the ");
+
+        for (String key : currentRoom.getNeighboringRooms().keySet()) {
+            result.append(key).append(", ");
+        }
+
+        result.setCharAt(result.length() - 2, '.');
+
+        if (currentRoom.getMonster() != null) {
+            result.append("\nThere is a scary ").append(player.getCurrentRoom().getMonster().getMonsterName()).append(" in here!");
+            result.append("\nYou should run away!!!");
+            return result.toString();
+        }
+
+        if (currentRoom.getItems().size() > 0) {
+            result.append("\nYou notice a ");
+
+            for (Item item : currentRoom.getItems().values()) {
+                result.append(item.getName()).append(", ");
+            }
+
+            result.deleteCharAt(result.length() - 2);
+
+            result.append("on the ground. Maybe they are useful?");
+        }
+
+        return result.toString();
+    }
+
     private static String inventory(Player player) {
-        String result = "There are no items in your inventory.";
+        StringBuilder result = new StringBuilder("There are no items in your inventory.");
         List<Item> inventory = player.getInventory();
 
         if (player.displayInventory()) {
-            result = "Player Inventory:\n";
+            result = new StringBuilder("Player Inventory:\n");
 
             for (int i = 0; i < inventory.size(); i++) {
-                result += (i + 1) + ". " + inventory.get(i).getName() + "\n";
+                result.append(i + 1).append(". ").append(inventory.get(i).getName()).append("\n");
             }
         }
 
-        return result;
+        return result.toString();
     }
 
     private static void quit() {
