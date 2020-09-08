@@ -1,3 +1,12 @@
+/**
+ * This class contains the GUI elements for the Game.
+ *
+ * Only one GUI or CLI is meant to run at any given time.
+ *
+ *  * @author Jeffrey Haywood
+ *  * @date September 8th, 2020
+ *  * @version 0.1
+ */
 package com.plantpocalypse.view;
 
 import com.plantpocalypse.model.Game;
@@ -14,6 +23,11 @@ public class GameGUI {
     private final JLabel currentRoomLabel, currentHealthLabel, movesMadeLabel;
     private final JTextArea dialogueText;
 
+    /**
+     * CTOR for the GUI.
+     * Renders all of the Components needed, sets up
+     * ActionListener for when Player presses enter in InputField.
+     */
     public GameGUI() {
         /* Instantiate Window and Containers */
         JFrame applicationWindow = new JFrame();
@@ -84,22 +98,45 @@ public class GameGUI {
         startGame();
     }
 
+    /**
+     * Changes the text on the currentRoomLabel to Player's current room.
+     * @param currentRoom The current room the Player is in.
+     */
     public void displayCurrentRoom(String currentRoom) {
         currentRoomLabel.setText("Current Room: " + currentRoom);
     }
 
+    /**
+     * Changes the text on the currentHealthLabel to Player's current health
+     * out of their total health.
+     * @param currentHealth The Player's current health.
+     * @param totalHealth The total amount of health a Player can have.
+     */
     public void displayPlayerHealth(int currentHealth, int totalHealth) {
         currentHealthLabel.setText("Health: " + currentHealth + "/" + totalHealth);
     }
 
+    /**
+     * Changes the text on the movesMadeLabel to show the amount of times the
+     * Player has moved between rooms.
+     * @param movesMade Number of moves between rooms player has made.
+     */
     public void displayMovesMade(int movesMade) {
         movesMadeLabel.setText("Moves Made: " + movesMade);
     }
 
+    /**
+     * Appends to dialogueText String from action or dialogue.
+     * @param dialogue Story Dialogue or results from when command performed.
+     */
     public void displayDialogue(String dialogue) {
         dialogueText.append(dialogue + "\n");
     }
 
+    /**
+     * Calls methods to display beginning of story and game data to
+     * the GUI.
+     */
     public void startGame() {
         title();
         intro();
@@ -108,22 +145,37 @@ public class GameGUI {
         displayMovesMade(game.getPlayer().getMovesMade());
     }
 
+    /**
+     * Appends the title of the game to dialogueArea.
+     */
     public void title() {
         displayDialogue(Dialogue.titleScreenDialogue());
     }
 
+    /**
+     * Appends the introduction to the game to dialogueArea.
+     */
     public void intro() {
         displayDialogue(Dialogue.introDialogue());
     }
 
+    /**
+     * Appends losing dialogue to dialogueArea.
+     */
     public void lost() {
         displayDialogue(Dialogue.losingDialogue());
     }
 
+    /**
+     * Appends winning dialogue to dialogueArea.
+     */
     public void won() {
         displayDialogue(Dialogue.winningDialogue());
     }
 
+    /**
+     * Appends ending dialogue to dialogueArea.
+     */
     public void gameOver() {
         displayDialogue(Dialogue.endingDialogue());
     }

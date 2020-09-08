@@ -14,6 +14,7 @@ import com.plantpocalypse.view.GameGUI;
 public class GameClient {
     /**
      * This is the entry point for the game.
+     * Will run either the CLI or GUI version of the game.
      * @param args This is arguments from the command line
      */
     public static void main(String[] args) {
