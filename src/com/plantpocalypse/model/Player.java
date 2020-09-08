@@ -6,6 +6,7 @@ import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -99,10 +100,7 @@ public class Player {
                     unlockDoor(key);
                 }
                 case "Journal" -> System.out.println("You read the journal.");
-                case "FloorPlan" -> {
-                    System.out.println("You opened the floor plan");
-                    seeFloorPlan(itemName);
-                }
+                case "FloorPlan" ->  open(itemName); //maybe delete later
             }
             return true;
         }
@@ -158,14 +156,15 @@ public class Player {
 
         return false;
     }
-    public boolean seeFloorPlan(String itemName) {
 
-        if (itemName != null) {
-            ConsoleDisplay.printFloorPlan();
+    public boolean open(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null) {
             return true;
         }
         return false;
     }
+
 
     public Item retrieveItemFromInventory(String itemName) {
         Item result = null;
