@@ -3,6 +3,7 @@ package com.plantpocalypse.controller;
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.model.Player;
 import com.plantpocalypse.model.Room;
@@ -30,6 +31,7 @@ public class GameDirector {
                 case "inventory" -> result = inventory(player);
                 case "help" -> result = help();
                 case "quit" -> quit();
+                case "open" -> result = open(argument, player);
             }
         }
 
@@ -81,6 +83,18 @@ public class GameDirector {
                 Key key = (Key) item;
                 result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
             }
+        }
+
+        return result;
+    }
+
+    private static String open(String itemName, Player player) {
+        String result = "You have nothing to open!";
+        Item item = player.retrieveItemFromInventory(itemName);
+
+        if (itemName != null && player.open(itemName)) {
+            result = ("You opened the " + item.getName() + "\n");
+            result += ConsoleDisplay.printFloorPlan();
         }
 
         return result;
