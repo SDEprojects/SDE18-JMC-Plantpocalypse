@@ -4,6 +4,7 @@ import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.model.items.FloorPlan;
+import com.plantpocalypse.util.*;
 
 import java.util.HashMap;
 
@@ -30,6 +31,7 @@ public enum Game {
         addItemsToRooms();
         addMonstersToRooms();
         connectRooms();
+        //player = new Player(mansion.get("Outside"));
         player = new Player(outside);
     }
 
@@ -37,6 +39,8 @@ public enum Game {
      * Instantiates all of the rooms in the mansion.
      */
     private void loadRooms() {
+//        StaxRoomParser readRooms = new StaxRoomParser();
+//        mansion = readRooms.readRoomsXML("./resources/rooms.xml");
         mansion = new HashMap<>();
 
         outside = new Room("Outside");
@@ -77,6 +81,9 @@ public enum Game {
     }
 
     private void loadItems() {
+//        StaxItemParser readItems = new StaxItemParser();
+//        readItems.readItemsXML("./resources/items.xml",mansion);
+
         rambutan1 = new Food("rambutan", 1);
         rambutan2 = new Food("rambutan", 1);
 
@@ -91,11 +98,16 @@ public enum Game {
     }
 
     private void loadMonsters() {
+//        StaxMonsterParser readMonsters = new StaxMonsterParser();
+//        readMonsters.readMonstersXML("./resources/monsters.xml",mansion);
         cactus = new PlantMonster("Cactus", 10);
         poisonIvy = new PlantMonster("Poison Ivy", 2);
     }
 
     private void connectRooms() {
+//        StaxAdjacentRoomParser readAdjacentRooms = new StaxAdjacentRoomParser();
+//        readAdjacentRooms.readAdjacentRoomsXML("./resources/adjacentRooms.xml",mansion);
+
         HashMap<String, Room> outsideAdjRooms = new HashMap<>();
         outsideAdjRooms.put("north", foyer);
         outside.setNeighboringRooms(outsideAdjRooms);

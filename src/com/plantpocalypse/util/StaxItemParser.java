@@ -1,6 +1,7 @@
 package com.plantpocalypse.util;
 
 import com.plantpocalypse.model.Room;
+import com.plantpocalypse.model.items.FloorPlan;
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
@@ -65,6 +66,10 @@ public class StaxItemParser {
                                         //System.out.println(attribute.getValue());
                                         itemInitialized = true;
                                         item = new Key();
+                                    } else if (attribute.getValue().equals("floorPlan")) {
+                                        //System.out.println(attribute.getValue());
+                                        itemInitialized = true;
+                                        item = new FloorPlan();
                                     }
                                 }
                             }

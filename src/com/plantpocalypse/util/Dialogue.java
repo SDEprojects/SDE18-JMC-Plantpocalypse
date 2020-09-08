@@ -13,7 +13,7 @@ public class Dialogue {
         System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
         System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
         System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
-        System.out.printf("\t%-40s \t%-40s\n", "", "SOUTHWEST");
+        System.out.printf("\t%-40s \t%-40s\n", "OPEN [ITEM NAME]", "SOUTHWEST");
         System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
         System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
         System.out.printf("\t%-40s \t%-40s\n", "", "UP");
@@ -27,7 +27,7 @@ public class Dialogue {
                 "\tUSE [ITEM NAME]                          \tEAST                                    \n" +
                 "\tEAT [ITEM NAME]                          \tSOUTHEAST                               \n" +
                 "\tEXAMINE [ITEM NAME]                      \tSOUTH                                   \n" +
-                "\t                                         \tSOUTHWEST                               \n" +
+                "\tOPEN [ITEM NAME]                         \tSOUTHWEST                               \n" +
                 "\t                                         \tWEST                                    \n" +
                 "\t                                         \tNORTHWEST                               \n" +
                 "\t                                         \tUP                                      \n" +
@@ -68,7 +68,7 @@ public class Dialogue {
         return "\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.";
     }
 
-    public static void printMap() {
-        System.out.println("\nfloor plan goes here");
-    }
+//    public static void printMap() {
+//        System.out.println("\nfloor plan goes here");
+//    }
 }
