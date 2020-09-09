@@ -4,48 +4,54 @@
         <name>rambutan</name>
         <healthRestored>1</healthRestored>
         <location>Outside</location>
+        <description>A yummy looking rambutan. Perhaps it restores health?</description>
     </item>
     <item type="food">
         <name>rambutan</name>
         <healthRestored>1</healthRestored>
         <location>Dining Room</location>
+        <description>A yummy looking rambutan. Perhaps it restores health?</description>
     </item>
     <item type="key">
         <name>brass key</name>
         <roomUnlock>Foyer</roomUnlock>
         <location>Outside</location>
+        <description>A brass key that can be used to unlock a door.</description>
     </item>
     <item type="key">
         <name>steel key</name>
         <roomUnlock>Library</roomUnlock>
         <location>Green House Floor 1</location>
+        <description>A steel key that can be used to unlock a door.</description>
     </item>
     <item type="key">
         <name>iron key</name>
         <roomUnlock>Upper Hall</roomUnlock>
         <location>Master Bathroom</location>
+        <description>An iron key that can bd used to unlock a door.</description>
     </item>
-    <item type="key">
+    <item type="weedKiller">
         <name>weed killer</name>
-        <roomUnlock>Green House Floor 1</roomUnlock>
         <location>Laboratory</location>
+        <description>This weed killer seems extremely potent. It could probably take down an elephant!</description>
     </item>
     <item type="floorPlan">
         <name>floor plan</name>
         <location>Living Room</location>
+        <description>A map of the entire mansion. You can open it at any time.</description>
     </item>
     <item type="journal">
-        <name>torn note 1</name>
+        <name>wet note</name>
         <location>Bathroom</location>
-        <description>...the elixir seems to grant immortality...</description>
+        <description>...the elixir seems to grant immorta...</description>
     </item>
     <item type="journal">
-        <name>torn note 2</name>
+        <name>torn note</name>
         <location>Master Bedroom</location>
         <description>...but it is having a strange effect on the test rats, they are turning gre...</description>
     </item>
     <item type="journal">
-        <name>torn note 3</name>
+        <name>crumpled note</name>
         <location>Hidden Office</location>
         <description>...Oh god, why did I drink it, what is happening to m...</description>
     </item>
