@@ -1,12 +1,11 @@
 package com.plantpocalypse.model;
 
-import com.plantpocalypse.model.items.Food;
-import com.plantpocalypse.model.items.Item;
-import com.plantpocalypse.model.items.Key;
-import com.plantpocalypse.model.items.FloorPlan;
+import com.plantpocalypse.model.items.*;
 import com.plantpocalypse.util.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
@@ -32,7 +31,11 @@ public enum Game {
         addMonstersToRooms();
         connectRooms();
         //player = new Player(mansion.get("Outside"));
-        player = new Player(outside);
+        //player = new Player(outside);
+        player = new Player(greenHouseTwo);
+        List<Item> inv = new ArrayList<Item>();
+        inv.add(weedKiller);
+        player.setInventory(inv);
     }
 
     /**
@@ -50,8 +53,10 @@ public enum Game {
         kitchen = new Room("Kitchen");
         livingRoom = new Room("Living Room");
         guestRoom = new Room("Guest Room");
+        //guestRoom.toggleMonster();
         bathroom = new Room("Bathroom");
         greenHouseOne = new Room("Green House Floor 1");
+        //greenHouseOne.toggleMonster();
         library = new Room("Library");
         library.toggleLock();
         hiddenOffice = new Room("Hidden Office");
@@ -90,7 +95,7 @@ public enum Game {
         brassKey = new Key("brass key", foyer);
         ironKey = new Key("iron key", upperHall);
         steelKey = new Key("steel key", library);
-        weedKiller = new Key("weed killer", greenHouseOne);
+        weedKiller = new WeedKiller("weed killer");
 
         floorPlan = new FloorPlan("floor plan");
 //        Item journal1 = new Journal("Journal 1");
@@ -200,7 +205,8 @@ public enum Game {
 
         masterBathroom.addItem("iron key", ironKey);
 
-        laboratory.addItem("weed killer", weedKiller);
+        //laboratory.addItem("weed killer", weedKiller);
+        outside.addItem("weed killer", weedKiller); //placing weed killer outside for faster testing
 
         livingRoom.addItem("floor plan", floorPlan);
     }
@@ -209,6 +215,7 @@ public enum Game {
         greenHouseOne.setMonster(cactus);
         guestRoom.setMonster(poisonIvy);
     }
+
 
     public boolean checkLostGame() {
         /* Change to real lose condition when possible */

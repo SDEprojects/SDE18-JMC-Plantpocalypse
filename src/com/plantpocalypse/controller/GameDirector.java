@@ -84,6 +84,9 @@ public class GameDirector {
                 Key key = (Key) item;
                 result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
             }
+            else if (itemName.contains("killer")) {
+                result += "\nYou killed all plant monsters in the mansion" ;
+            }
         }
 
         return result;

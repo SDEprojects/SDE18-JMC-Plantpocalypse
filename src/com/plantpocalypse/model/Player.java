@@ -7,9 +7,7 @@ import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Player {
     private Room currentRoom;
@@ -92,7 +90,7 @@ public class Player {
 
         if (selectedItem != null) {
             String selectedItemType = selectedItem.getClass().getSimpleName();
-
+            System.out.println(selectedItemType);
             switch (selectedItemType) {
                 case "Food" -> eat(itemName);
                 case "Key" -> {
@@ -101,6 +99,7 @@ public class Player {
                 }
                 case "Journal" -> System.out.println("You read the journal.");
                 case "FloorPlan" ->  open(itemName); //maybe delete later
+                case "WeedKiller" -> {System.out.println("weed killer case"); killMonsters(itemName);}
             }
             return true;
         }
@@ -144,6 +143,18 @@ public class Player {
                 key.getRoomKeyUnlocks().toggleLock();
                 removeItemFromInventory(key.getName());
             }
+        }
+    }
+
+    public void killMonsters(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null) {
+            HashMap<String, Room> mansion =  Game.GAME_INSTANCE.getMansion();
+            for (Room room : mansion.values()) {
+                room.setMonster(null);
+            }
+
+            removeItemFromInventory(item.getName());
         }
     }
 
@@ -231,7 +242,7 @@ public class Player {
         return inventory;
     }
 
-    public void setInventory() {
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
 

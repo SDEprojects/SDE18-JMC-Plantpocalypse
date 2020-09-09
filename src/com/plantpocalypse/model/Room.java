@@ -8,7 +8,7 @@ public class Room {
     private String name;
     private String description;
     private boolean isLocked = false;
-
+    //private boolean doesHaveMonster = false;
     // Initialized this here to use code from xml parser
     // using setNeighboringRooms seems to just overwrite it
     // with no issues
@@ -74,6 +74,14 @@ public class Room {
         this.isLocked = !isLocked;
     }
 
+//    public boolean doesHaveMonster() {
+//        return doesHaveMonster;
+//    }
+//
+//    public void toggleMonster() {
+//        this.doesHaveMonster = !doesHaveMonster;
+//    }
+
     public HashMap<String, Room> getNeighboringRooms() {
         return neighboringRooms;
     }
@@ -100,6 +108,7 @@ public class Room {
 
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
+        //doesHaveMonster = true;
     }
 
     // toString
