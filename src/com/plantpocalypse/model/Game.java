@@ -1,13 +1,12 @@
 package com.plantpocalypse.model;
 
-import com.plantpocalypse.model.items.Food;
-import com.plantpocalypse.model.items.Item;
-import com.plantpocalypse.model.items.Key;
-import com.plantpocalypse.model.items.FloorPlan;
+import com.plantpocalypse.model.items.*;
 import com.plantpocalypse.util.*;
 
+import java.util.ArrayList;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
@@ -93,7 +92,7 @@ public enum Game {
         brassKey = new Key("brass key", foyer);
         ironKey = new Key("iron key", upperHall);
         steelKey = new Key("steel key", library);
-        weedKiller = new Key("weed killer", greenHouseOne);
+        weedKiller = new WeedKiller("weed killer");
 
         floorPlan = new FloorPlan("floor plan");
 //        Item journal1 = new Journal("Journal 1");

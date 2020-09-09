@@ -9,7 +9,7 @@ public class Room implements Serializable {
     private String name;
     private String description;
     private boolean isLocked = false;
-
+    //private boolean doesHaveMonster = false;
     // Initialized this here to use code from xml parser
     // using setNeighboringRooms seems to just overwrite it
     // with no issues
@@ -101,6 +101,7 @@ public class Room implements Serializable {
 
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
+        //doesHaveMonster = true;
     }
 
     // toString
