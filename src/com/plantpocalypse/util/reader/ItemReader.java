@@ -1,10 +1,7 @@
 package com.plantpocalypse.util.reader;
 
 import com.plantpocalypse.model.Room;
-import com.plantpocalypse.model.items.FloorPlan;
-import com.plantpocalypse.model.items.Food;
-import com.plantpocalypse.model.items.Item;
-import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.model.items.*;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -22,6 +19,7 @@ public class ItemReader {
     static final String ITEM = "item";
     static final String TYPE = "type";
     static final String NAME = "name";
+    public final String DESCRIPTION = "description";
     static final String LOCATION = "location";
     static final String HEALTHRESTORED = "healthRestored";
     static final String ROOMUNLOCK = "roomUnlock";
@@ -60,6 +58,9 @@ public class ItemReader {
                                         case "food" -> item = new Food();
                                         case "key" -> item = new Key();
                                         case "floorPlan" -> item = new FloorPlan();
+                                        case "weedKiller" -> item = new WeedKiller();
+                                        case "elixir" -> item = new Elixir();
+                                        case "journal" -> item = new Journal();
                                     }
                                 }
                             }
@@ -68,7 +69,14 @@ public class ItemReader {
                             event = eventReader.nextEvent();
                             if (item != null) {
                                 item.setName(event.asCharacters().getData());
-                                item.setDescription("This is a " + item.getName());
+                            } else {
+                                System.out.println("Item value was null, check that types are correct in items.xml");
+                            }
+                        }
+                        case DESCRIPTION -> {
+                            event = eventReader.nextEvent();
+                            if (item != null) {
+                                item.setDescription(event.asCharacters().getData());
                             } else {
                                 System.out.println("Item value was null, check that types are correct in items.xml");
                             }
@@ -101,7 +109,7 @@ public class ItemReader {
                         case LOCATION -> {
                             event = eventReader.nextEvent();
                             String roomName = event.asCharacters().getData();
-                            if (rooms.containsKey(roomName) && item != null) {
+                            if (item != null && rooms.containsKey(roomName)) {
                                 rooms.get(event.asCharacters().getData()).addItem(item.getName(), item);
                             } else {
                                 System.out.println("Check items.xml for error.");

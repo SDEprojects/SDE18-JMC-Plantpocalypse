@@ -102,9 +102,9 @@ public class Player implements Serializable {
                     unlockDoor(key);
                 }
                 case "Journal" -> System.out.println("You read the journal.");
-                case "FloorPlan" ->  open(itemName); //maybe delete later
+                case "FloorPlan" ->  open(itemName);
                 case "WeedKiller" ->  killMonsters(itemName);
-                case "Elixir" -> winGame(itemName);
+                case "Elixir" -> winGame();
             }
             return true;
         }
@@ -162,15 +162,11 @@ public class Player implements Serializable {
         }
     }
 
-    public String winGame(String itemName) {
-        Item item = retrieveItemFromInventory(itemName);
-        if (item != null && getCurrentRoom().getName().equals("Hidden Office")) {
-            won = true;
-            return "WE HAVE A WINNER";
+    public void winGame() {
+        if (getCurrentRoom().getName().equals("Hidden Office")) {
+            setWon(true);
         }
-            removeItemFromInventory(item.getName());
-         return "WE DON'T HAVE A WINNER";
-        }
+    }
 
     public boolean examine(String itemName) {
         Item item = retrieveItemFromInventory(itemName);

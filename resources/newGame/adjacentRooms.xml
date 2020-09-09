@@ -46,6 +46,7 @@
         <adjacentRoom direction="northwest">Master Bedroom</adjacentRoom>
         <adjacentRoom direction="southwest">Master Bathroom</adjacentRoom>
         <adjacentRoom direction="east">Laboratory</adjacentRoom>
+        <adjacentRoom direction="down">Foyer</adjacentRoom>
     </room>
     <room name="Master Bedroom">
         <adjacentRoom direction="east">Upper Hall</adjacentRoom>

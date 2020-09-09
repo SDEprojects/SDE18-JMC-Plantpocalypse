@@ -10,7 +10,7 @@
     </room>
     <room name="Kitchen">
         <description>The Kitchen smells of rotten elderberries. You notice the food elevator door has been broken open.</description>
-        <isLocked>true</isLocked>
+        <isLocked>false</isLocked>
     </room>
     <room name="Bathroom">
         <description>The Bathroom is surprisingly clean compared to the rest of the mansion besides some research papers scattered about.</description>

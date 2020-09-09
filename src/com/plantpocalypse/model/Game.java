@@ -15,7 +15,7 @@ import java.util.List;
 public enum Game {
     GAME_INSTANCE;
 
-    private final int ALLOWED_MOVES = 20;
+    private final int ALLOWED_MOVES = 40;
 
     private Player player;
     private HashMap<String, Room> mansion;
@@ -58,23 +58,15 @@ public enum Game {
     }
 
     public boolean checkLostGame() {
-        /* Change to real lose condition when possible */
         return player.getMovesMade() >= ALLOWED_MOVES
                 || !player.isAlive();
     }
 
     public boolean checkGameOver() {
-        /* Change to real game over condition when possible */
-
-//        return player.getMovesMade() >= ALLOWED_MOVES
-//                || !player.isAlive()
-//                || !player.playerWon();
-        return player.getCurrentRoom().getName().equals("Hidden Office")
-                || player.getMovesMade() >= ALLOWED_MOVES
+        return player.getMovesMade() >= ALLOWED_MOVES
                 || !player.isAlive()
                 || player.playerWon();
     }
-
 
     public void saveGame() {
         try {
