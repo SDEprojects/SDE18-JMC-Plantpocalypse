@@ -34,4 +34,16 @@
         <name>floor plan</name>
         <location>Living Room</location>
     </item>
+    <item type="journal">
+        <name>torn note 1</name>
+        <location>Bathroom</location>
+    </item>
+    <item type="journal">
+        <name>torn note 2</name>
+        <location>Master Bedroom</location>
+    </item>
+    <item type="journal">
+        <name>torn note 3</name>
+        <location>Laboratory</location>
+    </item>
 </config>
