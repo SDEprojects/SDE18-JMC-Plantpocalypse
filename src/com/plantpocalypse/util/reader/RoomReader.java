@@ -60,6 +60,7 @@ public class RoomReader {
                                     room.toggleLock();
                                 } else {
                                     System.out.println("Room not initialized, check rooms.xml for error");
+                                    System.exit(-1);
                                 }
                             }
                         }
@@ -69,6 +70,7 @@ public class RoomReader {
                                 room.setDescription(event.asCharacters().getData());
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
                             }
                         }
                     }
@@ -81,6 +83,7 @@ public class RoomReader {
                             rooms.put(room.getName(),room);
                         } else {
                             System.out.println("Room not initialized, check rooms.xml for error");
+                            System.exit(-1);
                         }
                     }
                 }
