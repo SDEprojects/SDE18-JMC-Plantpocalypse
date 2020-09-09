@@ -164,7 +164,7 @@ public class Player implements Serializable {
 
     public String winGame(String itemName) {
         Item item = retrieveItemFromInventory(itemName);
-        if (item != null && getCurrentRoom().getName().equals("Laboratory")) {
+        if (item != null && getCurrentRoom().getName().equals("Hidden Office")) {
             won = true;
             return "WE HAVE A WINNER";
         }
@@ -252,7 +252,7 @@ public class Player implements Serializable {
         isAlive = alive;
     }
 
-    public boolean won() {
+    public boolean playerWon() {
         return won;
     }
 

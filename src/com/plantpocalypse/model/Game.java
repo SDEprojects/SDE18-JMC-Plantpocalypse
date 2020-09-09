@@ -66,12 +66,13 @@ public enum Game {
     public boolean checkGameOver() {
         /* Change to real game over condition when possible */
 
-        return player.getMovesMade() >= ALLOWED_MOVES
+//        return player.getMovesMade() >= ALLOWED_MOVES
+//                || !player.isAlive()
+//                || !player.playerWon();
+        return player.getCurrentRoom().getName().equals("Hidden Office")
+                || player.getMovesMade() >= ALLOWED_MOVES
                 || !player.isAlive()
-                || !player.won();
-//        return player.getCurrentRoom().getName().equals("Hidden Office")
-//                || player.getMovesMade() >= ALLOWED_MOVES
-//                || !player.isAlive();
+                || player.playerWon();
     }
 
 
