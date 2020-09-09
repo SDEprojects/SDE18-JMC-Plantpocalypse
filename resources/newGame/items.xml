@@ -55,4 +55,9 @@
         <location>Hidden Office</location>
         <description>...Oh god, why did I drink it, what is happening to m...</description>
     </item>
+    <item type="elixir">
+        <name>elixir</name>
+        <location>Hidden Office</location>
+        <description>A mysterious elixir that smells like Strawberry.</description>
+    </item>
 </config>

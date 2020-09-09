@@ -77,7 +77,7 @@ public class GameGUI {
 
                 displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
                 displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
-                displayMovesMade(game.getPlayer().getMovesMade());
+                displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
 
                 if (game.checkGameOver()) {
                     if (game.checkLostGame()) lost(); else won();
@@ -124,8 +124,8 @@ public class GameGUI {
      * Player has moved between rooms.
      * @param movesMade Number of moves between rooms player has made.
      */
-    public void displayMovesMade(int movesMade) {
-        movesMadeLabel.setText("Moves Made: " + movesMade);
+    public void displayMovesMade(int movesMade, int totalMoves) {
+        movesMadeLabel.setText("Moves Made: " + movesMade + "/" + totalMoves);
     }
 
     /**
@@ -145,7 +145,7 @@ public class GameGUI {
         intro();
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
-        displayMovesMade(game.getPlayer().getMovesMade());
+        displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
     }
 
     /**

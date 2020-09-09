@@ -59,7 +59,7 @@ public class ItemReader {
                                         case "key" -> item = new Key();
                                         case "floorPlan" -> item = new FloorPlan();
                                         case "weedKiller" -> item = new WeedKiller();
-//                                        case "elixir" -> item = new Elixir();
+                                        case "elixir" -> item = new Elixir();
                                         case "journal" -> item = new Journal();
                                     }
                                 }

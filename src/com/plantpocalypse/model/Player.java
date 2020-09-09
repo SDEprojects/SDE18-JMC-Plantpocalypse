@@ -21,6 +21,7 @@ public class Player implements Serializable {
     static final int MAX_HEALTH = 10;
     private int currentHealth = MAX_HEALTH;
     private boolean isAlive = true;
+    private boolean won = false;
 
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
@@ -101,8 +102,9 @@ public class Player implements Serializable {
                     unlockDoor(key);
                 }
                 case "Journal" -> System.out.println("You read the journal.");
-                case "FloorPlan" ->  open(itemName); //maybe delete later
+                case "FloorPlan" ->  open(itemName);
                 case "WeedKiller" ->  killMonsters(itemName);
+                case "Elixir" -> winGame();
             }
             return true;
         }
@@ -157,6 +159,12 @@ public class Player implements Serializable {
                 room.setMonster(null);
             }
             removeItemFromInventory(item.getName());
+        }
+    }
+
+    public void winGame() {
+        if (getCurrentRoom().getName().equals("Hidden Office")) {
+            setWon(true);
         }
     }
 
@@ -238,6 +246,14 @@ public class Player implements Serializable {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public boolean playerWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
     }
 
     public List<Item> getInventory() {

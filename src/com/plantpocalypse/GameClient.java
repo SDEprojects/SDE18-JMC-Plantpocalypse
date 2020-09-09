@@ -19,7 +19,6 @@ public class GameClient {
      */
     public static void main(String[] args) {
         try {
-//            Game.GAME_INSTANCE.loadAssets();
             new GameGUI();
 //            new GameCLI();
         }
