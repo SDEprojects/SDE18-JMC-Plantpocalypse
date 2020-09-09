@@ -18,6 +18,7 @@ import com.plantpocalypse.util.TextParser;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Scanner;
 
 public class GameCLI {
     private final Game game = Game.GAME_INSTANCE;
@@ -27,6 +28,12 @@ public class GameCLI {
      * Starting sequence for the game.
      */
     public GameCLI() {
+        int input = startMenu();
+        if (input == 1) {
+            game.loadAssets();
+        } else if (input == 2) {
+            game.loadGame();
+        }
         startGame();
     }
 
@@ -69,7 +76,6 @@ public class GameCLI {
      * Every iteration through loop Player is asked to enter input.
      */
     public void startGame() {
-        ConsoleDisplay.welcomeScreen();
         intro();
 
         while(!game.checkGameOver()) {
@@ -108,6 +114,27 @@ public class GameCLI {
         displayDialogue(Dialogue.introDialogue());
     }
 
+    /**
+     * Games start menu.
+     */
+    public int startMenu() {
+        ConsoleDisplay.welcomeScreen();
+        boolean inputValid = false;
+        int input = 1;
+        while(!inputValid) {
+            System.out.println("Enter 1 for new game");
+            System.out.println("Enter 2 for save game");
+            System.out.println("Enter 3 for new content");
+            Scanner readin = new Scanner(System.in);
+            input = Integer.parseInt(readin.nextLine());
+            if (input == 1 || input == 2 || input == 3) {
+                inputValid = true;
+            } else {
+                System.out.println("Please enter a valid input option..");
+            }
+        }
+        return input;
+    }
     /**
      * Notifies the Player that they have lost the game.
      */
