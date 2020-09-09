@@ -13,9 +13,9 @@ public class TestParsing {
         StaxAdjacentRoomParser readAdjacentRooms = new StaxAdjacentRoomParser();
         StaxItemParser readItems = new StaxItemParser();
 
-        HashMap<String, Room> rooms = readRooms.readRoomsXML("./resources/rooms.xml");
-        readAdjacentRooms.readAdjacentRoomsXML("./resources/adjacentRooms.xml",rooms);
-        readItems.readItemsXML("./resources/items.xml",rooms);
+        HashMap<String, Room> rooms = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
+        readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",rooms);
+        readItems.readItemsXML("./resources/newGame/items.xml",rooms);
         for (Map.Entry entry : rooms.entrySet()) {
             System.out.println(entry.getKey());
             System.out.println(entry.getValue());

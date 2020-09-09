@@ -8,8 +8,12 @@ import com.plantpocalypse.util.Dialogue;
 
 import java.io.IOException;
 import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private Room currentRoom;
     private List<Item> inventory;
 

@@ -1,6 +1,8 @@
 package com.plantpocalypse.model;
 
-public class PlantMonster {
+import java.io.Serializable;
+
+public class PlantMonster implements Serializable {
     private String monsterName;
     private int baseAttack = 2;
     private String monsterDescription;
