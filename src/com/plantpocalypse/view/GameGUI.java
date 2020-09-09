@@ -48,7 +48,7 @@ public class GameGUI {
         /* Set attributes for Window */
         applicationWindow.setLayout(new BorderLayout());
         applicationWindow.setTitle("Plantpocalypse");
-        applicationWindow.setSize(1000,1000);
+        applicationWindow.setSize(700,600);
         applicationWindow.add(userInputPanel, BorderLayout.SOUTH);
 
         /* Instantiate components for User Input section */
