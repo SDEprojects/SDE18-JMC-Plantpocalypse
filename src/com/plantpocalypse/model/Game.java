@@ -31,11 +31,7 @@ public enum Game {
         addMonstersToRooms();
         connectRooms();
         //player = new Player(mansion.get("Outside"));
-        //player = new Player(outside);
-        player = new Player(laboratory);
-        List<Item> inv = new ArrayList<Item>();
-        inv.add(weedKiller);
-        player.setInventory(inv);
+        player = new Player(outside);
     }
 
     /**
@@ -212,7 +208,6 @@ public enum Game {
         greenHouseOne.setMonster(cactus);
         guestRoom.setMonster(poisonIvy);
     }
-
 
     public boolean checkLostGame() {
         /* Change to real lose condition when possible */

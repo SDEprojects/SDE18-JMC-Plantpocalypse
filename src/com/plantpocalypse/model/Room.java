@@ -74,14 +74,6 @@ public class Room {
         this.isLocked = !isLocked;
     }
 
-//    public boolean doesHaveMonster() {
-//        return doesHaveMonster;
-//    }
-//
-//    public void toggleMonster() {
-//        this.doesHaveMonster = !doesHaveMonster;
-//    }
-
     public HashMap<String, Room> getNeighboringRooms() {
         return neighboringRooms;
     }
