@@ -4,9 +4,13 @@ import com.plantpocalypse.util.reader.AdjacentRoomReader;
 import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
 import com.plantpocalypse.util.reader.RoomReader;
+import com.plantpocalypse.model.items.*;
+import com.plantpocalypse.util.*;
 
+import java.util.ArrayList;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
@@ -40,9 +44,6 @@ public enum Game {
     private void loadItems() {
         ItemReader readItems = new ItemReader();
         readItems.readItemsXML("./resources/newGame/items.xml",mansion);
-
-//        Item journal1 = new Journal("Journal 1");
-//        Item tornPage = new Journal("Torn Page");
     }
 
     private void loadMonsters() {

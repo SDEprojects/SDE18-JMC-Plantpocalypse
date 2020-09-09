@@ -7,6 +7,7 @@ import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
 import java.io.IOException;
+import java.util.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -93,7 +94,6 @@ public class Player implements Serializable {
 
         if (selectedItem != null) {
             String selectedItemType = selectedItem.getClass().getSimpleName();
-
             switch (selectedItemType) {
                 case "Food" -> eat(itemName);
                 case "Key" -> {
@@ -102,6 +102,7 @@ public class Player implements Serializable {
                 }
                 case "Journal" -> System.out.println("You read the journal.");
                 case "FloorPlan" ->  open(itemName); //maybe delete later
+                case "WeedKiller" ->  killMonsters(itemName);
             }
             return true;
         }
@@ -145,6 +146,17 @@ public class Player implements Serializable {
                 key.getRoomKeyUnlocks().toggleLock();
                 removeItemFromInventory(key.getName());
             }
+        }
+    }
+
+    public void killMonsters(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if ((item != null ) && (getCurrentRoom().getName().equals("Green House Floor 2"))){
+            HashMap<String, Room> mansion =  Game.GAME_INSTANCE.getMansion();
+            for (Room room : mansion.values()) {
+                room.setMonster(null);
+            }
+            removeItemFromInventory(item.getName());
         }
     }
 
@@ -232,7 +244,7 @@ public class Player implements Serializable {
         return inventory;
     }
 
-    public void setInventory() {
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
 
