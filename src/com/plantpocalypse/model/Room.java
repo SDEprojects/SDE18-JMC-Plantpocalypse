@@ -2,9 +2,10 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Room {
+public class Room implements Serializable {
     private String name;
     private String description;
     private boolean isLocked = false;

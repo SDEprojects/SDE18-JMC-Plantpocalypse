@@ -15,6 +15,10 @@ import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class GameCLI {
     private final Game game = Game.GAME_INSTANCE;
 
@@ -73,7 +77,9 @@ public class GameCLI {
             displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
             displayMovesMade(game.getPlayer().getMovesMade());
 
+
             System.out.println(nextCommand());
+
         }
 
         if (game.checkLostGame()) lost(); else won();
@@ -137,5 +143,19 @@ public class GameCLI {
     private void showItemsAndRooms() {
         itemsInRoom();
         neighboringRooms();
+    }
+
+
+    public void saveGame() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("./resources/saveGame/00.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(game);
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in ./resources/saveGame/00.ser");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
