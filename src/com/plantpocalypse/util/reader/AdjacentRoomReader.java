@@ -1,30 +1,26 @@
-package com.plantpocalypse.util;
+package com.plantpocalypse.util.reader;
 
 import com.plantpocalypse.model.Room;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 
-public class StaxAdjacentRoomParser {
+public class AdjacentRoomReader {
     static final String ROOM = "room";
     static final String NAME = "name";
     static final String ADJACENTROOM = "adjacentRoom";
     static final String DIRECTION = "direction";
 
-    @SuppressWarnings( { "unchecked", "null"})
+    @SuppressWarnings( {"null"})
     public void readAdjacentRoomsXML(String roomsFile, HashMap<String, Room> rooms) {
         //HashMap<String, Room> adjacentRooms = new HashMap<String, Room>();
         try {
@@ -43,38 +39,41 @@ public class StaxAdjacentRoomParser {
                     StartElement startElement = event.asStartElement();
                     // if we have a room element, we create a new room
                     String elementName = startElement.getName().getLocalPart();
+                    // we read attributes from this tag and toggle
+                    // lock if isLocked is true
                     switch (elementName) {
-                        case ROOM:
-                            // we read attributes from this tag and toggle
-                            // lock if isLocked is true
+                        case ROOM -> {
                             Iterator<Attribute> attributes = startElement.getAttributes();
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
-                                if (attribute.getName().toString().equals(NAME)) {
-                                    room = rooms.get(attribute.getValue()); //  setName(attribute.getValue());
+                                String roomName = attribute.getValue();
+                                if (attribute.getName().toString().equals(NAME) && rooms.containsKey(roomName)) {
+                                    room = rooms.get(roomName); //  setName(attribute.getValue());
+                                } else {
+                                    System.out.println("Check adjacentRooms.xml for misspelled <room name='"+roomName+"'");
+                                    System.exit(-1);
                                 }
                             }
-                            break;
-                        case ADJACENTROOM:
+                        }
+                        case ADJACENTROOM -> {
                             event = eventReader.nextEvent();
                             Iterator<Attribute> attributesDirection = startElement.getAttributes();
                             while (attributesDirection.hasNext()) {
                                 Attribute attribute = attributesDirection.next();
                                 if (attribute.getName().toString().equals(DIRECTION)) {
-                                    //System.out.println(event.asCharacters().getData());
-                                    //adjacentRooms.put(attribute.getValue(),rooms.get(event.asCharacters().getData()));
-                                    room.addNeighboringRoom(attribute.getValue(), rooms.get(event.asCharacters().getData()));
+                                    // the direction attribute is used as a key, and the event is used to get the room
+                                    String roomToAdd = event.asCharacters().getData();
+                                    if (rooms.containsKey(roomToAdd)) {
+                                        room.addNeighboringRoom(attribute.getValue(), rooms.get(roomToAdd));
+                                    } else {
+                                        System.out.println("Check adjacentRooms.xml for misspelled <adjacentRoomName>" + roomToAdd);
+                                        System.exit(-1);
+                                    }
                                 }
                             }
-                            break;
+                        }
                     }
                 }
-//                if (event.isEndElement()) {
-//                    EndElement endElement = event.asEndElement();
-//                    if (endElement.getName().getLocalPart().equals(ROOM)) {
-//                        room.setNeighboringRooms(adjacentRooms);
-//                    }
-//                }
             }
         } catch (FileNotFoundException | XMLStreamException e) {
             e.printStackTrace();

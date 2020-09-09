@@ -1,14 +1,6 @@
-package com.plantpocalypse.util;
+package com.plantpocalypse.util.reader;
 
 import com.plantpocalypse.model.Room;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -17,16 +9,21 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 
-public class StaxRoomParser {
+public class RoomReader {
     static final String ROOM = "room";
     static final String NAME = "name";
     static final String ISLOCKED = "isLocked";
     static final String DESCRIPTION = "description";
 
-    @SuppressWarnings( { "unchecked", "null"})
+    @SuppressWarnings( {"null"})
     public HashMap<String, Room> readRoomsXML(String roomsFile) {
-        HashMap<String, Room> rooms = new HashMap<String, Room>();
+        HashMap<String, Room> rooms = new HashMap<>();
         try {
             // Create aa new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -43,11 +40,11 @@ public class StaxRoomParser {
                     StartElement startElement = event.asStartElement();
                     // if we have a room element, we create a new room
                     String elementName = startElement.getName().getLocalPart();
+                    // we read attributes from this tag and toggle
+                    // lock if isLocked is true
                     switch (elementName) {
-                        case ROOM:
+                        case ROOM -> {
                             room = new Room();
-                            // we read attributes from this tag and toggle
-                            // lock if isLocked is true
                             Iterator<Attribute> attributes = startElement.getAttributes();
                             while (attributes.hasNext()) {
                                 Attribute attribute = attributes.next();
@@ -55,24 +52,39 @@ public class StaxRoomParser {
                                     room.setName(attribute.getValue());
                                 }
                             }
-                            break;
-                        case ISLOCKED:
+                        }
+                        case ISLOCKED -> {
                             event = eventReader.nextEvent();
                             if (event.asCharacters().getData().equals("true")) {
-                                room.toggleLock();
+                                if (room != null) {
+                                    room.toggleLock();
+                                } else {
+                                    System.out.println("Room not initialized, check rooms.xml for error");
+                                    System.exit(-1);
+                                }
                             }
-                            break;
-                        case DESCRIPTION:
+                        }
+                        case DESCRIPTION -> {
                             event = eventReader.nextEvent();
-                            room.setDescription(event.asCharacters().getData());
-                            break;
+                            if (room != null) {
+                                room.setDescription(event.asCharacters().getData());
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
                     }
                 }
 
                 if (event.isEndElement()) {
                     EndElement endElement = event.asEndElement();
                     if (endElement.getName().getLocalPart().equals(ROOM)) {
-                        rooms.put(room.getName(),room);
+                        if (room != null) {
+                            rooms.put(room.getName(),room);
+                        } else {
+                            System.out.println("Room not initialized, check rooms.xml for error");
+                            System.exit(-1);
+                        }
                     }
                 }
             }
