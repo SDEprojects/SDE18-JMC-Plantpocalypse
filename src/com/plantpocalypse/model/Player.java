@@ -21,6 +21,7 @@ public class Player implements Serializable {
     static final int MAX_HEALTH = 10;
     private int currentHealth = MAX_HEALTH;
     private boolean isAlive = true;
+    private boolean won = false;
 
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
@@ -103,6 +104,7 @@ public class Player implements Serializable {
                 case "Journal" -> System.out.println("You read the journal.");
                 case "FloorPlan" ->  open(itemName); //maybe delete later
                 case "WeedKiller" ->  killMonsters(itemName);
+                case "Elixir" -> winGame(itemName);
             }
             return true;
         }
@@ -159,6 +161,16 @@ public class Player implements Serializable {
             removeItemFromInventory(item.getName());
         }
     }
+
+    public String winGame(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null && getCurrentRoom().getName().equals("Laboratory")) {
+            won = true;
+            return "WE HAVE A WINNER";
+        }
+            removeItemFromInventory(item.getName());
+         return "WE DON'T HAVE A WINNER";
+        }
 
     public boolean examine(String itemName) {
         Item item = retrieveItemFromInventory(itemName);
@@ -238,6 +250,14 @@ public class Player implements Serializable {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public boolean won() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
     }
 
     public List<Item> getInventory() {

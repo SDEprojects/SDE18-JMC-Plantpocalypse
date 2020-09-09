@@ -20,8 +20,8 @@ public class GameClient {
     public static void main(String[] args) {
         try {
             Game.GAME_INSTANCE.loadAssets();
-            new GameGUI();
-//            new GameCLI();
+//            new GameGUI();
+            new GameCLI();
         }
         catch (Exception e) {
             e.printStackTrace();

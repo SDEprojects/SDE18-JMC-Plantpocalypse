@@ -49,4 +49,12 @@
         <location>Hidden Office</location>
         <description>...Oh god, why did I drink it, what is happening to m...</description>
     </item>
+    <item type="food">
+        <name>elixir</name>
+        <location>Hidden Office</location>
+    </item>
+    <item type="weedKiller">
+        <name>weed killer</name>
+        <location>Laboratory</location>
+    </item>
 </config>
