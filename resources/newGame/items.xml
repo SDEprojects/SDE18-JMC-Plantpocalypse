@@ -37,13 +37,16 @@
     <item type="journal">
         <name>torn note 1</name>
         <location>Bathroom</location>
+        <description>...the elixir seems to grant immortality...</description>
     </item>
     <item type="journal">
         <name>torn note 2</name>
         <location>Master Bedroom</location>
+        <description>...but it is having a strange effect on the test rats, they are turning gre...</description>
     </item>
     <item type="journal">
         <name>torn note 3</name>
-        <location>Laboratory</location>
+        <location>Hidden Office</location>
+        <description>...Oh god, why did I drink it, what is happening to m...</description>
     </item>
 </config>
