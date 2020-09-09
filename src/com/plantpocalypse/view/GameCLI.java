@@ -144,18 +144,4 @@ public class GameCLI {
         itemsInRoom();
         neighboringRooms();
     }
-
-
-    public void saveGame() {
-        try {
-            FileOutputStream fileOut = new FileOutputStream("./resources/saveGame/00.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(game);
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in ./resources/saveGame/00.ser");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

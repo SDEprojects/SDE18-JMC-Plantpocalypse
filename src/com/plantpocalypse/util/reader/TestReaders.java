@@ -1,17 +1,19 @@
-package com.plantpocalypse.util;
+package com.plantpocalypse.util.reader;
 
 
 import com.plantpocalypse.model.Room;
+import com.plantpocalypse.util.reader.AdjacentRoomReader;
+import com.plantpocalypse.util.reader.ItemReader;
+import com.plantpocalypse.util.reader.RoomReader;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class TestParsing {
+public class TestReaders {
     public static void main(String[] args) {
-        StaxRoomParser readRooms = new StaxRoomParser();
-        StaxAdjacentRoomParser readAdjacentRooms = new StaxAdjacentRoomParser();
-        StaxItemParser readItems = new StaxItemParser();
+        RoomReader readRooms = new RoomReader();
+        AdjacentRoomReader readAdjacentRooms = new AdjacentRoomReader();
+        ItemReader readItems = new ItemReader();
 
         HashMap<String, Room> rooms = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
         readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",rooms);

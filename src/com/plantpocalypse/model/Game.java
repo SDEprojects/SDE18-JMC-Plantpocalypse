@@ -1,6 +1,9 @@
 package com.plantpocalypse.model;
 
-import com.plantpocalypse.util.*;
+import com.plantpocalypse.util.reader.AdjacentRoomReader;
+import com.plantpocalypse.util.reader.ItemReader;
+import com.plantpocalypse.util.reader.MonsterReader;
+import com.plantpocalypse.util.reader.RoomReader;
 
 import java.io.*;
 import java.util.HashMap;
@@ -30,12 +33,12 @@ public enum Game {
      * Instantiates all of the rooms in the mansion.
      */
     private void loadRooms() {
-        StaxRoomParser readRooms = new StaxRoomParser();
+        RoomReader readRooms = new RoomReader();
         mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
     }
 
     private void loadItems() {
-        StaxItemParser readItems = new StaxItemParser();
+        ItemReader readItems = new ItemReader();
         readItems.readItemsXML("./resources/newGame/items.xml",mansion);
 
 //        Item journal1 = new Journal("Journal 1");
@@ -43,12 +46,12 @@ public enum Game {
     }
 
     private void loadMonsters() {
-        StaxMonsterParser readMonsters = new StaxMonsterParser();
+        MonsterReader readMonsters = new MonsterReader();
         readMonsters.readMonstersXML("./resources/newGame/monsters.xml",mansion);
     }
 
     private void connectRooms() {
-        StaxAdjacentRoomParser readAdjacentRooms = new StaxAdjacentRoomParser();
+        AdjacentRoomReader readAdjacentRooms = new AdjacentRoomReader();
         readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",mansion);
     }
 
