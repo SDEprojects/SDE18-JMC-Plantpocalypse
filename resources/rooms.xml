@@ -45,19 +45,19 @@
         <isLocked>false</isLocked>
     </room>
     <room name="Master Bedroom">
-        <description>This is the Master Bedroom</description>
+        <description>This must have been your Uncle's bedroom. There are more research papers scattered about.</description>
         <isLocked>false</isLocked>
     </room>
     <room name="Master Bathroom">
-        <description>This is the Master Bathroom</description>
+        <description>The Master Bathroom has more papers spread about and other various objects thrown about.</description>
         <isLocked>false</isLocked>
     </room>
     <room name="Green House Floor 2">
-        <description>This is the Green House Floor 2</description>
+        <description>You can see the whole Green House from a second floor balcony. There is a huge Plant Monster that looks extremely hungry.</description>
         <isLocked>false</isLocked>
     </room>
     <room name="Laboratory">
-        <description>This is the Laboratory</description>
+        <description>The Laboratory has a lot of broken glass and random jars of chemicals and liquids of all colors.</description>
         <isLocked>false</isLocked>
     </room>
 
