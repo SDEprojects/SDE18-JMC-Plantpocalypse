@@ -29,6 +29,9 @@ public class GameGUI {
      * ActionListener for when Player presses enter in InputField.
      */
     public GameGUI() {
+        // LOAD GAME ASSETS
+        game.loadAssets();
+
         /* Instantiate Window and Containers */
         JFrame applicationWindow = new JFrame();
 
