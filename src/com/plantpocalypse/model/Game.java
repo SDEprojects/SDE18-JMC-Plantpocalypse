@@ -32,7 +32,7 @@ public enum Game {
         connectRooms();
         //player = new Player(mansion.get("Outside"));
         //player = new Player(outside);
-        player = new Player(greenHouseTwo);
+        player = new Player(laboratory);
         List<Item> inv = new ArrayList<Item>();
         inv.add(weedKiller);
         player.setInventory(inv);
@@ -53,10 +53,8 @@ public enum Game {
         kitchen = new Room("Kitchen");
         livingRoom = new Room("Living Room");
         guestRoom = new Room("Guest Room");
-        //guestRoom.toggleMonster();
         bathroom = new Room("Bathroom");
         greenHouseOne = new Room("Green House Floor 1");
-        //greenHouseOne.toggleMonster();
         library = new Room("Library");
         library.toggleLock();
         hiddenOffice = new Room("Hidden Office");
@@ -205,8 +203,7 @@ public enum Game {
 
         masterBathroom.addItem("iron key", ironKey);
 
-        //laboratory.addItem("weed killer", weedKiller);
-        outside.addItem("weed killer", weedKiller); //placing weed killer outside for faster testing
+        laboratory.addItem("weed killer", weedKiller);
 
         livingRoom.addItem("floor plan", floorPlan);
     }

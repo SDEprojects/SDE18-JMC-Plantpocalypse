@@ -83,14 +83,14 @@ public class GameDirector {
             if (itemName.contains("key")) {
                 Key key = (Key) item;
                 result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
-            }
-            else if (itemName.contains("killer")) {
-                result += "\nYou killed all plant monsters in the mansion" ;
+            } else if (itemName.contains("killer")) {
+                if (player.getCurrentRoom().getName().equals("Green House Floor 2")) {
+                    result += "\nYou killed all plant monsters in the mansion";
+                } else result = "\nWeed killer is more useful when work with plants from the right angle.";
             }
         }
-
-        return result;
-    }
+            return result;
+        }
 
     private static String open(String itemName, Player player) {
         String result = "You have nothing to open!";

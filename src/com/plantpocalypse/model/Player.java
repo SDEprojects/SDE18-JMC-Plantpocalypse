@@ -90,7 +90,6 @@ public class Player {
 
         if (selectedItem != null) {
             String selectedItemType = selectedItem.getClass().getSimpleName();
-            System.out.println(selectedItemType);
             switch (selectedItemType) {
                 case "Food" -> eat(itemName);
                 case "Key" -> {
@@ -99,7 +98,7 @@ public class Player {
                 }
                 case "Journal" -> System.out.println("You read the journal.");
                 case "FloorPlan" ->  open(itemName); //maybe delete later
-                case "WeedKiller" -> {System.out.println("weed killer case"); killMonsters(itemName);}
+                case "WeedKiller" ->  killMonsters(itemName);
             }
             return true;
         }
@@ -148,12 +147,11 @@ public class Player {
 
     public void killMonsters(String itemName) {
         Item item = retrieveItemFromInventory(itemName);
-        if (item != null) {
+        if ((item != null ) && (getCurrentRoom().getName().equals("Green House Floor 2"))){
             HashMap<String, Room> mansion =  Game.GAME_INSTANCE.getMansion();
             for (Room room : mansion.values()) {
                 room.setMonster(null);
             }
-
             removeItemFromInventory(item.getName());
         }
     }
