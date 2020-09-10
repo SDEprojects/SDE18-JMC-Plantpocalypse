@@ -15,10 +15,13 @@ import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
@@ -147,9 +150,26 @@ public class GameGUI implements ActionListener {
         else if (e.getSource() == inputField) {
             String inputString = inputField.getText();
             inputField.setText("");
+            String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
 
-            displayDialogue(GameDirector.interact(TextParser.getInputFromGUI(inputString)));
+            if(result.contains("You opened the")) {
+                try {
+                    result = "You opened the map.";
+                    BufferedImage mapImageF1 = ImageIO.read(new File("./resources/mapf1.png"));
+                    BufferedImage mapImageF2 = ImageIO.read(new File("./resources/mapf2.png"));
+                    JLabel imageLabelF1 = new JLabel(new ImageIcon(mapImageF1));
+                    JLabel imageLabelf2 = new JLabel(new ImageIcon(mapImageF2));
+                    JPanel imageHolder = new JPanel();
+                    imageHolder.add(imageLabelF1);
+                    imageHolder.add(imageLabelf2);
+                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
+                }
+                catch(Exception exc) {
+                    System.out.println("no");
+                }
+            }
 
+            displayDialogue(result);
             displayStatus();
 
             if (game.checkGameOver()) {
