@@ -1,27 +1,31 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.events.Action;
-import com.plantpocalypse.items.Food;
-import com.plantpocalypse.items.Item;
-import com.plantpocalypse.items.Key;
+import com.plantpocalypse.model.items.Food;
+import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
+import java.io.IOException;
 import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private Room currentRoom;
-    private Action currentAction;
     private List<Item> inventory;
 
     private int movesMade = 0;
     static final int MAX_HEALTH = 10;
     private int currentHealth = MAX_HEALTH;
     private boolean isAlive = true;
+    private boolean won = false;
 
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
         setCurrentRoom(startingLocation);
-        setCurrentAction(startingLocation.getAction());
         inventory = new ArrayList<Item>();
     }
 
@@ -30,21 +34,27 @@ public class Player {
      * Will put an item in the Player's inventory if it is in the Player's current room.
      * @param itemName Name of the item to be passed in as a key to a HashMap to get a Item object.
      */
-    public void pickUpItem(String itemName) {
+    public boolean pickUpItem(String itemName) {
         Item pickedUpItem = currentRoom.getItem(itemName);
-        inventory.add(pickedUpItem);
+
+        if (pickedUpItem != null) {
+            inventory.add(pickedUpItem);
+            return true;
+        }
+
+        return false;
     }
 
     public void getHurt(int attack){
-        //attack = monster.getBaseAttack();
-        int health = getCurrentHealth() - attack; // ? - baseAttack by monster
+        int health = getCurrentHealth() - attack;
+
         if (health > 0){
             setCurrentHealth(health);
         }
         else {
+            setCurrentHealth(0);
             isAlive = false;
         }
-        System.out.println("Ouch!");
     }
 
     public void getPoisoned(){
@@ -60,64 +70,75 @@ public class Player {
         System.out.println(getCurrentHealth());
     }
 
-    public void displayInventory() {
-        System.out.println("Player Inventory: ");
-        for(int i=0; i <inventory.size(); i++){
-            System.out.println((i+1) + ". " + inventory.get(i).getName() + "\n");
+    public boolean displayInventory() {
+
+        if (inventory.size() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean move(Room nextRoom) {
+        if (!nextRoom.isLocked()) {
+            currentRoom = nextRoom;
+            setMovesMade(getMovesMade() + 1);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    public void move(Room nextRoom) {
-        currentRoom = nextRoom;
-        currentAction = currentRoom.getAction();
-        currentRoom.enterRoom(this);
-    }
-
-    public void use(String itemName) {
+    public boolean use(String itemName) {
         Item selectedItem = retrieveItemFromInventory(itemName);
-        String selectedItemType = selectedItem.getClass().getSimpleName();
 
         if (selectedItem != null) {
+            String selectedItemType = selectedItem.getClass().getSimpleName();
             switch (selectedItemType) {
-                case "Food":
-                    Food food = (Food) selectedItem;
-                    eat(food);
-                    break;
-
-                case "Key":
+                case "Food" -> eat(itemName);
+                case "Key" -> {
                     Key key = (Key) selectedItem;
                     unlockDoor(key);
-                    System.out.println("You used a key");
-                    break;
-
-                case "Journal":
-                    System.out.println("You read the journal");
-                    break;
-
-                default:
-                    System.out.println("You cannot use that item, silly.");
+                }
+                case "Journal" -> System.out.println("You read the journal.");
+                case "FloorPlan" ->  open(itemName);
+                case "WeedKiller" ->  killMonsters(itemName);
+                case "Elixir" -> winGame();
             }
+            return true;
         }
+        return false;
     }
 
     /**
      * Will restore Player health for the amount of health that
      * the Food restores.
-     * @param food The Food object that the player is eating
+     * @param itemName The Food object that the player is eating
      */
-    public void eat(Food food) {
-        if (food != null) {
-            int health = getCurrentHealth() + food.getHealthRestored();
+    public boolean eat(String itemName) {
+        Item selectedItem = retrieveItemFromInventory(itemName);
 
-            if (health <= getMaxHealth()) {
-                setCurrentHealth(health);
+        if (selectedItem != null) {
+            if (selectedItem.getClass().getSimpleName().equals("Food")) {
+                Food selectedFood = (Food)selectedItem;
+
+                int health = getCurrentHealth() + selectedFood.getHealthRestored();
+
+                if (health <= getMaxHealth()) {
+                    setCurrentHealth(health);
+                } else {
+                    setCurrentHealth(getMaxHealth());
+                }
             }
             else {
-                setCurrentHealth(getMaxHealth());
+                System.out.println("You ate the " + selectedItem.getName() + ", what's wrong with you?");
             }
-            removeItemFromInventory(food.getName());
-            System.out.println("Omnomnom! Must have been organic");
+            removeItemFromInventory(selectedItem.getName());
+            return true;
         }
+
+        return false;
     }
 
     public void unlockDoor(Key key) {
@@ -126,21 +147,47 @@ public class Player {
             if (validRoom && key.getRoomKeyUnlocks().isLocked()) {
                 key.getRoomKeyUnlocks().toggleLock();
                 removeItemFromInventory(key.getName());
-                System.out.println("\nYou unlocked the " + key.getRoomKeyUnlocks().getName());
             }
         }
     }
 
-    public void examine(String itemName) {
+    public void killMonsters(String itemName) {
         Item item = retrieveItemFromInventory(itemName);
-        if (item != null) {
-            currentAction.examine(item);
-        } else {
-            System.out.println("You do not have that item!");
+        if ((item != null ) && (getCurrentRoom().getName().equals("Green House Floor 2"))){
+            HashMap<String, Room> mansion =  Game.GAME_INSTANCE.getMansion();
+            for (Room room : mansion.values()) {
+                room.setMonster(null);
+            }
+            removeItemFromInventory(item.getName());
         }
     }
 
-    private Item retrieveItemFromInventory(String itemName) {
+    public void winGame() {
+        if (getCurrentRoom().getName().equals("Hidden Office")) {
+            setWon(true);
+        }
+    }
+
+    public boolean examine(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+
+        if (item != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean open(String itemName) {
+        Item item = retrieveItemFromInventory(itemName);
+        if (item != null) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public Item retrieveItemFromInventory(String itemName) {
         Item result = null;
         Iterator<Item> iterator = inventory.iterator();
         while (iterator.hasNext()) {
@@ -173,14 +220,6 @@ public class Player {
         this.currentRoom = currentRoom;
     }
 
-    public Action getCurrentAction() {
-        return currentAction;
-    }
-
-    public void setCurrentAction(Action currentAction) {
-        this.currentAction = currentAction;
-    }
-
     public int getMovesMade() {
         return movesMade;
     }
@@ -209,11 +248,19 @@ public class Player {
         isAlive = alive;
     }
 
+    public boolean playerWon() {
+        return won;
+    }
+
+    public void setWon(boolean won) {
+        this.won = won;
+    }
+
     public List<Item> getInventory() {
         return inventory;
     }
 
-    public void setInventory() {
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
 

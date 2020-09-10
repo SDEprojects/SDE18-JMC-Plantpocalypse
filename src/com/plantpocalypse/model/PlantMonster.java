@@ -1,14 +1,14 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class PlantMonster {
+public class PlantMonster implements Serializable {
     private String monsterName;
     private int baseAttack = 2;
-    private Room roomWithMonster;
     private String monsterDescription;
 
     /* CONSTRUCTORS */
+    public PlantMonster() {}
     public PlantMonster(String monsterName){
         setMonsterName(monsterName);
     }
@@ -16,14 +16,12 @@ public class PlantMonster {
     public PlantMonster(String monsterName, int baseAttack){
         setMonsterName(monsterName);
         setBaseAttack(baseAttack);
-        //setRoomWithMonster(roomWithMonster);
     }
 
     /* BUSINESS METHODS */
    public void attackPlayer(Player player){
        if (player != null) {
            player.getHurt(getBaseAttack());
-           System.out.println("You were attacked by " + getMonsterName() + " and lost " + getBaseAttack() + " health points.");
        }
    }
 
@@ -42,14 +40,6 @@ public class PlantMonster {
 
     public void setBaseAttack(int baseAttack) {
         this.baseAttack = baseAttack;
-    }
-
-    public Room getRoomWithMonster() {
-        return roomWithMonster;
-    }
-
-    public void setRoomWithMonster(Room roomWithMonster) {
-        this.roomWithMonster = roomWithMonster;
     }
 
     public String getMonsterDescription() {

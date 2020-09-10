@@ -1,10 +1,13 @@
-package com.plantpocalypse.items;
+package com.plantpocalypse.model.items;
 
-public abstract class Item {
+import java.io.Serializable;
+
+public abstract class Item implements Serializable {
     private String name;
     private String Description;
 
     /* CONSTRUCTORS */
+    public Item() {}
     public Item(String name){
         setName(name);
         setDescription("This is a " + name);
@@ -17,6 +20,7 @@ public abstract class Item {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -28,5 +32,12 @@ public abstract class Item {
     public void setDescription(String description) {
         Description = description;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Item{" +
+//                "Description='I am an item'" + '\'' +
+//                '}';
+//    }
 }
 

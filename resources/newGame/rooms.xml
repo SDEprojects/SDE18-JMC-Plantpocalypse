@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <room name="Outside">
+        <description>The Outside of the mansion is very creepy. There is a hazy mist in the air.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Foyer">
+         <description>The size of the grand Foyer leaves you in awe. There are vines wrapped around the ceiling trickling down the stairs blocking your way up.</description>
+        <isLocked>true</isLocked>
+    </room>
+    <room name="Kitchen">
+        <description>The Kitchen smells of rotten elderberries. You notice the food elevator door has been broken open.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Bathroom">
+        <description>The Bathroom is surprisingly clean compared to the rest of the mansion besides some research papers scattered about.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Dining Room">
+         <description>The Dining Room has a giant mahogany table with a spread of what seems to be rotten fruit.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Library">
+         <description>The Library has bookshelves almost double my height. Something sticks out to me about an interesting looking book on the east side of the room.</description>
+        <isLocked>true</isLocked>
+    </room>
+    <room name="Living Room">
+        <description>The Living Room seems to be the central connecting point of the house. There seems to be some weird, green fluid on the ground near the eastern door.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Upper Hall">
+        <description>The Upper Hall is a wreck. There are holes in the ceiling, the sun is shining through and hits your face almost peacefully though.</description>
+        <isLocked>true</isLocked>
+    </room>
+    <room name="Guest Room">
+        <description>It almost seems like the Guest Room has it's own ecosystem developing inside of it.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Green House Floor 1">
+        <description>Wow! The mansion has an entire Green House filled with many exotic looking plants. Some of the trees are taller than the second floor balcony!</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Hidden Office">
+        <description>There is a Desk in the middle of the room with a potted fern next to it. There seems to be some type of beaker with a neon green liquid on the desk.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Master Bedroom">
+        <description>This must have been your Uncle's bedroom. There are more research papers scattered about.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Master Bathroom">
+        <description>The Master Bathroom has more papers spread about and other various objects thrown about.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Green House Floor 2">
+        <description>You can see the whole Green House from a second floor balcony. There is a huge Plant Monster that looks extremely hungry.</description>
+        <isLocked>false</isLocked>
+    </room>
+    <room name="Laboratory">
+        <description>The Laboratory has a lot of broken glass and random jars of chemicals and liquids of all colors.</description>
+        <isLocked>false</isLocked>
+    </room>
+
+</config>

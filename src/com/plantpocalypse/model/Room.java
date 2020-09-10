@@ -1,30 +1,34 @@
-package com.plantpocalypse;
+package com.plantpocalypse.model;
 
-import com.plantpocalypse.events.Action;
-import com.plantpocalypse.items.Item;
+import com.plantpocalypse.model.items.Item;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Room {
+public class Room implements Serializable {
     private String name;
     private String description;
     private boolean isLocked = false;
-
-    private Action action;
-    private HashMap<String, Room> neighboringRooms;
+    //private boolean doesHaveMonster = false;
+    // Initialized this here to use code from xml parser
+    // using setNeighboringRooms seems to just overwrite it
+    // with no issues
+    private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
+    private PlantMonster monster;
 
     /* CONSTRUCTORS */
-    public Room(String name, Action action) {
+    public Room() {
+
+    };
+    public Room(String name) {
         setName(name);
         setDescription("This is the " + name);
-        setAction(action);
     }
 
     // Might use later, for now just calling setNeighboringRooms in Game.
-    public Room(String name, HashMap<String, Room> neighboringRooms, Action action) {
+    public Room(String name, HashMap<String, Room> neighboringRooms) {
         setName(name);
-        setAction(action);
         setDescription("This is the " + name);
         setNeighboringRooms(neighboringRooms);
     }
@@ -38,10 +42,6 @@ public class Room {
         Item pickedUpItem = items.get(itemName);
         items.remove(itemName);
         return pickedUpItem;
-    }
-
-    public void enterRoom(Player player) {
-        action.entryEvent(player,this);
     }
 
     public void displayItems() {
@@ -75,14 +75,6 @@ public class Room {
         this.isLocked = !isLocked;
     }
 
-    public Action getAction() {
-        return action;
-    }
-
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
     public HashMap<String, Room> getNeighboringRooms() {
         return neighboringRooms;
     }
@@ -91,11 +83,35 @@ public class Room {
         this.neighboringRooms = neighboringRooms;
     }
 
+    public void addNeighboringRoom(String direction, Room room) {
+        this.neighboringRooms.put(direction, room);
+    }
+
     public HashMap<String, Item> getItems() {
         return this.items;
     }
 
     public void setItems(HashMap<String, Item> items) {
         this.items = items;
+    }
+
+    public PlantMonster getMonster() {
+        return monster;
+    }
+
+    public void setMonster(PlantMonster monster) {
+        this.monster = monster;
+        //doesHaveMonster = true;
+    }
+
+    // toString
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isLocked=" + isLocked + '\'' +
+                '}';
     }
 }

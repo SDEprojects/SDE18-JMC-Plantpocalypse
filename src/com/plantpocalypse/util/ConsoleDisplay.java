@@ -1,6 +1,6 @@
 package com.plantpocalypse.util;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -42,12 +42,28 @@ public class ConsoleDisplay {
     public static void welcomeScreen() {
         //clearConsole();
         String output = getAsciiArt("banner.txt");
-
         slowPrint(output,output.length());
         System.out.println("      Press Enter to Continue...");
         String enter = getUserString();
         //clearConsole();
     }
+
+    public static String printFloorPlan(){
+        String data = "";
+        try {
+            File bluePrint = new File("resources/floorPlan.txt");
+            Scanner reader = new Scanner(bluePrint);
+            while (reader.hasNextLine()) {
+                data += reader.nextLine() + "\n";
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return data;
+    }
+
 
     private static void slowPrint(String output, int length) {
         for (int i = 0; i < length; i++) {
@@ -66,3 +82,4 @@ public class ConsoleDisplay {
         return input;
     }
 }
+

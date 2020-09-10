@@ -1,11 +1,12 @@
-package com.plantpocalypse.items;
+package com.plantpocalypse.model.items;
 
-import com.plantpocalypse.Room;
+import com.plantpocalypse.model.Room;
 
 public class Key extends Item {
     private Room roomKeyUnlocks;
 
     /* CONSTRUCTORS */
+    public Key() {}
     public Key(String name, Room roomKeyUnlocks){
         super(name);
         setRoomKeyUnlocks(roomKeyUnlocks);

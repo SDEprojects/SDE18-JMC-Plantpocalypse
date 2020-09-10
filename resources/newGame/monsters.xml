@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <monster>
+        <name>Cactus</name>
+        <baseAttack>10</baseAttack>
+        <location>Green House Floor 1</location>
+    </monster>
+    <monster>
+        <name>Poison Ivy</name>
+        <baseAttack>2</baseAttack>
+        <location>Guest Room</location>
+    </monster>
+</config>
