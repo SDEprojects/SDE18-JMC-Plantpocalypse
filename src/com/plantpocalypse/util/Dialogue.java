@@ -6,18 +6,18 @@ public class Dialogue {
 
     public static String helpDialogue() {
 
-        System.out.println("Valid commands and directions: \n");
-        System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
-        System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
-        System.out.printf("\t%-40s \t%-40s\n", "GET [ITEM NAME]", "NORTHEAST");
-        System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
-        System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
-        System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
-        System.out.printf("\t%-40s \t%-40s\n", "OPEN [ITEM NAME]", "SOUTHWEST");
-        System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
-        System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
-        System.out.printf("\t%-40s \t%-40s\n", "", "UP");
-        System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
+//        System.out.println("Valid commands and directions: \n");
+//        System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
+//        System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
+//        System.out.printf("\t%-40s \t%-40s\n", "GET [ITEM NAME]", "NORTHEAST");
+//        System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
+//        System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
+//        System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
+//        System.out.printf("\t%-40s \t%-40s\n", "OPEN [ITEM NAME]", "SOUTHWEST");
+//        System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
+//        System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
+//        System.out.printf("\t%-40s \t%-40s\n", "", "UP");
+//        System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
 
         return "Valid commands and directions: \n" +
                 "\n" +
@@ -31,7 +31,35 @@ public class Dialogue {
                 "\t                                         \tWEST                                    \n" +
                 "\t                                         \tNORTHWEST                               \n" +
                 "\t                                         \tUP                                      \n" +
-                "\t                                         \tDOWN ";
+                "\t                                         \tDOWN                                    \n" +
+                "Objective: Traverse throughout the mansion finding keys and journal entries to help you find what happened to your uncle!";
+    }
+
+    public static String helpDialogueGUI() {
+        return "Valid commands and directions: \n" +
+                "\n" +
+                "=== AVAILABLE VERBS ===\n" +
+                "GO [DIRECTION]\n" +
+                "GET [ITEM NAME]\n" +
+                "USE [ITEM NAME]\n" +
+                "EAT [ITEM NAME]\n" +
+                "EXAMINE [ITEM NAME]\n" +
+                "OPEN [ITEM NAME]\n" +
+                "\n" +
+                "=== AVAILABLE DIRECTIONS ===\n" +
+                "NORTH\n" +
+                "NORTHEAST\n" +
+                "EAST\n" +
+                "SOUTHEAST\n" +
+                "SOUTH\n" +
+                "SOUTHWEST\n" +
+                "WEST\n" +
+                "NORTHWEST\n" +
+                "UP\n" +
+                "DOWN\n" +
+                "\n" +
+                "Objective: Traverse throughout the mansion finding keys and journal entries to help you find what happened to your uncle!\n";
+
     }
 
     public static String titleScreenDialogue() {

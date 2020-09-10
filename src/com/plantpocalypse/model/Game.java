@@ -80,7 +80,6 @@ public enum Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.exit(0);
     }
 
     public void loadGame() {

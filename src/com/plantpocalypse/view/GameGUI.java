@@ -11,17 +11,31 @@ package com.plantpocalypse.view;
 
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.controller.GameDirector;
+import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GameGUI {
+public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
-    private final JLabel currentRoomLabel, currentHealthLabel, movesMadeLabel;
+    private final JFrame gameFrame;
+    private final JPanel userInputPanel;
+    private final JPanel[][] panelHolderInput;
+    private final JScrollPane scrollPane;
+
+    private final JButton newGameButton, loadGameButton;
+    private final JLabel inputFieldLabel, currentRoomLabel, currentHealthLabel, movesMadeLabel;
     private final JTextArea dialogueText;
+    private final JTextField inputField;
+
+    private final JMenu menu;
+    private final JMenuItem newGame, save, load, help, about, quit;
+    private final JMenuBar menuBar;
 
     /**
      * CTOR for the GUI.
@@ -29,18 +43,43 @@ public class GameGUI {
      * ActionListener for when Player presses enter in InputField.
      */
     public GameGUI() {
-        // LOAD GAME ASSETS
-        game.loadAssets();
-
         /* Instantiate Window and Containers */
-        JFrame applicationWindow = new JFrame();
+        gameFrame = new JFrame();
+
+        /* Instantiate Menu Components */
+        menu = new JMenu("Menu");
+        newGame = new JMenuItem("New Game");
+        newGame.addActionListener(this);
+        save = new JMenuItem("Save");
+        save.addActionListener(this);
+        load = new JMenuItem("Load");
+        load.addActionListener(this);
+        help = new JMenuItem("Help");
+        help.addActionListener(this);
+        about = new JMenuItem("About");
+        about.addActionListener(this);
+        quit = new JMenuItem("Quit");
+        quit.addActionListener(this);
+        menuBar = new JMenuBar();
+        menu.add(newGame);
+        menu.add(save);
+        menu.add(load);
+        menu.add(help);
+        menu.add(about);
+        menu.add(quit);
+        menuBar.add(menu);
+        gameFrame.setJMenuBar(menuBar);
+
+        newGameButton = new JButton("New Game");
+        newGameButton.addActionListener(this);
+        loadGameButton = new JButton("Load Game");
+        loadGameButton.addActionListener(this);
 
         /* Create JPanel placeholder so component can be put in specific Grid cell */
         int rows = 2;
         int cols = 3;
-        JPanel userInputPanel = new JPanel(new GridLayout(rows, cols));
-        JPanel[][] panelHolderInput = new JPanel[rows][cols];
-
+        userInputPanel = new JPanel(new GridLayout(rows, cols));
+        panelHolderInput = new JPanel[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 panelHolderInput[i][j] = new JPanel();
@@ -49,14 +88,14 @@ public class GameGUI {
         }
 
         /* Set attributes for Window */
-        applicationWindow.setLayout(new BorderLayout());
-        applicationWindow.setTitle("Plantpocalypse");
-        applicationWindow.setSize(700,600);
-        applicationWindow.add(userInputPanel, BorderLayout.SOUTH);
+        gameFrame.setLayout(new BorderLayout());
+        gameFrame.setTitle("Plantpocalypse");
+        gameFrame.setSize(800,600);
+        gameFrame.add(userInputPanel, BorderLayout.SOUTH);
 
         /* Instantiate components for User Input section */
-        JLabel inputFieldLabel = new JLabel("Enter command: ");
-        JTextField inputField = new JTextField(16);
+        inputFieldLabel = new JLabel("Enter command: ");
+        inputField = new JTextField(16);
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
@@ -64,27 +103,12 @@ public class GameGUI {
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
         dialogueText.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(dialogueText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        applicationWindow.add(scrollPane);
+        scrollPane = new JScrollPane(dialogueText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setAutoscrolls(true);
+        gameFrame.add(scrollPane);
 
         /* Event listener for when Player press enter in the input field */
-        inputField.addActionListener(e -> {
-            if (!Game.GAME_INSTANCE.checkGameOver()) {
-                String inputString = inputField.getText();
-                inputField.setText("");
-
-                displayDialogue(GameDirector.interact(TextParser.getInputFromGUI(inputString)));
-
-                displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
-                displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
-                displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
-
-                if (game.checkGameOver()) {
-                    if (game.checkLostGame()) lost(); else won();
-                    gameOver();
-                }
-            }
-        });
+        inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
         panelHolderInput[0][0].add(currentRoomLabel);
@@ -94,11 +118,45 @@ public class GameGUI {
         panelHolderInput[1][1].add(inputField);
 
         /* Attributes to set after all components added to Window */
-        applicationWindow.setDefaultCloseOperation(applicationWindow.EXIT_ON_CLOSE);
-        applicationWindow.setVisible(true);
+        gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+        gameFrame.setVisible(true);
 
-        /* Initial loading of Gama data to UI elements */
-        startGame();
+        dialogueText.setText("Select Menu > New Game to start a new game.\nSelect Menu > Load Game to load a save game.");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == newGame || e.getSource() == newGameButton) {
+            startGame();
+        }
+        else if (e.getSource() == save) {
+            game.saveGame();
+        }
+        else if (e.getSource() == load || e.getSource() == loadGameButton) {
+            loadSavedGame();
+        }
+        else if (e.getSource() == help) {
+            help();
+        }
+        else if (e.getSource() == about) {
+            about();
+        }
+        else if (e.getSource() == quit) {
+            System.exit(0);
+        }
+        else if (e.getSource() == inputField) {
+            String inputString = inputField.getText();
+            inputField.setText("");
+
+            displayDialogue(GameDirector.interact(TextParser.getInputFromGUI(inputString)));
+
+            displayStatus();
+
+            if (game.checkGameOver()) {
+                if (game.checkLostGame()) lost(); else won();
+                gameOver();
+            }
+        }
     }
 
     /**
@@ -136,16 +194,40 @@ public class GameGUI {
         dialogueText.append(dialogue + "\n");
     }
 
+    public void displayStatus() {
+        displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
+        displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
+        displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
+    }
+
     /**
      * Calls methods to display beginning of story and game data to
      * the GUI.
      */
     public void startGame() {
+        dialogueText.setText("");
+        game.loadAssets();
         title();
         intro();
-        displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
-        displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
-        displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
+        displayStatus();
+        scrollPane.setVisible(true);
+        userInputPanel.setVisible(true);
+    }
+
+    public void loadSavedGame() {
+        dialogueText.setText("");
+        game.loadGame();
+        displayStatus();
+        scrollPane.setVisible(true);
+        userInputPanel.setVisible(true);
+    }
+
+    public void about() {
+        JOptionPane.showMessageDialog(gameFrame, "Plantpocalypse\nMade by Hunter Clark | Jeffrey Haywood | Maya Marks");
+    }
+
+    public void help() {
+        JOptionPane.showMessageDialog(gameFrame, Dialogue.helpDialogueGUI());
     }
 
     /**
@@ -181,6 +263,7 @@ public class GameGUI {
      */
     public void gameOver() {
         displayDialogue(Dialogue.endingDialogue());
+        userInputPanel.setVisible(false);
     }
 
 }
