@@ -156,11 +156,19 @@ public class GameGUI implements ActionListener {
                 try {
                     result = "You opened the map.";
                     BufferedImage mapImageF1 = ImageIO.read(new File("./resources/mapf1.png"));
-                    BufferedImage mapImageF2 = ImageIO.read(new File("./resources/mapf2.png"));
                     JLabel imageLabelF1 = new JLabel(new ImageIcon(mapImageF1));
-                    JLabel imageLabelf2 = new JLabel(new ImageIcon(mapImageF2));
                     JPanel imageHolder = new JPanel();
                     imageHolder.add(imageLabelF1);
+                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
+                }
+                catch(Exception exc) {
+                    System.out.println("no");
+                }
+                try {
+                    result = "You opened the map.";
+                    BufferedImage mapImageF2 = ImageIO.read(new File("./resources/mapf2.png"));
+                    JLabel imageLabelf2 = new JLabel(new ImageIcon(mapImageF2));
+                    JPanel imageHolder = new JPanel();
                     imageHolder.add(imageLabelf2);
                     JOptionPane.showMessageDialog(gameFrame, imageHolder);
                 }
