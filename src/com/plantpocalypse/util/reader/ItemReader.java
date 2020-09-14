@@ -61,6 +61,8 @@ public class ItemReader {
                                         case "weedKiller" -> item = new WeedKiller();
                                         case "elixir" -> item = new Elixir();
                                         case "journal" -> item = new Journal();
+//                                        case "groundsKeeper" -> item = new GroundsKeeper();
+
                                     }
                                 }
                             }
