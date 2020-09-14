@@ -3,17 +3,17 @@ package com.plantpocalypse.model;
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
-import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
+import com.plantpocalypse.util.reader.NpcReader;
 
-import java.io.IOException;
-import java.util.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class Player implements Serializable {
+    public NpcReader talk;
     private Room currentRoom;
     private List<Item> inventory;
 
@@ -22,6 +22,7 @@ public class Player implements Serializable {
     private int currentHealth = MAX_HEALTH;
     private boolean isAlive = true;
     private boolean won = false;
+
 
     /* CONSTRUCTORS */
     public Player(Room startingLocation) {
@@ -97,6 +98,7 @@ public class Player implements Serializable {
             String selectedItemType = selectedItem.getClass().getSimpleName();
             switch (selectedItemType) {
                 case "Food" -> eat(itemName);
+                case "GroundsKeeper" -> System.out.println("How may I be of service?");
                 case "Key" -> {
                     Key key = (Key) selectedItem;
                     unlockDoor(key);
@@ -186,7 +188,6 @@ public class Player implements Serializable {
         return false;
     }
 
-
     public Item retrieveItemFromInventory(String itemName) {
         Item result = null;
         Iterator<Item> iterator = inventory.iterator();
@@ -212,6 +213,7 @@ public class Player implements Serializable {
     }
 
     /* GETTERS AND SETTERS */
+
     public Room getCurrentRoom() {
         return currentRoom;
     }
@@ -264,4 +266,12 @@ public class Player implements Serializable {
         this.inventory = inventory;
     }
 
+
+    public String talk(String NPCname) {
+        String  result = "default";
+        result = getCurrentRoom().getCharacter().respond();
+
+
+        return result;
+    }
 }
