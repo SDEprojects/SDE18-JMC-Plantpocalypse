@@ -16,6 +16,7 @@ public class Room implements Serializable {
     private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
+    private String path;
 
     /* CONSTRUCTORS */
     public Room() {
@@ -102,6 +103,12 @@ public class Room implements Serializable {
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
         //doesHaveMonster = true;
+    }
+
+    public String getPath() { return path; }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     // toString

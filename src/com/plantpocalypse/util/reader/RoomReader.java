@@ -20,6 +20,7 @@ public class RoomReader {
     static final String NAME = "name";
     static final String ISLOCKED = "isLocked";
     static final String DESCRIPTION = "description";
+    static final String PATH = "path";
 
     @SuppressWarnings( {"null"})
     public HashMap<String, Room> readRoomsXML(String roomsFile) {
@@ -68,6 +69,15 @@ public class RoomReader {
                             event = eventReader.nextEvent();
                             if (room != null) {
                                 room.setDescription(event.asCharacters().getData());
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
+                        case PATH -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setPath(event.asCharacters().getData());
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");
                                 System.exit(-1);
