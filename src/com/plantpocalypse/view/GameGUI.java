@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Map;
 
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
@@ -156,15 +157,19 @@ public class GameGUI implements ActionListener {
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
 
             if(result.contains("You opened the")) {
+                // Gets current room name and returns it in snake case
+                String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
+                String pathName = "./resources/map_" + parsedRoom + ".png";
                 try {
                     result = "You opened the map.";
-                    // Gets current room name and returns it in snake case
-                    String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
-                    BufferedImage mapImage = ImageIO.read(new File("./resources/map_" + parsedRoom + ".png"));
+                    BufferedImage mapImage = ImageIO.read(new File(pathName));
                     JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
                     JPanel imageHolder = new JPanel();
                     imageHolder.add(imageLabel);
                     JOptionPane.showMessageDialog(gameFrame, imageHolder);
+                }
+                catch (MapFileNotFoundException exc) {
+                    System.err.println("Map file not found in " + pathName);
                 }
                 catch(Exception exc) {
                     System.out.println("no");

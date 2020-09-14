@@ -40,8 +40,8 @@ public class TextParser {
         }
     }
 
-    public static String parseRoomName(String name) {
-        String result = name.toLowerCase().strip();
+    public static String parseRoomName(String roomName) {
+        String result = roomName.toLowerCase().strip();
         List<String> temp = new ArrayList<String>(Arrays.asList(result.split("\\s+")));
         result = String.join("_",temp);
 
