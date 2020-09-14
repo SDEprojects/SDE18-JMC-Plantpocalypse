@@ -1,7 +1,5 @@
 package com.plantpocalypse.util;
 
-import com.plantpocalypse.model.Game;
-
 public class Dialogue {
 
     public static String helpDialogue() {
@@ -28,7 +26,7 @@ public class Dialogue {
                 "\tEAT [ITEM NAME]                          \tSOUTHEAST                               \n" +
                 "\tEXAMINE [ITEM NAME]                      \tSOUTH                                   \n" +
                 "\tOPEN [ITEM NAME]                         \tSOUTHWEST                               \n" +
-                "\t                                         \tWEST                                    \n" +
+                "\tTALK [ITEM NAME]                         \tWEST                                    \n" +
                 "\t                                         \tNORTHWEST                               \n" +
                 "\t                                         \tUP                                      \n" +
                 "\t                                         \tDOWN                                    \n" +
@@ -45,6 +43,7 @@ public class Dialogue {
                 "EAT [ITEM NAME]\n" +
                 "EXAMINE [ITEM NAME]\n" +
                 "OPEN [ITEM NAME]\n" +
+                "TALK [ITEM NAME]\n" +
                 "\n" +
                 "=== AVAILABLE DIRECTIONS ===\n" +
                 "NORTH\n" +
@@ -95,6 +94,7 @@ public class Dialogue {
     public static String winningDialogue() {
         return "\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.";
     }
+
 
 //    public static void printMap() {
 //        System.out.println("\nfloor plan goes here");

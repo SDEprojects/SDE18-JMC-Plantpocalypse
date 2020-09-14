@@ -1,6 +1,7 @@
 package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
+import com.plantpocalypse.model.items.NPC;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -17,6 +18,16 @@ public class Room implements Serializable {
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
     private String path;
+    private NPC character;
+
+    public NPC getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(String name) {
+        this.character = new NPC(name);
+    }
+
 
     /* CONSTRUCTORS */
     public Room() {

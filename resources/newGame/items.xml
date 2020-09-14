@@ -3,12 +3,6 @@
     <item type="food">
         <name>rambutan</name>
         <healthRestored>1</healthRestored>
-        <location>Outside</location>
-        <description>A yummy looking rambutan. Perhaps it restores health?</description>
-    </item>
-    <item type="food">
-        <name>rambutan</name>
-        <healthRestored>1</healthRestored>
         <location>Dining Room</location>
         <description>A yummy looking rambutan. Perhaps it restores health?</description>
     </item>
@@ -60,4 +54,5 @@
         <location>Hidden Office</location>
         <description>A mysterious elixir that smells like Strawberry.</description>
     </item>
+
 </config>

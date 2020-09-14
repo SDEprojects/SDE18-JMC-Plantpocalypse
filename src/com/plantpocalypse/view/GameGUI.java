@@ -9,9 +9,8 @@
  */
 package com.plantpocalypse.view;
 
-import com.plantpocalypse.model.Game;
 import com.plantpocalypse.controller.GameDirector;
-import com.plantpocalypse.util.ConsoleDisplay;
+import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
@@ -248,9 +247,9 @@ public class GameGUI implements ActionListener {
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
     }
-
+//    add more details in the about section
     public void about() {
-        JOptionPane.showMessageDialog(gameFrame, "Plantpocalypse\nMade by Hunter Clark | Jeffrey Haywood | Maya Marks");
+        JOptionPane.showMessageDialog(gameFrame, "Plantpocalypse A maze mystery game set to test your detective skills. Solve the mystery behind what happen to your Uncle. \nMade by Hunter Clark | Jeffrey Haywood | Maya Marks");
     }
 
     public void help() {

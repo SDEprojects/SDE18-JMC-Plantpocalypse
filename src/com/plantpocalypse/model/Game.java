@@ -4,13 +4,9 @@ import com.plantpocalypse.util.reader.AdjacentRoomReader;
 import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
 import com.plantpocalypse.util.reader.RoomReader;
-import com.plantpocalypse.model.items.*;
-import com.plantpocalypse.util.*;
 
-import java.util.ArrayList;
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 
 public enum Game {
     GAME_INSTANCE;
@@ -56,6 +52,7 @@ public enum Game {
         AdjacentRoomReader readAdjacentRooms = new AdjacentRoomReader();
         readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",mansion);
     }
+
 
     public boolean checkLostGame() {
         return player.getMovesMade() >= ALLOWED_MOVES
