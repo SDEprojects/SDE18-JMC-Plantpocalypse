@@ -19,8 +19,10 @@ public class TextParser {
 
     private static List<String> parseInput(String input) {
         input = input.toLowerCase().strip();
+        // Splits on multiple whitespace characters
         List<String> cmd = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 
+        // Joins last two words of three word command to send a list of two strings total to checkValidInput(cmd)
         if (cmd.size() == 3) {
             String word1 = cmd.get(1);
             String word2 = cmd.get(2);
@@ -36,6 +38,14 @@ public class TextParser {
         } else {
             return null;
         }
+    }
+
+    public static String parseRoomName(String name) {
+        String result = name.toLowerCase().strip();
+        List<String> temp = new ArrayList<String>(Arrays.asList(result.split("\\s+")));
+        result = String.join("_",temp);
+
+        return result;
     }
 
     private static boolean checkValidInput(List<String> input) {
