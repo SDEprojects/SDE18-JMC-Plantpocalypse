@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class GameGUI implements ActionListener {
@@ -28,7 +29,8 @@ public class GameGUI implements ActionListener {
 
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
-    private final JPanel testPanel;
+    private final JPanel HUD_CONTAINER;
+    private final JPanel HUD;
 //    private final JPanel[][] testPanelHolderInput;
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
@@ -110,8 +112,10 @@ public class GameGUI implements ActionListener {
         gameFrame.setTitle("Plantpocalypse");
         gameFrame.setSize(800,600);
 //        gameFrame.add(testPanel, BorderLayout.WEST);
-        testPanel = new JPanel(new BorderLayout());
-        gameFrame.add(testPanel, BorderLayout.WEST);
+        HUD_CONTAINER = new JPanel(new BorderLayout());
+        HUD = new JPanel(new BorderLayout());
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
 
         /* Instantiate components for User Input section */
@@ -147,12 +151,13 @@ public class GameGUI implements ActionListener {
 //        }
         try {
 //            testPanel.setMaximumSize(new Dimension(200,200));
-            testPanel.setPreferredSize(new Dimension(600,375));
+            HUD.setPreferredSize(new Dimension(600,375));
 //            testPanel.setMinimumSize(new Dimension(200,200));
             BufferedImage mapImage = ImageIO.read(new File("./resources/map_living_room.png"));
-            Image map = mapImage.getScaledInstance(testPanel.getPreferredSize().width, testPanel.getPreferredSize().height, Image.SCALE_SMOOTH);
+            Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
             JLabel imageLabel = new JLabel(new ImageIcon(map));
-            testPanel.add(imageLabel);
+//            imageLabel.setBounds(0,0,testPanel.getPreferredSize().width, testPanel.getPreferredSize().height);
+            HUD.add(imageLabel);
         }
         catch (Exception e) {
 
@@ -235,6 +240,21 @@ public class GameGUI implements ActionListener {
         }
     }
 
+    public void displayCurrentRoomMap(String roomName){
+        String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
+        String pathName = "./resources/map_" + parsedRoom + ".png";
+        HUD.remove(HUD.getComponent(0));
+
+        try {
+            BufferedImage mapImage = ImageIO.read(new File(pathName));
+            Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(map));
+            HUD.add(imageLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Changes the text on the currentRoomLabel to Player's current room.
      * @param currentRoom The current room the Player is in.
@@ -274,6 +294,7 @@ public class GameGUI implements ActionListener {
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
+        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getPath());
     }
 
     /**
@@ -288,7 +309,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
-        testPanel.setVisible(true);
+        HUD_CONTAINER.setVisible(true);
     }
 
     public void loadSavedGame() {
