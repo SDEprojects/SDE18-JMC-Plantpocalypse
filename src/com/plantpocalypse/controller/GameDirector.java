@@ -21,7 +21,7 @@ public class GameDirector {
             String command = input.get(0);
             String argument = input.size() == 2 ? input.get(1) : null;
             Player player = Game.GAME_INSTANCE.getPlayer();
-            System.out.println(command);
+
             switch (command) {
                 case "go" -> result = go(argument, player);
                 case "eat" -> result = eat(argument, player);
@@ -34,7 +34,6 @@ public class GameDirector {
                 case "quit" -> quit();
                 case "open" -> result = open(argument, player);
                 case "save" -> Game.GAME_INSTANCE.saveGame();
-                default -> result = "Not a valid command. Type help if you need a list of possible commands";
             }
         }
 

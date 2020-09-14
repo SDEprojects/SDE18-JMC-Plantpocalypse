@@ -9,6 +9,8 @@ package com.plantpocalypse;
 
 import com.plantpocalypse.view.GameGUI;
 
+import javax.swing.*;
+
 public class GameClient {
     /**
      * This is the entry point for the game.
@@ -17,6 +19,7 @@ public class GameClient {
      */
     public static void main(String[] args) {
         try {
+            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
             new GameGUI();
 //            new GameCLI();
         }

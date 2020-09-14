@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class RoomReader {
-    static final String ROOM = "room";
+//    static final String ROOM = "room";
     static final String NAME = "name";
     static final String ISLOCKED = "isLocked";
     static final String DESCRIPTION = "description";
@@ -43,7 +43,7 @@ public class RoomReader {
                     // we read attributes from this tag and toggle
                     // lock if isLocked is true
                     switch (elementName) {
-                        case ROOM -> {
+                        case "room" -> {
                             room = new Room();
                             Iterator<Attribute> attributes = startElement.getAttributes();
                             while (attributes.hasNext()) {
@@ -78,7 +78,7 @@ public class RoomReader {
 
                 if (event.isEndElement()) {
                     EndElement endElement = event.asEndElement();
-                    if (endElement.getName().getLocalPart().equals(ROOM)) {
+                    if (endElement.getName().getLocalPart().equals("room")) {
                         if (room != null) {
                             rooms.put(room.getName(),room);
                         } else {

@@ -177,6 +177,8 @@ public class GameGUI implements ActionListener {
                 }
             }
 
+            if(result == null || result == "")
+                result = "Not a valid command. Type help if you need a list of possible commands";
             displayDialogue(result);
             displayStatus();
 
