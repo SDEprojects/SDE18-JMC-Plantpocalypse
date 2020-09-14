@@ -7,8 +7,6 @@
  */
 package com.plantpocalypse;
 
-import com.plantpocalypse.model.Game;
-import com.plantpocalypse.view.GameCLI;
 import com.plantpocalypse.view.GameGUI;
 
 public class GameClient {

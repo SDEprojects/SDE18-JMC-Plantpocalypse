@@ -1,14 +1,13 @@
 package com.plantpocalypse.controller;
 
 import com.plantpocalypse.model.Game;
+import com.plantpocalypse.model.Player;
+import com.plantpocalypse.model.Room;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
-import com.plantpocalypse.model.Player;
-import com.plantpocalypse.model.Room;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class GameDirector {
             String command = input.get(0);
             String argument = input.size() == 2 ? input.get(1) : null;
             Player player = Game.GAME_INSTANCE.getPlayer();
-
+            System.out.println(command);
             switch (command) {
                 case "go" -> result = go(argument, player);
                 case "eat" -> result = eat(argument, player);
@@ -35,6 +34,7 @@ public class GameDirector {
                 case "quit" -> quit();
                 case "open" -> result = open(argument, player);
                 case "save" -> Game.GAME_INSTANCE.saveGame();
+                default -> result = "Not a valid command. Type help if you need a list of possible commands";
             }
         }
 

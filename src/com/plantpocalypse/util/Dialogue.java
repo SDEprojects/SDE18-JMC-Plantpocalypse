@@ -1,37 +1,21 @@
 package com.plantpocalypse.util;
 
-import com.plantpocalypse.model.Game;
-
 public class Dialogue {
 
     public static String helpDialogue() {
-
-//        System.out.println("Valid commands and directions: \n");
-//        System.out.printf("\t%-40s \t%-40s\n", "=== AVAILABLE VERBS ===", "=== AVAILABLE DIRECTIONS ===");
-//        System.out.printf("\t%-40s \t%-40s\n", "GO [DIRECTION]", "NORTH");
-//        System.out.printf("\t%-40s \t%-40s\n", "GET [ITEM NAME]", "NORTHEAST");
-//        System.out.printf("\t%-40s \t%-40s\n", "USE [ITEM NAME]", "EAST");
-//        System.out.printf("\t%-40s \t%-40s\n", "EAT [ITEM NAME]", "SOUTHEAST");
-//        System.out.printf("\t%-40s \t%-40s\n", "EXAMINE [ITEM NAME]", "SOUTH");
-//        System.out.printf("\t%-40s \t%-40s\n", "OPEN [ITEM NAME]", "SOUTHWEST");
-//        System.out.printf("\t%-40s \t%-40s\n", "", "WEST");
-//        System.out.printf("\t%-40s \t%-40s\n", "", "NORTHWEST");
-//        System.out.printf("\t%-40s \t%-40s\n", "", "UP");
-//        System.out.printf("\t%-40s \t%-40s\n", "", "DOWN");
-
         return "Valid commands and directions: \n" +
                 "\n" +
-                "\t=== AVAILABLE VERBS ===                  \t=== AVAILABLE DIRECTIONS ===            \n" +
+                "\t=== AVAILABLE VERBS ===        \t=== AVAILABLE DIRECTIONS ===            \n" +
                 "\tGO [DIRECTION]                           \tNORTH                                   \n" +
                 "\tGET [ITEM NAME]                          \tNORTHEAST                               \n" +
                 "\tUSE [ITEM NAME]                          \tEAST                                    \n" +
                 "\tEAT [ITEM NAME]                          \tSOUTHEAST                               \n" +
-                "\tEXAMINE [ITEM NAME]                      \tSOUTH                                   \n" +
-                "\tOPEN [ITEM NAME]                         \tSOUTHWEST                               \n" +
-                "\t                                         \tWEST                                    \n" +
-                "\t                                         \tNORTHWEST                               \n" +
-                "\t                                         \tUP                                      \n" +
-                "\t                                         \tDOWN                                    \n" +
+                "\tEXAMINE [ITEM NAME]                  \tSOUTH                                   \n" +
+                "\tOPEN [ITEM NAME]                       \tSOUTHWEST                               \n" +
+                "\tINVENTORY                                  \tWEST                                    \n" +
+                "\tLOOK                                           \tNORTHWEST                             \n" +
+                "\t                                                    \tUP                                    \n" +
+                "\t                                                    \tDOWN                                  \n" +
                 "Objective: Traverse throughout the mansion finding keys and journal entries to help you find what happened to your uncle!";
     }
 
@@ -45,7 +29,8 @@ public class Dialogue {
                 "EAT [ITEM NAME]\n" +
                 "EXAMINE [ITEM NAME]\n" +
                 "OPEN [ITEM NAME]\n" +
-                "\n" +
+                "INVENTORY\n" +
+                "LOOK\n\n" +
                 "=== AVAILABLE DIRECTIONS ===\n" +
                 "NORTH\n" +
                 "NORTHEAST\n" +
