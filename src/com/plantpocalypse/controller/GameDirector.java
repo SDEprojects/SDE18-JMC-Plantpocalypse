@@ -13,6 +13,8 @@ import java.util.List;
 
 public class GameDirector {
 
+    private static Object NpcReader;
+
     /* Return a string so GUI can print action to TextArea? */
     public static String interact(List<String> input) {
         String result = "";
@@ -23,6 +25,7 @@ public class GameDirector {
             Player player = Game.GAME_INSTANCE.getPlayer();
 
             switch (command) {
+                case "talk" -> result = talk(argument, player);
                 case "go" -> result = go(argument, player);
                 case "eat" -> result = eat(argument, player);
                 case "use" -> result = use(argument, player);
@@ -39,6 +42,16 @@ public class GameDirector {
 
         return result;
     }
+    private static String talk (String NPCname, Player player) {
+        String result = "He is not with you";
+        if (player.getCurrentRoom().getCharacter() != null){
+            result = player.talk(NPCname);
+        }
+
+
+        return result;
+    }
+
 
 
     private static String go(String direction, Player player) {
@@ -174,6 +187,8 @@ public class GameDirector {
 
         return result.toString();
     }
+
+
 
     private static void quit() {
         System.exit(0);

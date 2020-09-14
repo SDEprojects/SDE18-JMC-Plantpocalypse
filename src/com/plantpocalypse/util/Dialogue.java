@@ -16,6 +16,7 @@ public class Dialogue {
                 "\tLOOK                                           \tNORTHWEST                             \n" +
                 "\t                                                    \tUP                                    \n" +
                 "\t                                                    \tDOWN                                  \n" +
+
                 "Objective: Traverse throughout the mansion finding keys and journal entries to help you find what happened to your uncle!";
     }
 
@@ -31,6 +32,8 @@ public class Dialogue {
                 "OPEN [ITEM NAME]\n" +
                 "INVENTORY\n" +
                 "LOOK\n\n" +
+                "TALK [ITEM NAME]\n" +
+                "\n" +
                 "=== AVAILABLE DIRECTIONS ===\n" +
                 "NORTH\n" +
                 "NORTHEAST\n" +
@@ -80,6 +83,7 @@ public class Dialogue {
     public static String winningDialogue() {
         return "\nYES!!! YOU DID IT! You uncovered the mystery and rescued your beloved uncle.";
     }
+
 
 //    public static void printMap() {
 //        System.out.println("\nfloor plan goes here");
