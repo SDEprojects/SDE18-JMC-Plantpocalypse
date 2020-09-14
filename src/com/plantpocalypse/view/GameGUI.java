@@ -158,22 +158,12 @@ public class GameGUI implements ActionListener {
             if(result.contains("You opened the")) {
                 try {
                     result = "You opened the map.";
+                    // Gets current room name and returns it in snake case
                     String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
                     BufferedImage mapImage = ImageIO.read(new File("./resources/map_" + parsedRoom + ".png"));
                     JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
                     JPanel imageHolder = new JPanel();
                     imageHolder.add(imageLabel);
-                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
-                }
-                catch(Exception exc) {
-                    System.out.println("no");
-                }
-                try {
-                    result = "You opened the map.";
-                    BufferedImage mapImageF2 = ImageIO.read(new File("./resources/mapf2.png"));
-                    JLabel imageLabelf2 = new JLabel(new ImageIcon(mapImageF2));
-                    JPanel imageHolder = new JPanel();
-                    imageHolder.add(imageLabelf2);
                     JOptionPane.showMessageDialog(gameFrame, imageHolder);
                 }
                 catch(Exception exc) {
