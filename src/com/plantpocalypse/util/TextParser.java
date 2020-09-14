@@ -52,7 +52,7 @@ public class TextParser {
         boolean isValid = false;
 
         List<String> oneWordCommands = Arrays.asList("inventory","help","look","quit","save","load");
-        List<String> twoWordCommands = Arrays.asList("go","eat","use","examine", "get", "open");
+        List<String> twoWordCommands = Arrays.asList("go","eat","use","examine", "get", "open", "talk");
 
         if (input.size() == 0) {
             System.out.println("Please enter command with correct format: command [arg]");

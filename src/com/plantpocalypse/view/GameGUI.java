@@ -9,9 +9,8 @@
  */
 package com.plantpocalypse.view;
 
-import com.plantpocalypse.model.Game;
 import com.plantpocalypse.controller.GameDirector;
-import com.plantpocalypse.util.ConsoleDisplay;
+import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
@@ -22,7 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Map;
+import java.util.Random;
 
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
@@ -118,6 +117,8 @@ public class GameGUI implements ActionListener {
         /* Instantiate components for User Input section */
         inputFieldLabel = new JLabel("Enter command: ");
         inputField = new JTextField(16);
+        inputField.setForeground(Color.white);
+        inputField.setBackground(Color.black);
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
@@ -125,6 +126,9 @@ public class GameGUI implements ActionListener {
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
         dialogueText.setEditable(false);
+        dialogueText.setBackground(Color.black);
+        dialogueText.setForeground(Color.white);
+        dialogueText.setLineWrap(true);
         scrollPane = new JScrollPane(dialogueText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setAutoscrolls(true);
         gameFrame.add(scrollPane);
@@ -165,7 +169,7 @@ public class GameGUI implements ActionListener {
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
 
-        dialogueText.setText("Select Menu > New Game to start a new game.\nSelect Menu > Load Game to load a save game.");
+        dialogueText.setText("\t\tSelect Menu > New Game to start a new game.\n\t\tSelect Menu > Load Game to load a save game.");
     }
 
     @Override
@@ -195,7 +199,10 @@ public class GameGUI implements ActionListener {
             // 2) Validates user input command with TextParser, returning command as List<Strings>
             // 3) Uses GameDirector to enact command, returning result string to show user
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
-
+            if(result.contains("Moved to")) {
+                dialogueText.setText("");
+                dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
+            }
             if(result.contains("You opened the")) {
                 // Gets current room name and returns it in snake case
                 String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
@@ -216,6 +223,8 @@ public class GameGUI implements ActionListener {
                 }
             }
 
+            if(result == null || result == "")
+                result = "Not a valid command. Type help if you need a list of possible commands";
             displayDialogue(result);
             displayStatus();
 
@@ -231,7 +240,7 @@ public class GameGUI implements ActionListener {
      * @param currentRoom The current room the Player is in.
      */
     public void displayCurrentRoom(String currentRoom) {
-        currentRoomLabel.setText("Current Room: " + currentRoom);
+        currentRoomLabel.setText("<html>"+"Current Room: " + "<font color = red>"+ currentRoom + "</html>");
     }
 
     /**
@@ -241,7 +250,7 @@ public class GameGUI implements ActionListener {
      * @param totalHealth The total amount of health a Player can have.
      */
     public void displayPlayerHealth(int currentHealth, int totalHealth) {
-        currentHealthLabel.setText("Health: " + currentHealth + "/" + totalHealth);
+        currentHealthLabel.setText("<html>"+ "Health: " + "<font color = red>" + currentHealth + "/" + totalHealth + "</html>");
     }
 
     /**
@@ -250,7 +259,7 @@ public class GameGUI implements ActionListener {
      * @param movesMade Number of moves between rooms player has made.
      */
     public void displayMovesMade(int movesMade, int totalMoves) {
-        movesMadeLabel.setText("Moves Made: " + movesMade + "/" + totalMoves);
+        movesMadeLabel.setText("<html>"+ "Moves Made: " + "<font color = red>" + movesMade + "/" + totalMoves + "</html>");
     }
 
     /**
@@ -272,7 +281,7 @@ public class GameGUI implements ActionListener {
      * the GUI.
      */
     public void startGame() {
-        dialogueText.setText("");
+        dialogueText.setText("\t\t");
         game.loadAssets();
         title();
         intro();
@@ -289,9 +298,9 @@ public class GameGUI implements ActionListener {
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
     }
-
+//    add more details in the about section
     public void about() {
-        JOptionPane.showMessageDialog(gameFrame, "Plantpocalypse\nMade by Hunter Clark | Jeffrey Haywood | Maya Marks");
+        JOptionPane.showMessageDialog(gameFrame, "Plantpocalypse A maze mystery game set to test your detective skills. Solve the mystery behind what happen to your Uncle. \nMade by Hunter Clark | Jeffrey Haywood | Maya Marks");
     }
 
     public void help() {
