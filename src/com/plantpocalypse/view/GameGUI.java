@@ -29,6 +29,8 @@ public class GameGUI implements ActionListener {
 
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
+    private final JPanel testPanel;
+//    private final JPanel[][] testPanelHolderInput;
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
 
@@ -91,10 +93,26 @@ public class GameGUI implements ActionListener {
             }
         }
 
+        // TODO:
+        /* Create JPanel placeholder so component can be put in specific Grid cell */
+//        int rows1 = 3;
+//        int cols2 = 1;
+//        testPanel = new JPanel(new GridLayout(rows1, cols2));
+//        testPanelHolderInput = new JPanel[rows1][cols2];
+//        for (int i = 0; i < rows1; i++) {
+//            for (int j = 0; j < cols2; j++) {
+//                testPanelHolderInput[i][j] = new JPanel();
+//                testPanel.add(testPanelHolderInput[i][j]);
+//            }
+//        }
+
         /* Set attributes for Window */
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setTitle("Plantpocalypse");
         gameFrame.setSize(800,600);
+//        gameFrame.add(testPanel, BorderLayout.WEST);
+        testPanel = new JPanel(new BorderLayout());
+        gameFrame.add(testPanel, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
 
         /* Instantiate components for User Input section */
@@ -115,6 +133,28 @@ public class GameGUI implements ActionListener {
         inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
+//        try {
+//            BufferedImage mapImage = ImageIO.read(new File("./resources/map_living_room.png"));
+//            JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
+//            testPanel.setMaximumSize(new Dimension(200,200));
+//            testPanel.setPreferredSize(new Dimension(200,200));
+//            testPanel.setMinimumSize(new Dimension(200,200));
+//            testPanel.add(imageLabel);
+//        }
+        try {
+//            testPanel.setMaximumSize(new Dimension(200,200));
+            testPanel.setPreferredSize(new Dimension(600,375));
+//            testPanel.setMinimumSize(new Dimension(200,200));
+            BufferedImage mapImage = ImageIO.read(new File("./resources/map_living_room.png"));
+            Image map = mapImage.getScaledInstance(testPanel.getPreferredSize().width, testPanel.getPreferredSize().height, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(map));
+            testPanel.add(imageLabel);
+        }
+        catch (Exception e) {
+
+        }
+
+//        testPanelHolderInput[0][0].add(new JTextArea(20,20));
         panelHolderInput[0][0].add(currentRoomLabel);
         panelHolderInput[0][1].add(currentHealthLabel);
         panelHolderInput[0][2].add(movesMadeLabel);
@@ -239,6 +279,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
+        testPanel.setVisible(true);
     }
 
     public void loadSavedGame() {
