@@ -150,15 +150,19 @@ public class GameGUI implements ActionListener {
         else if (e.getSource() == inputField) {
             String inputString = inputField.getText();
             inputField.setText("");
+            // 1) Formats user input into one or two string commands with TextParser
+            // 2) Validates user input command with TextParser, returning command as List<Strings>
+            // 3) Uses GameDirector to enact command, returning result string to show user
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
 
             if(result.contains("You opened the")) {
                 try {
                     result = "You opened the map.";
-                    BufferedImage mapImageF1 = ImageIO.read(new File("./resources/mapf1.png"));
-                    JLabel imageLabelF1 = new JLabel(new ImageIcon(mapImageF1));
+                    String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
+                    BufferedImage mapImage = ImageIO.read(new File("./resources/map_" + parsedRoom + ".png"));
+                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
                     JPanel imageHolder = new JPanel();
-                    imageHolder.add(imageLabelF1);
+                    imageHolder.add(imageLabel);
                     JOptionPane.showMessageDialog(gameFrame, imageHolder);
                 }
                 catch(Exception exc) {
