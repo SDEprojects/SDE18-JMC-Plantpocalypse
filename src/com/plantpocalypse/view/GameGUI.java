@@ -28,6 +28,7 @@ public class GameGUI implements ActionListener {
 
     // TODO:
 //        private final JPanel top, mid, bottom;
+    JPanel panel;
     //TODO:
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
@@ -150,7 +151,7 @@ public class GameGUI implements ActionListener {
 
         }
         //TODO: remove between lines
-        JPanel panel = new JPanel() {
+         panel = new JPanel() {
             public boolean isOptimizedDrawingEnabled() {
                 return false;
             }
@@ -198,9 +199,7 @@ public class GameGUI implements ActionListener {
 //        bottom.setBackground(Color.lightGray);
 
 //        panel.add(bottom);
-        game.floor1.getComponentMap().forEach((entry, component) -> {
-            panel.add(component);
-        });
+
         HUD_CONTAINER.add(panel, BorderLayout.SOUTH);
 //        setSize(400, 300);
 //        setLocationRelativeTo(null);
@@ -378,6 +377,12 @@ public class GameGUI implements ActionListener {
     public void startGame() {
         dialogueText.setText("\t\t");
         game.loadAssets();
+        //TODO
+        System.out.println(game.floor1.getComponentMap());
+        game.floor1.getComponentMap().forEach((entry, component) -> {
+            panel.add(component);
+        });
+        //TODO
         title();
         intro();
         displayStatus();

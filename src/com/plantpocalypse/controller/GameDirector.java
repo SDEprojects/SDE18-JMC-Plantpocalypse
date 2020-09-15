@@ -59,8 +59,11 @@ public class GameDirector {
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
 
         if (adjacentRooms.containsKey(direction)) {
+            Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(true);
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
+                Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(false);
+
 
                 if (player.getCurrentRoom().getMonster() != null) {
                     result += "\nYou were attacked by a monstrous " + player.getCurrentRoom().getMonster().getMonsterName();

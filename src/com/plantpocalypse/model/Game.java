@@ -49,42 +49,12 @@ public enum Game {
     private void loadComponentMaps() {
         floor1 = new ComponentMap();
         floor2 = new ComponentMap();
-        // Load background images into maps
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
-            JPanel tempComponent = createComponent(temp);
-            floor1.addComponent("background", tempComponent);
-
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
-            JPanel tempComponent = createComponent(temp);
-            floor2.addComponent("background", tempComponent);
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-
-        // Load rooms overlays into map
-        mansion.forEach((roomName, room) -> {
-            if (room.getFloorNumber() == 1) {
-                JPanel component = floor1.createComponent(room.getMapImage());
-                floor1.addComponent(room.getName(), component);
-            } else if (room.getFloorNumber() == 2 ) {
-                JPanel component = floor2.createComponent(room.getMapImage());
-                floor2.addComponent(room.getName(), component);
-            }
-        });
-
         // Load outline overlay into map
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_labels_floor_1.png"));
-            JPanel tempComponent = createComponent(temp);
-            floor1.addComponent("background", tempComponent);
+            JPanel tempComponent = createComponent(temp, false);
+            floor1.addComponent("labels", tempComponent);
 
         } catch (Exception e) {
             System.err.println(e);
@@ -92,7 +62,38 @@ public enum Game {
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
-            JPanel tempComponent = createComponent(temp);
+            JPanel tempComponent = createComponent(temp, false);
+            floor2.addComponent("labels", tempComponent);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+        // Load rooms overlays into map
+        mansion.forEach((roomName, room) -> {
+            if (room.getFloorNumber() == 1) {
+                JPanel component = createComponent(room.getMapImage(), false);
+                floor1.addComponent(room.getName(), component);
+            } else if (room.getFloorNumber() == 2 ) {
+                JPanel component = createComponent(room.getMapImage(), false);
+                floor2.addComponent(room.getName(), component);
+            }
+        });
+
+        // Load background images into maps
+
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
+            JPanel tempComponent = createComponent(temp, false);
+            floor1.addComponent("background", tempComponent);
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
+            JPanel tempComponent = createComponent(temp, false);
             floor2.addComponent("background", tempComponent);
         } catch (Exception e) {
             System.err.println(e);
@@ -100,10 +101,10 @@ public enum Game {
 
     }
 
-    public JPanel createComponent(BufferedImage mapImage) {
+    public JPanel createComponent(BufferedImage mapImage, boolean isOpaque) {
         JPanel component = new JPanel();
-        component.setMaximumSize(new Dimension(200, 100));
-        component.setOpaque(false);
+        component.setMaximumSize(new Dimension(600, 375));
+        component.setOpaque(isOpaque);
         // Scale image to fit container
         Image map = mapImage.getScaledInstance(component.getMaximumSize().width, component.getMaximumSize().height, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(map));

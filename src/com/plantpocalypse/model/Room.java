@@ -134,13 +134,14 @@ public class Room implements Serializable {
     }
 
     public void setMapImage() {
-        if (hasVisited() == false) {
+//        if (hasVisited() == false) {
+        //TODO create an else statement that returns the alphatized image if room has visited
             try {
                 this.mapImage = ImageIO.read(new File(this.getPath()));
             } catch (Exception e) {
                 System.err.println(e);
             }
-        }
+//        }
 //        else {
 //            this.map = GameGUI.changeAlpha(map, 1);
 //        }

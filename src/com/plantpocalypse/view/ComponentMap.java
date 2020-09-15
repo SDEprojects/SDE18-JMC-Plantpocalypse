@@ -8,10 +8,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ComponentMap {
     HashMap<String, JPanel> componentMap;
+
+    public ComponentMap() {
+        this.componentMap = new LinkedHashMap<String, JPanel>();
+    }
 
     // Initialize component
     public JPanel createComponent(BufferedImage mapImage) {
