@@ -23,7 +23,7 @@ public class Room implements Serializable {
     private String path;
     private NPC character;
     private BufferedImage mapImage;
-    private boolean hasVisited = false;
+    private Boolean hasVisited;
     private int floorNumber;
 
     public NPC getCharacter() {
@@ -34,7 +34,24 @@ public class Room implements Serializable {
         this.character = new NPC(name);
     }
 
+    public  BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
 
+            for (int x = 0; x < mapImage.getWidth(); x++) {
+                for (int y = 0; y < mapImage.getHeight(); y++) {
+                    //
+                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+
+                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+                    alpha &= 0xff;      //keeps alpha in 0-255 range
+
+                    argb &= 0x00ffffff; //remove old alpha info
+                    argb |= (alpha << 24);  //add new alpha info
+                    mapImage.setRGB(x, y, argb);
+                }
+            }
+            return mapImage;
+        }
 
     /* CONSTRUCTORS */
     public Room() {
@@ -133,25 +150,30 @@ public class Room implements Serializable {
         return mapImage;
     }
 
-    public void setMapImage() {
-//        if (hasVisited() == false) {
+    public void createMapImage() {
         //TODO create an else statement that returns the alphatized image if room has visited
-            try {
-                this.mapImage = ImageIO.read(new File(this.getPath()));
-            } catch (Exception e) {
-                System.err.println(e);
-            }
-//        }
-//        else {
-//            this.map = GameGUI.changeAlpha(map, 1);
-//        }
+        try {
+            setMapImage(ImageIO.read(new File(this.getPath())));
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
-    public boolean hasVisited() {
+    public void setMapImage(BufferedImage mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public void updateMapImage() {
+        if (hasVisited() == true) {
+            setMapImage(changeAlpha(getMapImage(),.5));
+        }
+    }
+
+    public Boolean hasVisited() {
         return hasVisited;
     }
 
-    public void setHasVisited(boolean hasVisited) {
+    public void setHasVisited(Boolean hasVisited) {
         this.hasVisited = hasVisited;
     }
 

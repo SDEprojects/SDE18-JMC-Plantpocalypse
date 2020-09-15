@@ -28,7 +28,7 @@ public class GameGUI implements ActionListener {
 
     // TODO:
 //        private final JPanel top, mid, bottom;
-    JPanel panel;
+    JPanel floor1Panel, floor2Panel;
     //TODO:
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
@@ -151,13 +151,21 @@ public class GameGUI implements ActionListener {
 
         }
         //TODO: remove between lines
-         panel = new JPanel() {
+         floor1Panel = new JPanel() {
             public boolean isOptimizedDrawingEnabled() {
                 return false;
             }
         };
-        LayoutManager overlay = new OverlayLayout(panel);
-        panel.setLayout(overlay);
+        LayoutManager overlay = new OverlayLayout(floor1Panel);
+        floor1Panel.setLayout(overlay);
+
+        floor2Panel = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        overlay = new OverlayLayout(floor2Panel);
+        floor2Panel.setLayout(overlay);
 //         top = new JPanel();
 //        JButton button = new JButton("Small");
 //        top.setMaximumSize(new Dimension(75, 50));
@@ -200,7 +208,7 @@ public class GameGUI implements ActionListener {
 
 //        panel.add(bottom);
 
-        HUD_CONTAINER.add(panel, BorderLayout.SOUTH);
+        HUD_CONTAINER.add(floor1Panel, BorderLayout.SOUTH);
 //        setSize(400, 300);
 //        setLocationRelativeTo(null);
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -247,25 +255,25 @@ public class GameGUI implements ActionListener {
                 dialogueText.setText("");
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
-            if(result.contains("You opened the")) {
-                // Gets current room name and returns it in snake case
-                String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
-                String pathName = "./resources/map_" + parsedRoom + ".png";
-                try {
-                    result = "You opened the map.";
-                    BufferedImage mapImage = ImageIO.read(new File(pathName));
-                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
-                    JPanel imageHolder = new JPanel();
-                    imageHolder.add(imageLabel);
-                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
-                }
-                catch (MapFileNotFoundException exc) {
-                    System.err.println("Map file not found in " + pathName);
-                }
-                catch(Exception exc) {
-                    System.out.println("no");
-                }
-            }
+//            if(result.contains("You opened the")) {
+//                // Gets current room name and returns it in snake case
+//                String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
+//                String pathName = "./resources/map_" + parsedRoom + ".png";
+//                try {
+//                    result = "You opened the map.";
+//                    BufferedImage mapImage = ImageIO.read(new File(pathName));
+//                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
+//                    JPanel imageHolder = new JPanel();
+//                    imageHolder.add(imageLabel);
+//                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
+//                }
+//                catch (MapFileNotFoundException exc) {
+//                    System.err.println("Map file not found in " + pathName);
+//                }
+//                catch(Exception exc) {
+//                    System.out.println("no");
+//                }
+//            }
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
@@ -380,7 +388,10 @@ public class GameGUI implements ActionListener {
         //TODO
         System.out.println(game.floor1.getComponentMap());
         game.floor1.getComponentMap().forEach((entry, component) -> {
-            panel.add(component);
+            floor1Panel.add(component);
+        });
+        game.floor2.getComponentMap().forEach((entry, component) -> {
+            floor2Panel.add(component);
         });
         //TODO
         title();

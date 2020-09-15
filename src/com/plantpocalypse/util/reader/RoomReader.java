@@ -101,7 +101,8 @@ public class RoomReader {
                                 room.setPath(event.asCharacters().getData());
                                 // Initialize room's mapImage with black overlay
                                 // Make sure we have initialized room with hasVisited before this step
-                                room.setMapImage();
+                                room.createMapImage();
+                                room.updateMapImage();
                                 //
 
                             } else {
