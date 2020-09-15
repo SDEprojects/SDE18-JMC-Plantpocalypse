@@ -15,6 +15,8 @@ import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -157,6 +159,7 @@ public class GameGUI implements ActionListener {
             inputField.setText("");
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
             if(result.contains("Moved to")) {
+//                play("../Plantpocalypse/audio/1.wav");
                 dialogueText.setText("");
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
@@ -179,6 +182,7 @@ public class GameGUI implements ActionListener {
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
+//            displayDialogue("> "+inputString);
             displayDialogue(result);
             displayStatus();
 
@@ -242,6 +246,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
+//        play("../Plantpocalypse/audio/1.wav");
     }
 
     public void loadSavedGame() {
@@ -296,4 +301,14 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(false);
     }
 
+    public static void play(String filename) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.stop();
+            clip.open(AudioSystem.getAudioInputStream(new File(filename)));
+            clip.start();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
+    }
 }
