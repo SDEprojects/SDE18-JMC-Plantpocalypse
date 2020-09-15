@@ -94,24 +94,12 @@ public class GameGUI implements ActionListener {
             }
         }
 
-        // TODO:
-        /* Create JPanel placeholder so component can be put in specific Grid cell */
-//        int rows1 = 3;
-//        int cols2 = 1;
-//        testPanel = new JPanel(new GridLayout(rows1, cols2));
-//        testPanelHolderInput = new JPanel[rows1][cols2];
-//        for (int i = 0; i < rows1; i++) {
-//            for (int j = 0; j < cols2; j++) {
-//                testPanelHolderInput[i][j] = new JPanel();
-//                testPanel.add(testPanelHolderInput[i][j]);
-//            }
-//        }
-
         /* Set attributes for Window */
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setTitle("Plantpocalypse");
-        gameFrame.setSize(800,600);
-//        gameFrame.add(testPanel, BorderLayout.WEST);
+        gameFrame.setSize(1600,1000);
+
+        // Add a component container and heads up display component to the main frame
         HUD_CONTAINER = new JPanel(new BorderLayout());
         HUD = new JPanel(new BorderLayout());
         HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
@@ -141,34 +129,26 @@ public class GameGUI implements ActionListener {
         inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
-//        try {
-//            BufferedImage mapImage = ImageIO.read(new File("./resources/map_living_room.png"));
-//            JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
-//            testPanel.setMaximumSize(new Dimension(200,200));
-//            testPanel.setPreferredSize(new Dimension(200,200));
-//            testPanel.setMinimumSize(new Dimension(200,200));
-//            testPanel.add(imageLabel);
-//        }
+
+        panelHolderInput[0][0].add(currentRoomLabel);
+        panelHolderInput[0][1].add(currentHealthLabel);
+        panelHolderInput[0][2].add(movesMadeLabel);
+        panelHolderInput[1][0].add(inputFieldLabel);
+        panelHolderInput[1][1].add(inputField);
+
+        // Initialize HUD with title screen image
         try {
-//            testPanel.setMaximumSize(new Dimension(200,200));
             HUD.setPreferredSize(new Dimension(600,375));
-//            testPanel.setMinimumSize(new Dimension(200,200));
-            BufferedImage mapImage = ImageIO.read(new File("./resources/map_living_room.png"));
+            BufferedImage mapImage = ImageIO.read(new File("./resources/plantpocalypse_title.png"));
             Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
             JLabel imageLabel = new JLabel(new ImageIcon(map));
-//            imageLabel.setBounds(0,0,testPanel.getPreferredSize().width, testPanel.getPreferredSize().height);
             HUD.add(imageLabel);
         }
         catch (Exception e) {
 
         }
 
-//        testPanelHolderInput[0][0].add(new JTextArea(20,20));
-        panelHolderInput[0][0].add(currentRoomLabel);
-        panelHolderInput[0][1].add(currentHealthLabel);
-        panelHolderInput[0][2].add(movesMadeLabel);
-        panelHolderInput[1][0].add(inputFieldLabel);
-        panelHolderInput[1][1].add(inputField);
+
 
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
