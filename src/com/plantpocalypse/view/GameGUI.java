@@ -21,14 +21,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
     // TODO:
-        private final JPanel top, mid, bottom;
+//        private final JPanel top, mid, bottom;
     //TODO:
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
@@ -158,47 +157,50 @@ public class GameGUI implements ActionListener {
         };
         LayoutManager overlay = new OverlayLayout(panel);
         panel.setLayout(overlay);
-         top = new JPanel();
+//         top = new JPanel();
 //        JButton button = new JButton("Small");
-        top.setMaximumSize(new Dimension(75, 50));
-        top.setBackground(Color.white);
-        panel.add(top);
+//        top.setMaximumSize(new Dimension(75, 50));
+//        top.setBackground(Color.white);
+//        panel.add(top);
 
-        mid = new JPanel();
-        mid.setMaximumSize(new Dimension(200, 100));
-        mid.setOpaque(false);
-        try {
-            BufferedImage mapImage = ImageIO.read(new File("./resources/transparent_title.png"));
-            for (int x = 0; x < mapImage.getWidth(); x++) {
-                for (int y = 0; y < mapImage.getHeight(); y++) {
-                    //
-                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+//        mid = new JPanel();
+//        mid.setMaximumSize(new Dimension(200, 100));
+//        mid.setOpaque(false);
+//        try {
+//            BufferedImage mapImage = ImageIO.read(new File("./resources/transparent_title.png"));
+//            for (int x = 0; x < mapImage.getWidth(); x++) {
+//                for (int y = 0; y < mapImage.getHeight(); y++) {
+//                    //
+//                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+//                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+//
+//                    alpha *= 0.1; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+//                    alpha &= 0xff;      //keeps alpha in 0-255 range
+//
+//                    argb &= 0x00ffffff; //remove old alpha info
+//                    argb |= (alpha << 24);  //add new alpha info
+//                    mapImage.setRGB(x, y, argb);
+//                }
+//            }
+//            Image map = mapImage.getScaledInstance(mid.getMaximumSize().width, mid.getMaximumSize().height, Image.SCALE_SMOOTH);
+//            JLabel imageLabel = new JLabel(new ImageIcon(map));
+//            mid.add(imageLabel);
+//        }
+//        catch (Exception e) {
+//
+//        }
+//
+//        mid.setBackground(new Color(100,200,25,50));
 
-                    alpha *= 0.1; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-                    alpha &= 0xff;      //keeps alpha in 0-255 range
+//        panel.add(mid);
+//        bottom = new JPanel();
+//        bottom.setMaximumSize(new Dimension(125, 75));
+//        bottom.setBackground(Color.lightGray);
 
-                    argb &= 0x00ffffff; //remove old alpha info
-                    argb |= (alpha << 24);  //add new alpha info
-                    mapImage.setRGB(x, y, argb);
-                }
-            }
-            Image map = mapImage.getScaledInstance(mid.getMaximumSize().width, mid.getMaximumSize().height, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(map));
-            mid.add(imageLabel);
-        }
-        catch (Exception e) {
-
-        }
-
-        mid.setBackground(new Color(100,200,25,50));
-
-        panel.add(mid);
-        bottom = new JPanel();
-        bottom.setMaximumSize(new Dimension(125, 75));
-        bottom.setBackground(Color.lightGray);
-
-        panel.add(bottom);
+//        panel.add(bottom);
+        game.floor1.getComponentMap().forEach((entry, component) -> {
+            panel.add(component);
+        });
         HUD_CONTAINER.add(panel, BorderLayout.SOUTH);
 //        setSize(400, 300);
 //        setLocationRelativeTo(null);
@@ -296,30 +298,31 @@ public class GameGUI implements ActionListener {
 //        }
 //    }
 
-    public static class ImageRender {
-        public void changeAlpha(BufferedImage mapImage, double amount) {
-            for (int x = 0; x < mapImage.getWidth(); x++) {
-                for (int y = 0; y < mapImage.getHeight(); y++) {
-                    //
-                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
-
-                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-                    alpha &= 0xff;      //keeps alpha in 0-255 range
-
-                    argb &= 0x00ffffff; //remove old alpha info
-                    argb |= (alpha << 24);  //add new alpha info
-                    mapImage.setRGB(x, y, argb);
-                }
-            }
-        }
-
-    }
+//    public static class ImageRender {
+//        public static BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
+//
+//            for (int x = 0; x < mapImage.getWidth(); x++) {
+//                for (int y = 0; y < mapImage.getHeight(); y++) {
+//                    //
+//                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+//                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+//
+//                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+//                    alpha &= 0xff;      //keeps alpha in 0-255 range
+//
+//                    argb &= 0x00ffffff; //remove old alpha info
+//                    argb |= (alpha << 24);  //add new alpha info
+//                    mapImage.setRGB(x, y, argb);
+//                }
+//            }
+//        }
+//
+//    }
 
 
     public void displayCurrentRoomMap(BufferedImage map) {
-        BufferedImage temp = ImageRender.changeAlpha(map, .1);
-        ImageRender.changeAlpha(map, 1);
+//        BufferedImage temp = ImageRender.changeAlpha(map, .1);
+//        ImageRender.changeAlpha(map, 1);
         HUD.remove(HUD.getComponent(0));
         JLabel imageLabel = new JLabel(new ImageIcon(map));
         HUD.add(imageLabel);
@@ -365,7 +368,7 @@ public class GameGUI implements ActionListener {
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
 //        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getPath());
-        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getMap());
+        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getMapImage());
     }
 
     /**

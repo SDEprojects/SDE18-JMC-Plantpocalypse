@@ -20,6 +20,8 @@ public class RoomReader {
     static final String NAME = "name";
     static final String ISLOCKED = "isLocked";
     static final String DESCRIPTION = "description";
+    static final String HASVISITED = "hasVisited";
+    static final String FLOORNUMBER = "floorNumber";
     static final String PATH = "path";
     static final String NPC = "NPC";
 
@@ -75,11 +77,33 @@ public class RoomReader {
                                 System.exit(-1);
                             }
                         }
+                        case HASVISITED -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setHasVisited(Boolean.parseBoolean(event.asCharacters().getData()));
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
+                        case FLOORNUMBER -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setFloorNumber(Integer.parseInt(event.asCharacters().getData()));
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
                         case PATH -> {
                             event = eventReader.nextEvent();
                             if (room != null) {
                                 room.setPath(event.asCharacters().getData());
-                                room.setMap();
+                                // Initialize room's mapImage with black overlay
+                                // Make sure we have initialized room with hasVisited before this step
+                                room.setMapImage();
+                                //
+
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");
                                 System.exit(-1);

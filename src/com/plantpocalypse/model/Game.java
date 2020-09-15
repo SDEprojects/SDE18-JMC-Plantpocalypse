@@ -4,7 +4,12 @@ import com.plantpocalypse.util.reader.AdjacentRoomReader;
 import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
 import com.plantpocalypse.util.reader.RoomReader;
+import com.plantpocalypse.view.ComponentMap;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 
@@ -15,6 +20,8 @@ public enum Game {
 
     private Player player;
     private HashMap<String, Room> mansion;
+    public ComponentMap floor1;
+    public ComponentMap floor2;
 
     /**
      * Loads assets for the game to run properly:
@@ -36,6 +43,74 @@ public enum Game {
     private void loadRooms() {
         RoomReader readRooms = new RoomReader();
         mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
+        loadComponentMaps();
+    }
+
+    private void loadComponentMaps() {
+        floor1 = new ComponentMap();
+        floor2 = new ComponentMap();
+        // Load background images into maps
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
+            JPanel tempComponent = createComponent(temp);
+            floor1.addComponent("background", tempComponent);
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
+            JPanel tempComponent = createComponent(temp);
+            floor2.addComponent("background", tempComponent);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+        // Load rooms overlays into map
+        mansion.forEach((roomName, room) -> {
+            if (room.getFloorNumber() == 1) {
+                JPanel component = floor1.createComponent(room.getMapImage());
+                floor1.addComponent(room.getName(), component);
+            } else if (room.getFloorNumber() == 2 ) {
+                JPanel component = floor2.createComponent(room.getMapImage());
+                floor2.addComponent(room.getName(), component);
+            }
+        });
+
+        // Load outline overlay into map
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_labels_floor_1.png"));
+            JPanel tempComponent = createComponent(temp);
+            floor1.addComponent("background", tempComponent);
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
+            JPanel tempComponent = createComponent(temp);
+            floor2.addComponent("background", tempComponent);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+    }
+
+    public JPanel createComponent(BufferedImage mapImage) {
+        JPanel component = new JPanel();
+        component.setMaximumSize(new Dimension(200, 100));
+        component.setOpaque(false);
+        // Scale image to fit container
+        Image map = mapImage.getScaledInstance(component.getMaximumSize().width, component.getMaximumSize().height, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(map));
+        component.add(imageLabel);
+
+        return component;
+
     }
 
     private void loadItems() {

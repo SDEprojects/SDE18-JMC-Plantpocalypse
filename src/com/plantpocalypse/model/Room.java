@@ -2,7 +2,6 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.NPC;
-import com.plantpocalypse.view.GameGUI;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,8 +22,9 @@ public class Room implements Serializable {
     private PlantMonster monster;
     private String path;
     private NPC character;
-    private BufferedImage map;
+    private BufferedImage mapImage;
     private boolean hasVisited = false;
+    private int floorNumber;
 
     public NPC getCharacter() {
         return character;
@@ -129,14 +129,14 @@ public class Room implements Serializable {
         this.path = path;
     }
 
-    public BufferedImage getMap() {
-        return map;
+    public BufferedImage getMapImage() {
+        return mapImage;
     }
 
-    public void setMap() {
+    public void setMapImage() {
         if (hasVisited() == false) {
             try {
-                this.map = ImageIO.read(new File(this.getPath()));
+                this.mapImage = ImageIO.read(new File(this.getPath()));
             } catch (Exception e) {
                 System.err.println(e);
             }
@@ -154,6 +154,13 @@ public class Room implements Serializable {
         this.hasVisited = hasVisited;
     }
 
+    public int getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(int floorNumber) {
+        this.floorNumber = floorNumber;
+    }
     // toString
 
     @Override
