@@ -147,8 +147,46 @@ public class GameGUI implements ActionListener {
         catch (Exception e) {
 
         }
+        //TODO: remove between lines
+        JPanel panel = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        LayoutManager overlay = new OverlayLayout(panel);
+        panel.setLayout(overlay);
+        JPanel top = new JPanel();
+//        JButton button = new JButton("Small");
+        top.setMaximumSize(new Dimension(75, 50));
+        top.setBackground(Color.white);
+        panel.add(top);
+        top = new JPanel();
+        top.setMaximumSize(new Dimension(125, 75));
+        top.setBackground(Color.lightGray);
+        panel.add(top);
+        top = new JPanel();
+        top.setMaximumSize(new Dimension(200, 100));
+        try {
+            BufferedImage mapImage = ImageIO.read(new File("./resources/plantpocalypse_title.png"));
+            Image map = mapImage.getScaledInstance(top.getMaximumSize().width, top.getMaximumSize().height, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(map));
+            top.add(imageLabel);
+        }
+        catch (Exception e) {
+
+        }
+        top.setOpaque(false);
+        top.setBackground(new Color(100,200,25,50));
+
+        panel.add(top);
+        HUD_CONTAINER.add(panel, BorderLayout.SOUTH);
+//        setSize(400, 300);
+//        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setVisible(true);
 
 
+        //TODO: remove between lines
 
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
@@ -223,15 +261,18 @@ public class GameGUI implements ActionListener {
     public void displayCurrentRoomMap(String roomName){
         String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
         String pathName = "./resources/map_" + parsedRoom + ".png";
-        HUD.remove(HUD.getComponent(0));
 
-        try {
-            BufferedImage mapImage = ImageIO.read(new File(pathName));
-            Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(map));
-            HUD.add(imageLabel);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (game.getPlayer().retrieveItemFromInventory("floor plan") != null) {
+            try {
+                BufferedImage mapImage = ImageIO.read(new File(pathName));
+                Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
+                JLabel imageLabel = new JLabel(new ImageIcon(map));
+                // After establishing file exists, remove previous component and replace with the new image
+                HUD.remove(HUD.getComponent(0));
+                HUD.add(imageLabel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
