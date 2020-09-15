@@ -27,6 +27,9 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
+    // TODO:
+        private final JPanel top, mid, bottom;
+    //TODO:
     private final JFrame gameFrame;
     private final JPanel userInputPanel;
     private final JPanel HUD_CONTAINER;
@@ -155,30 +158,47 @@ public class GameGUI implements ActionListener {
         };
         LayoutManager overlay = new OverlayLayout(panel);
         panel.setLayout(overlay);
-        JPanel top = new JPanel();
+         top = new JPanel();
 //        JButton button = new JButton("Small");
         top.setMaximumSize(new Dimension(75, 50));
         top.setBackground(Color.white);
         panel.add(top);
-        top = new JPanel();
-        top.setMaximumSize(new Dimension(125, 75));
-        top.setBackground(Color.lightGray);
-        panel.add(top);
-        top = new JPanel();
-        top.setMaximumSize(new Dimension(200, 100));
+
+        mid = new JPanel();
+        mid.setMaximumSize(new Dimension(200, 100));
+        mid.setOpaque(false);
         try {
-            BufferedImage mapImage = ImageIO.read(new File("./resources/plantpocalypse_title.png"));
-            Image map = mapImage.getScaledInstance(top.getMaximumSize().width, top.getMaximumSize().height, Image.SCALE_SMOOTH);
+            BufferedImage mapImage = ImageIO.read(new File("./resources/transparent_title.png"));
+            for (int x = 0; x < mapImage.getWidth(); x++) {
+                for (int y = 0; y < mapImage.getHeight(); y++) {
+                    //
+                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+
+                    alpha *= 0.1; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+                    alpha &= 0xff;      //keeps alpha in 0-255 range
+
+                    argb &= 0x00ffffff; //remove old alpha info
+                    argb |= (alpha << 24);  //add new alpha info
+                    mapImage.setRGB(x, y, argb);
+                }
+            }
+            Image map = mapImage.getScaledInstance(mid.getMaximumSize().width, mid.getMaximumSize().height, Image.SCALE_SMOOTH);
             JLabel imageLabel = new JLabel(new ImageIcon(map));
-            top.add(imageLabel);
+            mid.add(imageLabel);
         }
         catch (Exception e) {
 
         }
-        top.setOpaque(false);
-        top.setBackground(new Color(100,200,25,50));
 
-        panel.add(top);
+        mid.setBackground(new Color(100,200,25,50));
+
+        panel.add(mid);
+        bottom = new JPanel();
+        bottom.setMaximumSize(new Dimension(125, 75));
+        bottom.setBackground(Color.lightGray);
+
+        panel.add(bottom);
         HUD_CONTAINER.add(panel, BorderLayout.SOUTH);
 //        setSize(400, 300);
 //        setLocationRelativeTo(null);
