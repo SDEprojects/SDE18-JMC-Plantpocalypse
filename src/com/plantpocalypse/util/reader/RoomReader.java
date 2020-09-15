@@ -79,6 +79,7 @@ public class RoomReader {
                             event = eventReader.nextEvent();
                             if (room != null) {
                                 room.setPath(event.asCharacters().getData());
+                                room.setMap();
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");
                                 System.exit(-1);

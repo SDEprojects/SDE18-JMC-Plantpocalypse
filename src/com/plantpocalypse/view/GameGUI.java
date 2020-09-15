@@ -278,22 +278,51 @@ public class GameGUI implements ActionListener {
         }
     }
 
-    public void displayCurrentRoomMap(String roomName){
-        String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
-        String pathName = "./resources/map_" + parsedRoom + ".png";
+//    public void displayCurrentRoomMap(String roomName){
+//        String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
+//        String pathName = "./resources/map_" + parsedRoom + ".png";
+//
+//        if (game.getPlayer().retrieveItemFromInventory("floor plan") != null) {
+//            try {
+//                BufferedImage mapImage = ImageIO.read(new File(pathName));
+//                Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
+//                JLabel imageLabel = new JLabel(new ImageIcon(map));
+//                // After establishing file exists, remove previous component and replace with the new image
+//                HUD.remove(HUD.getComponent(0));
+//                HUD.add(imageLabel);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-        if (game.getPlayer().retrieveItemFromInventory("floor plan") != null) {
-            try {
-                BufferedImage mapImage = ImageIO.read(new File(pathName));
-                Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
-                JLabel imageLabel = new JLabel(new ImageIcon(map));
-                // After establishing file exists, remove previous component and replace with the new image
-                HUD.remove(HUD.getComponent(0));
-                HUD.add(imageLabel);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public static class ImageRender {
+        public void changeAlpha(BufferedImage mapImage, double amount) {
+            for (int x = 0; x < mapImage.getWidth(); x++) {
+                for (int y = 0; y < mapImage.getHeight(); y++) {
+                    //
+                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
+
+                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+                    alpha &= 0xff;      //keeps alpha in 0-255 range
+
+                    argb &= 0x00ffffff; //remove old alpha info
+                    argb |= (alpha << 24);  //add new alpha info
+                    mapImage.setRGB(x, y, argb);
+                }
             }
         }
+
+    }
+
+
+    public void displayCurrentRoomMap(BufferedImage map) {
+        BufferedImage temp = ImageRender.changeAlpha(map, .1);
+        ImageRender.changeAlpha(map, 1);
+        HUD.remove(HUD.getComponent(0));
+        JLabel imageLabel = new JLabel(new ImageIcon(map));
+        HUD.add(imageLabel);
     }
 
     /**
@@ -335,7 +364,8 @@ public class GameGUI implements ActionListener {
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
-        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getPath());
+//        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getPath());
+        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getMap());
     }
 
     /**

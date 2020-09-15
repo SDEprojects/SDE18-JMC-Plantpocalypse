@@ -2,7 +2,11 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.NPC;
+import com.plantpocalypse.view.GameGUI;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -19,6 +23,8 @@ public class Room implements Serializable {
     private PlantMonster monster;
     private String path;
     private NPC character;
+    private BufferedImage map;
+    private boolean hasVisited = false;
 
     public NPC getCharacter() {
         return character;
@@ -121,6 +127,31 @@ public class Room implements Serializable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public BufferedImage getMap() {
+        return map;
+    }
+
+    public void setMap() {
+        if (hasVisited() == false) {
+            try {
+                this.map = ImageIO.read(new File(this.getPath()));
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+//        else {
+//            this.map = GameGUI.changeAlpha(map, 1);
+//        }
+    }
+
+    public boolean hasVisited() {
+        return hasVisited;
+    }
+
+    public void setHasVisited(boolean hasVisited) {
+        this.hasVisited = hasVisited;
     }
 
     // toString
