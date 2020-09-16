@@ -269,7 +269,7 @@ public class Player implements Serializable {
 
     public String talk(String NPCname) {
         String  result = "default";
-        result = getCurrentRoom().getCharacter().respond();
+        result = getCurrentRoom().getNPCdialogue();
 
 
         return result;
