@@ -165,7 +165,7 @@ public class Room implements Serializable {
 
     public void updateMapImage() {
         if (hasVisited() == true) {
-            setMapImage(changeAlpha(getMapImage(),.5));
+            setMapImage(changeAlpha(getMapImage(),.6));
         }
     }
 

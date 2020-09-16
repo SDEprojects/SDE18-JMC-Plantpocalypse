@@ -7,6 +7,8 @@ import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
+import com.plantpocalypse.view.ComponentMap;
+import com.plantpocalypse.view.GameGUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -66,34 +68,39 @@ public class GameDirector {
 
         if (adjacentRooms.containsKey(direction)) {
             // Make overlay visible for inactive room
-            Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(true);
-//            String that = Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName());
-
-            System.out.println("before adjecent check" + player.getCurrentRoom());
+//            Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(true);
+            Room previousRoom = player.getCurrentRoom();
+            ComponentMap previousComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
-                System.out.println("after adjacent check" + player.getCurrentRoom());
+                // Check current floor and assign proper ComponentMap
+//                ComponentMap currentFloorComponents;
+//                getCurrentFloorComponents();
+//                int floorNumber = Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber();
+//                if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
+//                    currentFloorComponents = Game.GAME_INSTANCE.floor1;
+//                } else {
+//                    currentFloorComponents = Game.GAME_INSTANCE.floor2;
+//                }
+                // Make overlay visible for inactive room
+                previousComponents.getComponent(previousRoom.getName()).setVisible(true);
+                Room currentRoom = player.getCurrentRoom();
+                if (previousRoom.getFloorNumber() != currentRoom.getFloorNumber()) {
+                    result += "\nFloor " + currentRoom.getFloorNumber() + "? This sure is a Big House!";
+                }
                 if (player.getCurrentRoom().hasVisited() == false) {
                     player.getCurrentRoom().setHasVisited(true); // working
                     player.getCurrentRoom().updateMapImage(); // working
                     BufferedImage currentRoomImage = player.getCurrentRoom().getMapImage();
                     Image currentImage = Game.GAME_INSTANCE.scaleImage(currentRoomImage);
-                    Component[] innerComponents = Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).getComponents();
+                    Component[] innerComponents = getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).getComponents();
                     for (Component component : innerComponents) {
                         if (component instanceof JLabel) {
                             ((JLabel) component).setIcon(new ImageIcon(currentImage));
                         }
                     }
-//                    JPanel tempComponent = Game.GAME_INSTANCE.createComponent(player.getCurrentRoom().getMapImage(), false);
-                    // floor list gains new component but never gets redrawn
-//                    Game.GAME_INSTANCE.floor1.addComponent(player.getCurrentRoom().getName(), tempComponent);
-                    // have to remove outline and add it again
-//                    System.out.println(Game.GAME_INSTANCE.floor1.getComponentMap());
-
-
                 }
-                System.out.println("\t" +Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()));
-                Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(false);
+                getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).setVisible(false);
 
 
                 if (player.getCurrentRoom().getMonster() != null) {
@@ -222,7 +229,15 @@ public class GameDirector {
         return result.toString();
     }
 
-
+    private static ComponentMap getCurrentFloorComponents() {
+        ComponentMap currentFloorComponents;
+        if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
+            currentFloorComponents = Game.GAME_INSTANCE.floor1;
+        } else {
+            currentFloorComponents = Game.GAME_INSTANCE.floor2;
+        }
+        return currentFloorComponents;
+    }
 
     private static void quit() {
         System.exit(0);

@@ -16,6 +16,7 @@ import com.plantpocalypse.util.TextParser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -105,7 +106,6 @@ public class GameGUI implements ActionListener {
         // Add a component container and heads up display component to the main frame
         HUD_CONTAINER = new JPanel(new BorderLayout());
         HUD = new JPanel(new BorderLayout());
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
         gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
 
@@ -166,7 +166,8 @@ public class GameGUI implements ActionListener {
         };
         overlay = new OverlayLayout(floor2Panel);
         floor2Panel.setLayout(overlay);
-        HUD_CONTAINER.add(floor1Panel, BorderLayout.SOUTH);
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+
 
 
         //TODO: remove between lines
@@ -231,6 +232,9 @@ public class GameGUI implements ActionListener {
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
+            if(result.contains("Big House")) {
+                swapFloorPanels();
+            }
             displayDialogue(result);
             displayStatus();
 //            refreshMapPanel(game.floor1);
@@ -337,19 +341,19 @@ public class GameGUI implements ActionListener {
      * Calls methods to display beginning of story and game data to
      * the GUI.
      */
-    public void refreshMapPanel(ComponentMap componentMap) {
+    public void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
 //        componentMap.removeComponent();
         //TODO update this to handle floor 2
         componentMap.getComponentMap().forEach((entry, component) -> {
-            floor1Panel.add(component);
+            panel.add(component);
         });
     }
     public void startGame() {
         dialogueText.setText("\t\t");
         game.loadAssets();
         //TODO
-        refreshMapPanel(game.floor1);
-//        refreshMapPanel(game.floor2);
+        initializeFloorPanels(game.floor1, floor1Panel);
+        initializeFloorPanels(game.floor2, floor2Panel);
 
         //TODO
         title();
@@ -358,6 +362,16 @@ public class GameGUI implements ActionListener {
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
+        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
+        floor2Panel.setVisible(false);
+    }
+    public void swapFloorPanels(){
+        floor1Panel.setVisible(!floor1Panel.isVisible());
+        floor2Panel.setVisible(!floor2Panel.isVisible());
+//        HUD_CONTAINER.remove(1);
+//        HUD_CONTAINER.add(floorPanel);
     }
 
     public void loadSavedGame() {

@@ -59,14 +59,14 @@ public enum Game {
         } catch (Exception e) {
             System.err.println(e);
         }
-//        try {
-//            BufferedImage temp;
-//            temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
-//            JPanel tempComponent = createComponent(temp, false);
-//            floor2.addComponent("labels", tempComponent);
-//        } catch (Exception e) {
-//            System.err.println(e);
-//        }
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
+            JPanel tempComponent = createComponent(temp, false);
+            floor2.addComponent("labels", tempComponent);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
         // Load rooms overlays into map
         mansion.forEach((roomName, room) -> {
@@ -74,10 +74,10 @@ public enum Game {
                 JPanel component = createComponent(room.getMapImage(), false);
                 floor1.addComponent(room.getName(), component);
             }
-//            else if (room.getFloorNumber() == 2 ) {
-//                JPanel component = createComponent(room.getMapImage(), false);
-//                floor2.addComponent(room.getName(), component);
-//            }
+            else if (room.getFloorNumber() == 2 ) {
+                JPanel component = createComponent(room.getMapImage(), false);
+                floor2.addComponent(room.getName(), component);
+            }
         });
 
         // Load background images into maps
@@ -91,14 +91,14 @@ public enum Game {
         } catch (Exception e) {
             System.err.println(e);
         }
-//        try {
-//            BufferedImage temp;
-//            temp = ImageIO.read(new File("./resources/map_background_floor_2.png"));
-//            JPanel tempComponent = createComponent(temp, false);
-//            floor2.addComponent("background", tempComponent);
-//        } catch (Exception e) {
-//            System.err.println(e);
-//        }
+        try {
+            BufferedImage temp;
+            temp = ImageIO.read(new File("./resources/map_background_floor_2.png"));
+            JPanel tempComponent = createComponent(temp, false);
+            floor2.addComponent("background", tempComponent);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
 
     }
 
