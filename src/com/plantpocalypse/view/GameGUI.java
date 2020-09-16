@@ -166,53 +166,7 @@ public class GameGUI implements ActionListener {
         };
         overlay = new OverlayLayout(floor2Panel);
         floor2Panel.setLayout(overlay);
-//         top = new JPanel();
-//        JButton button = new JButton("Small");
-//        top.setMaximumSize(new Dimension(75, 50));
-//        top.setBackground(Color.white);
-//        panel.add(top);
-
-//        mid = new JPanel();
-//        mid.setMaximumSize(new Dimension(200, 100));
-//        mid.setOpaque(false);
-//        try {
-//            BufferedImage mapImage = ImageIO.read(new File("./resources/transparent_title.png"));
-//            for (int x = 0; x < mapImage.getWidth(); x++) {
-//                for (int y = 0; y < mapImage.getHeight(); y++) {
-//                    //
-//                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-//                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
-//
-//                    alpha *= 0.1; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-//                    alpha &= 0xff;      //keeps alpha in 0-255 range
-//
-//                    argb &= 0x00ffffff; //remove old alpha info
-//                    argb |= (alpha << 24);  //add new alpha info
-//                    mapImage.setRGB(x, y, argb);
-//                }
-//            }
-//            Image map = mapImage.getScaledInstance(mid.getMaximumSize().width, mid.getMaximumSize().height, Image.SCALE_SMOOTH);
-//            JLabel imageLabel = new JLabel(new ImageIcon(map));
-//            mid.add(imageLabel);
-//        }
-//        catch (Exception e) {
-//
-//        }
-//
-//        mid.setBackground(new Color(100,200,25,50));
-
-//        panel.add(mid);
-//        bottom = new JPanel();
-//        bottom.setMaximumSize(new Dimension(125, 75));
-//        bottom.setBackground(Color.lightGray);
-
-//        panel.add(bottom);
-
         HUD_CONTAINER.add(floor1Panel, BorderLayout.SOUTH);
-//        setSize(400, 300);
-//        setLocationRelativeTo(null);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setVisible(true);
 
 
         //TODO: remove between lines
@@ -279,6 +233,7 @@ public class GameGUI implements ActionListener {
                 result = "Not a valid command. Type help if you need a list of possible commands";
             displayDialogue(result);
             displayStatus();
+//            refreshMapPanel(game.floor1);
 
             if (game.checkGameOver()) {
                 if (game.checkLostGame()) lost(); else won();
@@ -382,17 +337,20 @@ public class GameGUI implements ActionListener {
      * Calls methods to display beginning of story and game data to
      * the GUI.
      */
+    public void refreshMapPanel(ComponentMap componentMap) {
+//        componentMap.removeComponent();
+        //TODO update this to handle floor 2
+        componentMap.getComponentMap().forEach((entry, component) -> {
+            floor1Panel.add(component);
+        });
+    }
     public void startGame() {
         dialogueText.setText("\t\t");
         game.loadAssets();
         //TODO
-        System.out.println(game.floor1.getComponentMap());
-        game.floor1.getComponentMap().forEach((entry, component) -> {
-            floor1Panel.add(component);
-        });
-        game.floor2.getComponentMap().forEach((entry, component) -> {
-            floor2Panel.add(component);
-        });
+        refreshMapPanel(game.floor1);
+//        refreshMapPanel(game.floor2);
+
         //TODO
         title();
         intro();

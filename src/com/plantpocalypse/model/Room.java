@@ -192,6 +192,8 @@ public class Room implements Serializable {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", isLocked=" + isLocked + '\'' +
+                ", hasVisited=" + hasVisited + '\'' +
+                ", mapImage=" + mapImage + '\'' +
                 '}';
     }
 }

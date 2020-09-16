@@ -8,6 +8,12 @@ import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,9 +65,34 @@ public class GameDirector {
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
 
         if (adjacentRooms.containsKey(direction)) {
+            // Make overlay visible for inactive room
             Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(true);
+//            String that = Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName());
+
+            System.out.println("before adjecent check" + player.getCurrentRoom());
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
+                System.out.println("after adjacent check" + player.getCurrentRoom());
+                if (player.getCurrentRoom().hasVisited() == false) {
+                    player.getCurrentRoom().setHasVisited(true); // working
+                    player.getCurrentRoom().updateMapImage(); // working
+                    BufferedImage currentRoomImage = player.getCurrentRoom().getMapImage();
+                    Image currentImage = Game.GAME_INSTANCE.scaleImage(currentRoomImage);
+                    Component[] innerComponents = Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).getComponents();
+                    for (Component component : innerComponents) {
+                        if (component instanceof JLabel) {
+                            ((JLabel) component).setIcon(new ImageIcon(currentImage));
+                        }
+                    }
+//                    JPanel tempComponent = Game.GAME_INSTANCE.createComponent(player.getCurrentRoom().getMapImage(), false);
+                    // floor list gains new component but never gets redrawn
+//                    Game.GAME_INSTANCE.floor1.addComponent(player.getCurrentRoom().getName(), tempComponent);
+                    // have to remove outline and add it again
+//                    System.out.println(Game.GAME_INSTANCE.floor1.getComponentMap());
+
+
+                }
+                System.out.println("\t" +Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()));
                 Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(false);
 
 

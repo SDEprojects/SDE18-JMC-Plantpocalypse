@@ -36,6 +36,10 @@ public class ComponentMap {
     public void addComponent(String componentName, JPanel component) {
         componentMap.put(componentName, component);
     }
+    public void removeComponent(String componentName) {
+        componentMap.remove(componentName);
+    }
+
 
     // Retrieve component for modifying value
     public JPanel getComponent(String roomName) {
