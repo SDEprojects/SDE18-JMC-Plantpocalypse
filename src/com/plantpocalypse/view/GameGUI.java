@@ -182,7 +182,6 @@ public class GameGUI implements ActionListener {
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
-//            displayDialogue("> "+inputString);
             displayDialogue(result);
             displayStatus();
 
@@ -246,7 +245,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
-//        play("../Plantpocalypse/audio/1.wav");
+        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 
     public void loadSavedGame() {
@@ -301,10 +300,10 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(false);
     }
 
+    // Handles sound for jframe
     public static void play(String filename) {
         try {
             Clip clip = AudioSystem.getClip();
-            clip.stop();
             clip.open(AudioSystem.getAudioInputStream(new File(filename)));
             clip.start();
         } catch (Exception exc) {
