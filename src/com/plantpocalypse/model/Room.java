@@ -69,19 +69,6 @@ public class Room implements Serializable {
         });
     }
 
-    public void createMapImage() {
-        try {
-            setMapImage(ImageIO.read(new File(this.getPath())));
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-
-    public void updateMapImage() {
-        if (hasVisited() == true) {
-            setMapImage(TransparencyTool.changeAlpha(getMapImage(),.6));
-        }
-    }
 
 
     /* GETTERS AND SETTERS */
@@ -144,11 +131,11 @@ public class Room implements Serializable {
         this.path = path;
     }
 
-    public BufferedImage getMapImage() {
+    public ImageIcon getMapImage() {
         return mapImage;
     }
 
-    public void setMapImage(BufferedImage mapImage) {
+    public void setMapImage(ImageIcon mapImage) {
         this.mapImage = mapImage;
     }
 

@@ -1,5 +1,6 @@
 package com.plantpocalypse.model;
 
+import com.plantpocalypse.util.TransparencyTool;
 import com.plantpocalypse.util.reader.AdjacentRoomReader;
 import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
@@ -51,54 +52,30 @@ public enum Game {
         floor1 = new ComponentMap();
         floor2 = new ComponentMap();
         // Load outline overlay into each floor's map
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_labels_floor_1.png"));
-            JPanel tempComponent = createRoomOverlayComponent(temp, false);
-            floor1.addComponent("labels", tempComponent);
 
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
-            JPanel tempComponent = createRoomOverlayComponent(temp, false);
-            floor2.addComponent("labels", tempComponent);
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+        JPanel tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_1.png");
+        floor1.addComponent("labels", tempComponent);
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_2.png");
+        floor2.addComponent("labels", tempComponent);
 
         // Load rooms overlays into map
         mansion.forEach((roomName, room) -> {
+            JPanel component = TransparencyTool.createJPanelFromPath(room.getPath());
             if (room.getFloorNumber() == 1) {
-                JPanel component = createRoomOverlayComponent(room.getMapImage(), false);
                 floor1.addComponent(room.getName(), component);
             }
             else if (room.getFloorNumber() == 2 ) {
-                JPanel component = createRoomOverlayComponent(room.getMapImage(), false);
                 floor2.addComponent(room.getName(), component);
             }
         });
 
         // Load background images into maps
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
-            JPanel tempComponent = createRoomOverlayComponent(temp, false);
-            floor1.addComponent("background", tempComponent);
 
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-        try {
-            BufferedImage temp;
-            temp = ImageIO.read(new File("./resources/map_background_floor_2.png"));
-            JPanel tempComponent = createRoomOverlayComponent(temp, false);
-            floor2.addComponent("background", tempComponent);
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_1.png");
+        floor1.addComponent("background", tempComponent);
+
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_2.png");
+        floor2.addComponent("background", tempComponent);
 
     }
 

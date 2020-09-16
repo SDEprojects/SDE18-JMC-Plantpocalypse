@@ -7,6 +7,7 @@ import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
+import com.plantpocalypse.util.TransparencyTool;
 import com.plantpocalypse.view.ComponentMap;
 import com.plantpocalypse.view.GameGUI;
 
@@ -85,9 +86,9 @@ public class GameDirector {
                     // After a player has visited a new room, mark it as visited
                     player.getCurrentRoom().setHasVisited(true);
                     // Change the room's map overlay image to be partially transparent
-                    player.getCurrentRoom().updateMapImage();
-                    BufferedImage currentRoomImage = player.getCurrentRoom().getMapImage();
-                    Image currentImage = Game.GAME_INSTANCE.scaleImage(currentRoomImage);
+                    BufferedImage tempImage = TransparencyTool.readBuff(player.getCurrentRoom().getPath());
+                    tempImage = TransparencyTool.changeAlpha(tempImage);
+                    ImageIcon transparentIcon = TransparencyTool.createImageIcon(tempImage);
                     // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
                     // Use the current room's name to target its specific JPanel
                     // Then get all of the inner components that make up that JPanel
@@ -96,7 +97,7 @@ public class GameDirector {
                     // With the new, transparent, overlay
                     for (Component component : innerComponents) {
                         if (component instanceof JLabel) {
-                            ((JLabel) component).setIcon(new ImageIcon(currentImage));
+                            ((JLabel) component).setIcon(transparentIcon);
                         }
                     }
                 }

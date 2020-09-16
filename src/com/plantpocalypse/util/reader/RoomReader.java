@@ -1,7 +1,9 @@
 package com.plantpocalypse.util.reader;
 
 import com.plantpocalypse.model.Room;
+import com.plantpocalypse.util.TransparencyTool;
 
+import javax.swing.*;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -9,6 +11,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -98,13 +101,20 @@ public class RoomReader {
                         case PATH -> {
                             event = eventReader.nextEvent();
                             if (room != null) {
-                                room.setPath(event.asCharacters().getData());
+                                String path = event.asCharacters().getData();
+                                room.setPath(path);
                                 // Initialize room's mapImage with black overlay
                                 // Make sure we have initialized room with hasVisited before this step
-                                room.createMapImage();
-                                // If a room has been visited, update its image to be partially transparent
-                                // Mostly, this is used for the room that the player starts out the game in
-                                room.updateMapImage();
+                                BufferedImage tempImage = TransparencyTool.readBuff(path);
+
+                                if (room.hasVisited()) {
+                                    // If a room has been visited, update its image to be partially transparent
+                                    // Mostly, this is used for the room that the player starts out the game in
+                                    tempImage = TransparencyTool.changeAlpha(tempImage);
+                                }
+                                ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
+                                room.setMapImage(mapImage);
+
 
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");

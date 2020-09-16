@@ -13,6 +13,7 @@ import com.plantpocalypse.controller.GameDirector;
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
+import com.plantpocalypse.util.TransparencyTool;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -209,22 +210,12 @@ public class GameGUI implements ActionListener {
             }
             if(result.contains("You opened the")) {
                 int currentFloor = game.getPlayer().getCurrentRoom().getFloorNumber();
+                result = "You opened the map.";
                 // Point at the map file that corresponds to the current floor and display in a pop up
                 String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
-                try {
-                    result = "You opened the map.";
-                    BufferedImage mapImage = ImageIO.read(new File(pathName));
-                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
-                    JPanel imageHolder = new JPanel();
-                    imageHolder.add(imageLabel);
-                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
-                }
-                catch (MapFileNotFoundException exc) {
-                    System.err.println("Map file not found in " + pathName);
-                }
-                catch(Exception exc) {
-                    System.out.println("no");
-                }
+                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName);
+                JOptionPane.showMessageDialog(gameFrame, imageHolder);
+
             }
 
             if(result == null || result == "")
