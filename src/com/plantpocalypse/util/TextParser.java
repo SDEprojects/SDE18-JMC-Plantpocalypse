@@ -79,7 +79,7 @@ public class TextParser {
 
     private static String checkAndReplaceSynonyms(String word) {
         String result = word;
-        List<String> goWords = Arrays.asList("walk","run","jump","hop","skip");
+        List<String> goWords = Arrays.asList("walk","run","jump","hop","skip","move");
         List<String> quitWords = Arrays.asList("exit","leave");
         List<String> getWords = Arrays.asList("grab","take");
         if (goWords.contains(word)) {

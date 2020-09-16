@@ -27,6 +27,8 @@ public class RoomReader {
     static final String FLOORNUMBER = "floorNumber";
     static final String PATH = "path";
     static final String NPC = "NPC";
+    static final String COLOR = "color";
+    static final String NPCdialogue = "NPCdialogue";
 
     @SuppressWarnings( {"null"})
     public HashMap<String, Room> readRoomsXML(String roomsFile) {
@@ -127,6 +129,24 @@ public class RoomReader {
                             event = eventReader.nextEvent();
                             if (room != null) {
                                 room.setCharacter(event.asCharacters().getData());
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
+                        case COLOR -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setColor(Integer.parseInt(event.asCharacters().getData()));
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
+                        case NPCdialogue -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setNPCdialogue(event.asCharacters().getData());
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");
                                 System.exit(-1);

@@ -3,10 +3,11 @@
     <room name="Outside">
         <description>You may want to head inside now.</description>
     </room>
-    <room name="Foyer">
-        <description>The size of the grand Foyer leaves you in awe. There are vines wrapped around the ceiling trickling down the stairs blocking your way up.</description>
 
+    <room name="Foyer">
+        <description> Have you found the key?</description>
     </room>
+
     <room name="Kitchen">
         <description>The Kitchen smells of rotten elderberries. You notice the food elevator door has been broken open.</description>
     </room>

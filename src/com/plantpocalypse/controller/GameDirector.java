@@ -17,6 +17,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.Buffer;
+import com.plantpocalypse.view.GameGUI;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,12 +54,11 @@ public class GameDirector {
         return result;
     }
     private static String talk (String NPCname, Player player) {
+
         String result = "He is not with you";
         if (player.getCurrentRoom().getCharacter() != null){
             result = player.talk(NPCname);
         }
-
-
         return result;
     }
 
@@ -73,6 +74,9 @@ public class GameDirector {
             ComponentMap previousFloorComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
+                try {
+                    GameGUI.play("../Plantpocalypse/audio/door-creak.wav");
+                } catch (Exception e){}
                 // Gray out the room we're moving out of by making its overlay visible on the mini map
                 previousFloorComponents.getComponent(previousRoom.getName()).setVisible(true);
                 Room currentRoom = player.getCurrentRoom();
@@ -106,13 +110,18 @@ public class GameDirector {
                 // After moving into this room, turn off it's overlay on the map to fully illuminate it
                 getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).setVisible(false);
 
-
                 if (player.getCurrentRoom().getMonster() != null) {
+                    try {
+                        GameGUI.play("../Plantpocalypse/audio/leaves.wav");
+                    } catch (Exception e){}
                     result += "\nYou were attacked by a monstrous " + player.getCurrentRoom().getMonster().getMonsterName();
                     result += "\nYou lost " + player.getCurrentRoom().getMonster().getBaseAttack() + " health points.";
                     player.getCurrentRoom().getMonster().attackPlayer(player);
                 }
             } else {
+                try {
+                    GameGUI.play("../Plantpocalypse/audio/door-handle-jiggle.wav");
+                } catch (Exception e){}
                 result = "The door is locked.";
             }
         }
@@ -140,6 +149,9 @@ public class GameDirector {
             result = "You used the " + item.getName();
 
             if (itemName.contains("key")) {
+                try {
+                    GameGUI.play("../Plantpocalypse/audio/door-locking.wav");
+                } catch (Exception e){}
                 Key key = (Key) item;
                 result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
             } else if (itemName.contains("killer")) {

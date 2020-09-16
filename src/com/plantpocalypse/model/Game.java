@@ -6,6 +6,7 @@ import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
 import com.plantpocalypse.util.reader.RoomReader;
 import com.plantpocalypse.view.ComponentMap;
+import com.plantpocalypse.util.reader.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,18 +30,25 @@ public enum Game {
      * Instantiates Player, Rooms and other necessary assets.
      */
     public void loadAssets() {
-        //loadGame();
+//        loadGame();
         loadRooms();
         loadItems();
         loadMonsters();
         connectRooms();
         player = new Player(mansion.get("Outside"));
+//        loadNPC();
 
     }
 
     /**
      * Instantiates all of the rooms in the mansion.
      */
+
+//    private void loadNPC(){
+//        NpcReader readNPC = new NpcReader();
+//        readNPC.readNPCXML("./resources/newGame/NPC.xml");
+//
+//    }
     private void loadRooms() {
         RoomReader readRooms = new RoomReader();
         mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");

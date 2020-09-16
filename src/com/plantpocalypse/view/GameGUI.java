@@ -16,6 +16,8 @@ import com.plantpocalypse.util.TextParser;
 import com.plantpocalypse.util.TransparencyTool;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,6 +48,7 @@ public class GameGUI implements ActionListener {
 
     // Containers for mini map and title screen
     private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel;
+    private final JPanel currentRoomIcon, roomStatusContainer;
 
     /**
      * CTOR for the GUI.
@@ -108,6 +111,14 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
         gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
+        roomStatusContainer = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        roomStatusContainer.setLayout(new OverlayLayout(roomStatusContainer));
+
 
         /* Instantiate components for User Input section */
         inputFieldLabel = new JLabel("Enter command: ");
@@ -117,6 +128,16 @@ public class GameGUI implements ActionListener {
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
+
+        // Instantiate a background color panel for current room label
+        currentRoomIcon  = new JPanel();
+        currentRoomIcon.setPreferredSize(new Dimension(125,50));
+        currentRoomIcon.setMaximumSize(currentRoomIcon.getPreferredSize());
+        currentRoomIcon.setMinimumSize(currentRoomIcon.getPreferredSize());
+
+
+        roomStatusContainer.add(currentRoomLabel);
+        roomStatusContainer.add(currentRoomIcon);
 
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
@@ -132,8 +153,7 @@ public class GameGUI implements ActionListener {
         inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
-
-        panelHolderInput[0][0].add(currentRoomLabel);
+        panelHolderInput[0][0].add(roomStatusContainer);
         panelHolderInput[0][1].add(currentHealthLabel);
         panelHolderInput[0][2].add(movesMadeLabel);
         panelHolderInput[1][0].add(inputFieldLabel);
@@ -205,6 +225,7 @@ public class GameGUI implements ActionListener {
             // 3) Uses GameDirector to enact command, returning result string to show user
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
             if(result.contains("Moved to")) {
+//                play("../Plantpocalypse/audio/1.wav");
                 dialogueText.setText("");
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
@@ -240,7 +261,12 @@ public class GameGUI implements ActionListener {
      * @param currentRoom The current room the Player is in.
      */
     public void displayCurrentRoom(String currentRoom) {
-        currentRoomLabel.setText("<html>"+"Current Room: " + "<font color = red>"+ currentRoom + "</html>");
+        currentRoomLabel.setText("<html>"+
+//                "Current Room: " +
+                "<font color = black>"+ currentRoom + "</html>");
+        // Set background color here according to room
+        int roomColor = Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getColor();
+        currentRoomIcon.setBackground(new Color(roomColor));
     }
 
     /**
@@ -301,6 +327,8 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
+        play("../Plantpocalypse/audio/1.wav");          //play's song
+
     }
     public void swapFloorPanels(){
         // Toggles visibility for each floor mini maps
@@ -324,6 +352,7 @@ public class GameGUI implements ActionListener {
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
             swapFloorPanels();
         }
+        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 //    add more details in the about section
     public void about() {
@@ -370,4 +399,14 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(false);
     }
 
+    // Handles sound for jframe
+    public static void play(String filename) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File(filename)));
+            clip.start();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
+    }
 }
