@@ -7,7 +7,7 @@
  */
 package com.plantpocalypse;
 
-import com.plantpocalypse.view.GameCLI;
+import com.plantpocalypse.view.GameGUI;
 
 import javax.swing.*;
 
@@ -20,8 +20,8 @@ public class GameClient {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-//            new GameGUI();
-            new GameCLI();
+            new GameGUI();
+//            new GameCLI();
         }
         catch (Exception e) {
             e.printStackTrace();
