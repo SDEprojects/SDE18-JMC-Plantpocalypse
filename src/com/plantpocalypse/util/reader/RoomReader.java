@@ -21,6 +21,7 @@ public class RoomReader {
     static final String ISLOCKED = "isLocked";
     static final String DESCRIPTION = "description";
     static final String NPC = "NPC";
+    static final String COLOR = "color";
     static final String NPCdialogue = "NPCdialogue";
 
     @SuppressWarnings( {"null"})
@@ -84,10 +85,17 @@ public class RoomReader {
                                 System.exit(-1);
                             }
                         }
-
+                        case COLOR -> {
+                            event = eventReader.nextEvent();
+                            if (room != null) {
+                                room.setColor(Integer.parseInt(event.asCharacters().getData()));
+                            } else {
+                                System.out.println("Room not initialized, check rooms.xml for error");
+                                System.exit(-1);
+                            }
+                        }
                         case NPCdialogue -> {
                             event = eventReader.nextEvent();
-//                            System.out.println(event);
                             if (room != null) {
                                 room.setNPCdialogue(event.asCharacters().getData());
                             } else {
