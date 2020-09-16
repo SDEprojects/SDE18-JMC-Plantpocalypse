@@ -22,7 +22,7 @@
         <name>iron key</name>
         <roomUnlock>Upper Hall</roomUnlock>
         <location>Master Bathroom</location>
-        <description>An iron key that can bd used to unlock a door.</description>
+        <description>An iron key that can be used to unlock a door.</description>
     </item>
     <item type="weedKiller">
         <name>weed killer</name>
