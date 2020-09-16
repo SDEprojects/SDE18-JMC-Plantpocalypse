@@ -18,6 +18,7 @@ public class Room implements Serializable {
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
     private NPC character;
+    private int color;
 
     public NPC getCharacter() {
         return character;
@@ -115,6 +116,14 @@ public class Room implements Serializable {
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
         //doesHaveMonster = true;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     // toString

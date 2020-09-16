@@ -40,6 +40,8 @@ public class GameGUI implements ActionListener {
     private final JMenuItem newGame, save, load, help, about, quit;
     private final JMenuBar menuBar;
 
+    private final JPanel currentRoomIcon, roomStatusContainer;
+
     /**
      * CTOR for the GUI.
      * Renders all of the Components needed, sets up
@@ -95,6 +97,14 @@ public class GameGUI implements ActionListener {
         gameFrame.setTitle("Plantpocalypse");
         gameFrame.setSize(800,600);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
+        roomStatusContainer = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        roomStatusContainer.setLayout(new OverlayLayout(roomStatusContainer));
+
 
         /* Instantiate components for User Input section */
         inputFieldLabel = new JLabel("Enter command: ");
@@ -104,6 +114,16 @@ public class GameGUI implements ActionListener {
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
+
+        // Instantiate a background color panel for current room label
+        currentRoomIcon  = new JPanel();
+        currentRoomIcon.setPreferredSize(new Dimension(125,50));
+        currentRoomIcon.setMaximumSize(currentRoomIcon.getPreferredSize());
+        currentRoomIcon.setMinimumSize(currentRoomIcon.getPreferredSize());
+
+
+        roomStatusContainer.add(currentRoomLabel);
+        roomStatusContainer.add(currentRoomIcon);
 
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
@@ -119,7 +139,7 @@ public class GameGUI implements ActionListener {
         inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
-        panelHolderInput[0][0].add(currentRoomLabel);
+        panelHolderInput[0][0].add(roomStatusContainer);
         panelHolderInput[0][1].add(currentHealthLabel);
         panelHolderInput[0][2].add(movesMadeLabel);
         panelHolderInput[1][0].add(inputFieldLabel);
@@ -194,7 +214,12 @@ public class GameGUI implements ActionListener {
      * @param currentRoom The current room the Player is in.
      */
     public void displayCurrentRoom(String currentRoom) {
-        currentRoomLabel.setText("<html>"+"Current Room: " + "<font color = red>"+ currentRoom + "</html>");
+        currentRoomLabel.setText("<html>"+
+//                "Current Room: " +
+                "<font color = black>"+ currentRoom + "</html>");
+        // Set background color here according to room
+        int roomColor = Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getColor();
+        currentRoomIcon.setBackground(new Color(roomColor));
     }
 
     /**
