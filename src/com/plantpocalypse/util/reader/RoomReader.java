@@ -102,8 +102,9 @@ public class RoomReader {
                                 // Initialize room's mapImage with black overlay
                                 // Make sure we have initialized room with hasVisited before this step
                                 room.createMapImage();
+                                // If a room has been visited, update its image to be partially transparent
+                                // Mostly, this is used for the room that the player starts out the game in
                                 room.updateMapImage();
-                                //
 
                             } else {
                                 System.out.println("Room not initialized, check rooms.xml for error");

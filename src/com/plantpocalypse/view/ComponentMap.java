@@ -7,39 +7,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ComponentMap {
+public class ComponentMap implements Serializable {
     HashMap<String, JPanel> componentMap;
 
     public ComponentMap() {
         this.componentMap = new LinkedHashMap<String, JPanel>();
     }
 
-    // Initialize component
-    public JPanel createComponent(BufferedImage mapImage) {
-        JPanel component = new JPanel();
-        component.setMaximumSize(new Dimension(200, 100));
-        component.setOpaque(false);
-        // Scale image to fit container
-        Image map = mapImage.getScaledInstance(component.getMaximumSize().width, component.getMaximumSize().height, Image.SCALE_SMOOTH);
-        JLabel imageLabel = new JLabel(new ImageIcon(map));
-        component.add(imageLabel);
-
-        return component;
-
-    }
-
     // Add components to map
     public void addComponent(String componentName, JPanel component) {
         componentMap.put(componentName, component);
     }
-    public void removeComponent(String componentName) {
-        componentMap.remove(componentName);
-    }
-
 
     // Retrieve component for modifying value
     public JPanel getComponent(String roomName) {

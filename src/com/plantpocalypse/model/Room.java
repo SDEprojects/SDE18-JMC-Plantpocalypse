@@ -34,25 +34,6 @@ public class Room implements Serializable {
         this.character = new NPC(name);
     }
 
-    public  BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
-
-            for (int x = 0; x < mapImage.getWidth(); x++) {
-                for (int y = 0; y < mapImage.getHeight(); y++) {
-                    //
-                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
-
-                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-                    alpha &= 0xff;      //keeps alpha in 0-255 range
-
-                    argb &= 0x00ffffff; //remove old alpha info
-                    argb |= (alpha << 24);  //add new alpha info
-                    mapImage.setRGB(x, y, argb);
-                }
-            }
-            return mapImage;
-        }
-
     /* CONSTRUCTORS */
     public Room() {
 
@@ -84,6 +65,41 @@ public class Room implements Serializable {
         items.entrySet().forEach( entry -> {
             System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
         });
+    }
+
+    public void createMapImage() {
+        try {
+            setMapImage(ImageIO.read(new File(this.getPath())));
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public void updateMapImage() {
+        if (hasVisited() == true) {
+            setMapImage(changeAlpha(getMapImage(),.6));
+        }
+    }
+
+    // StackOverflow foo to change all of the pixels of an image to a given transparency (alpha) value
+    // https://stackoverflow.com/questions/16054596/change-color-of-non-transparent-parts-of-png-in-java
+    public  BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
+
+        for (int x = 0; x < mapImage.getWidth(); x++) {
+            for (int y = 0; y < mapImage.getHeight(); y++) {
+                //
+                int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
+                int alpha = (argb >> 24) & 0xff;  //isolate alpha
+
+                alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
+                alpha &= 0xff;      //keeps alpha in 0-255 range
+
+                argb &= 0x00ffffff; //remove old alpha info
+                argb |= (alpha << 24);  //add new alpha info
+                mapImage.setRGB(x, y, argb);
+            }
+        }
+        return mapImage;
     }
 
     /* GETTERS AND SETTERS */
@@ -150,23 +166,8 @@ public class Room implements Serializable {
         return mapImage;
     }
 
-    public void createMapImage() {
-        //TODO create an else statement that returns the alphatized image if room has visited
-        try {
-            setMapImage(ImageIO.read(new File(this.getPath())));
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-
     public void setMapImage(BufferedImage mapImage) {
         this.mapImage = mapImage;
-    }
-
-    public void updateMapImage() {
-        if (hasVisited() == true) {
-            setMapImage(changeAlpha(getMapImage(),.6));
-        }
     }
 
     public Boolean hasVisited() {

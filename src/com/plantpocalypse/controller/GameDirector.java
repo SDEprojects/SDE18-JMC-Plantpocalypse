@@ -67,39 +67,41 @@ public class GameDirector {
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
 
         if (adjacentRooms.containsKey(direction)) {
-            // Make overlay visible for inactive room
-//            Game.GAME_INSTANCE.floor1.getComponent(player.getCurrentRoom().getName()).setVisible(true);
+            // Store current room as "previousRoom" for comparing floor numbers and switching mini map
             Room previousRoom = player.getCurrentRoom();
-            ComponentMap previousComponents = getCurrentFloorComponents();
+            ComponentMap previousFloorComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
-                // Check current floor and assign proper ComponentMap
-//                ComponentMap currentFloorComponents;
-//                getCurrentFloorComponents();
-//                int floorNumber = Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber();
-//                if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
-//                    currentFloorComponents = Game.GAME_INSTANCE.floor1;
-//                } else {
-//                    currentFloorComponents = Game.GAME_INSTANCE.floor2;
-//                }
-                // Make overlay visible for inactive room
-                previousComponents.getComponent(previousRoom.getName()).setVisible(true);
+                // Gray out the room we're moving out of by making its overlay visible on the mini map
+                previousFloorComponents.getComponent(previousRoom.getName()).setVisible(true);
                 Room currentRoom = player.getCurrentRoom();
                 if (previousRoom.getFloorNumber() != currentRoom.getFloorNumber()) {
-                    result += "\nFloor " + currentRoom.getFloorNumber() + "? This sure is a Big House!";
+                    // If we moved to a different floor, print message to user
+                    // TODO: Might need to refactor later. "Moved to Floor" string is being used
+                    //  In GameGUI to swap which floor's JPanel is being displayed!!!
+                    result = "Moved to Floor " + currentRoom.getFloorNumber() + "\n" + result;
                 }
                 if (player.getCurrentRoom().hasVisited() == false) {
-                    player.getCurrentRoom().setHasVisited(true); // working
-                    player.getCurrentRoom().updateMapImage(); // working
+                    // After a player has visited a new room, mark it as visited
+                    player.getCurrentRoom().setHasVisited(true);
+                    // Change the room's map overlay image to be partially transparent
+                    player.getCurrentRoom().updateMapImage();
                     BufferedImage currentRoomImage = player.getCurrentRoom().getMapImage();
                     Image currentImage = Game.GAME_INSTANCE.scaleImage(currentRoomImage);
+                    // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
+                    // Use the current room's name to target its specific JPanel
+                    // Then get all of the inner components that make up that JPanel
                     Component[] innerComponents = getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).getComponents();
+                    // Loop through all of those inner components to find which one is the actual image icon and replace it
+                    // With the new, transparent, overlay
                     for (Component component : innerComponents) {
                         if (component instanceof JLabel) {
                             ((JLabel) component).setIcon(new ImageIcon(currentImage));
                         }
                     }
                 }
+
+                // After moving into this room, turn off it's overlay on the map to fully illuminate it
                 getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).setVisible(false);
 
 

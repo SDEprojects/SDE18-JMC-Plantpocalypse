@@ -16,7 +16,6 @@ import com.plantpocalypse.util.TextParser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,15 +26,11 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
-    // TODO:
-//        private final JPanel top, mid, bottom;
-    JPanel floor1Panel, floor2Panel;
-    //TODO:
+    // Main window
     private final JFrame gameFrame;
+    // Container for user input and other status displays
     private final JPanel userInputPanel;
-    private final JPanel HUD_CONTAINER;
-    private final JPanel HUD;
-//    private final JPanel[][] testPanelHolderInput;
+    // Helper panel to organize status components
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
 
@@ -47,6 +42,9 @@ public class GameGUI implements ActionListener {
     private final JMenu menu;
     private final JMenuItem newGame, save, load, help, about, quit;
     private final JMenuBar menuBar;
+
+    // Containers for mini map and title screen
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel;
 
     /**
      * CTOR for the GUI.
@@ -106,6 +104,7 @@ public class GameGUI implements ActionListener {
         // Add a component container and heads up display component to the main frame
         HUD_CONTAINER = new JPanel(new BorderLayout());
         HUD = new JPanel(new BorderLayout());
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
         gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
 
@@ -148,9 +147,10 @@ public class GameGUI implements ActionListener {
             HUD.add(imageLabel);
         }
         catch (Exception e) {
-
+            System.err.println("title screen image file does not exist or is improperly named");
         }
-        //TODO: remove between lines
+
+        // Set up floor1 and floor2 containers to allow overlays in mini map drawing
          floor1Panel = new JPanel() {
             public boolean isOptimizedDrawingEnabled() {
                 return false;
@@ -166,11 +166,8 @@ public class GameGUI implements ActionListener {
         };
         overlay = new OverlayLayout(floor2Panel);
         floor2Panel.setLayout(overlay);
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
 
 
-
-        //TODO: remove between lines
 
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
@@ -210,34 +207,34 @@ public class GameGUI implements ActionListener {
                 dialogueText.setText("");
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
-//            if(result.contains("You opened the")) {
-//                // Gets current room name and returns it in snake case
-//                String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
-//                String pathName = "./resources/map_" + parsedRoom + ".png";
-//                try {
-//                    result = "You opened the map.";
-//                    BufferedImage mapImage = ImageIO.read(new File(pathName));
-//                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
-//                    JPanel imageHolder = new JPanel();
-//                    imageHolder.add(imageLabel);
-//                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
-//                }
-//                catch (MapFileNotFoundException exc) {
-//                    System.err.println("Map file not found in " + pathName);
-//                }
-//                catch(Exception exc) {
-//                    System.out.println("no");
-//                }
-//            }
+            if(result.contains("You opened the")) {
+                int currentFloor = game.getPlayer().getCurrentRoom().getFloorNumber();
+                // Point at the map file that corresponds to the current floor and display in a pop up
+                String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
+                try {
+                    result = "You opened the map.";
+                    BufferedImage mapImage = ImageIO.read(new File(pathName));
+                    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
+                    JPanel imageHolder = new JPanel();
+                    imageHolder.add(imageLabel);
+                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
+                }
+                catch (MapFileNotFoundException exc) {
+                    System.err.println("Map file not found in " + pathName);
+                }
+                catch(Exception exc) {
+                    System.out.println("no");
+                }
+            }
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
-            if(result.contains("Big House")) {
+            // If player moved to a new floor, toggle mini map visibility for both floors (one on, the other off)
+            if(result.contains("Moved to Floor ")) {
                 swapFloorPanels();
             }
             displayDialogue(result);
             displayStatus();
-//            refreshMapPanel(game.floor1);
 
             if (game.checkGameOver()) {
                 if (game.checkLostGame()) lost(); else won();
@@ -246,53 +243,6 @@ public class GameGUI implements ActionListener {
         }
     }
 
-//    public void displayCurrentRoomMap(String roomName){
-//        String parsedRoom = TextParser.parseRoomName(game.getPlayer().getCurrentRoom().getName());
-//        String pathName = "./resources/map_" + parsedRoom + ".png";
-//
-//        if (game.getPlayer().retrieveItemFromInventory("floor plan") != null) {
-//            try {
-//                BufferedImage mapImage = ImageIO.read(new File(pathName));
-//                Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
-//                JLabel imageLabel = new JLabel(new ImageIcon(map));
-//                // After establishing file exists, remove previous component and replace with the new image
-//                HUD.remove(HUD.getComponent(0));
-//                HUD.add(imageLabel);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    public static class ImageRender {
-//        public static BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
-//
-//            for (int x = 0; x < mapImage.getWidth(); x++) {
-//                for (int y = 0; y < mapImage.getHeight(); y++) {
-//                    //
-//                    int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-//                    int alpha = (argb >> 24) & 0xff;  //isolate alpha
-//
-//                    alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-//                    alpha &= 0xff;      //keeps alpha in 0-255 range
-//
-//                    argb &= 0x00ffffff; //remove old alpha info
-//                    argb |= (alpha << 24);  //add new alpha info
-//                    mapImage.setRGB(x, y, argb);
-//                }
-//            }
-//        }
-//
-//    }
-
-
-    public void displayCurrentRoomMap(BufferedImage map) {
-//        BufferedImage temp = ImageRender.changeAlpha(map, .1);
-//        ImageRender.changeAlpha(map, 1);
-        HUD.remove(HUD.getComponent(0));
-        JLabel imageLabel = new JLabel(new ImageIcon(map));
-        HUD.add(imageLabel);
-    }
 
     /**
      * Changes the text on the currentRoomLabel to Player's current room.
@@ -333,8 +283,6 @@ public class GameGUI implements ActionListener {
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
-//        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getPath());
-        displayCurrentRoomMap(game.getPlayer().getCurrentRoom().getMapImage());
     }
 
     /**
@@ -342,8 +290,7 @@ public class GameGUI implements ActionListener {
      * the GUI.
      */
     public void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
-//        componentMap.removeComponent();
-        //TODO update this to handle floor 2
+        // Add each component in the ComponentMap to the proper floor's JPanel container
         componentMap.getComponentMap().forEach((entry, component) -> {
             panel.add(component);
         });
@@ -351,11 +298,8 @@ public class GameGUI implements ActionListener {
     public void startGame() {
         dialogueText.setText("\t\t");
         game.loadAssets();
-        //TODO
         initializeFloorPanels(game.floor1, floor1Panel);
         initializeFloorPanels(game.floor2, floor2Panel);
-
-        //TODO
         title();
         intro();
         displayStatus();
@@ -368,10 +312,9 @@ public class GameGUI implements ActionListener {
         floor2Panel.setVisible(false);
     }
     public void swapFloorPanels(){
+        // Toggles visibility for each floor mini maps
         floor1Panel.setVisible(!floor1Panel.isVisible());
         floor2Panel.setVisible(!floor2Panel.isVisible());
-//        HUD_CONTAINER.remove(1);
-//        HUD_CONTAINER.add(floorPanel);
     }
 
     public void loadSavedGame() {

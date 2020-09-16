@@ -46,14 +46,15 @@ public enum Game {
         loadComponentMaps();
     }
 
+    // Instantiates HashMaps of JPanel components for easy lookup of each room/floor's mini map overlays
     private void loadComponentMaps() {
         floor1 = new ComponentMap();
         floor2 = new ComponentMap();
-        // Load outline overlay into map
+        // Load outline overlay into each floor's map
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_labels_floor_1.png"));
-            JPanel tempComponent = createComponent(temp, false);
+            JPanel tempComponent = createRoomOverlayComponent(temp, false);
             floor1.addComponent("labels", tempComponent);
 
         } catch (Exception e) {
@@ -62,7 +63,7 @@ public enum Game {
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_labels_floor_2.png"));
-            JPanel tempComponent = createComponent(temp, false);
+            JPanel tempComponent = createRoomOverlayComponent(temp, false);
             floor2.addComponent("labels", tempComponent);
         } catch (Exception e) {
             System.err.println(e);
@@ -71,21 +72,20 @@ public enum Game {
         // Load rooms overlays into map
         mansion.forEach((roomName, room) -> {
             if (room.getFloorNumber() == 1) {
-                JPanel component = createComponent(room.getMapImage(), false);
+                JPanel component = createRoomOverlayComponent(room.getMapImage(), false);
                 floor1.addComponent(room.getName(), component);
             }
             else if (room.getFloorNumber() == 2 ) {
-                JPanel component = createComponent(room.getMapImage(), false);
+                JPanel component = createRoomOverlayComponent(room.getMapImage(), false);
                 floor2.addComponent(room.getName(), component);
             }
         });
 
         // Load background images into maps
-
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_background_floor_1.png"));
-            JPanel tempComponent = createComponent(temp, false);
+            JPanel tempComponent = createRoomOverlayComponent(temp, false);
             floor1.addComponent("background", tempComponent);
 
         } catch (Exception e) {
@@ -94,7 +94,7 @@ public enum Game {
         try {
             BufferedImage temp;
             temp = ImageIO.read(new File("./resources/map_background_floor_2.png"));
-            JPanel tempComponent = createComponent(temp, false);
+            JPanel tempComponent = createRoomOverlayComponent(temp, false);
             floor2.addComponent("background", tempComponent);
         } catch (Exception e) {
             System.err.println(e);
@@ -102,7 +102,7 @@ public enum Game {
 
     }
 
-    public JPanel createComponent(BufferedImage mapImage, boolean isOpaque) {
+    public JPanel createRoomOverlayComponent(BufferedImage mapImage, boolean isOpaque) {
         JPanel component = new JPanel();
         component.setMaximumSize(new Dimension(600, 375));
         component.setOpaque(isOpaque);
@@ -110,11 +110,10 @@ public enum Game {
         Image map = mapImage.getScaledInstance(component.getMaximumSize().width, component.getMaximumSize().height, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(map));
         component.add(imageLabel);
-
         return component;
-
     }
 
+    // Scales image for updating a previously created room overlay component
     public Image scaleImage(BufferedImage img) {
         return img.getScaledInstance(600,375, Image.SCALE_SMOOTH);
     }
