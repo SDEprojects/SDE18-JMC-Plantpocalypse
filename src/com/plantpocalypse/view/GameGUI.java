@@ -213,7 +213,7 @@ public class GameGUI implements ActionListener {
                 result = "You opened the map.";
                 // Point at the map file that corresponds to the current floor and display in a pop up
                 String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
-                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName);
+                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName, 800, 500);
                 JOptionPane.showMessageDialog(gameFrame, imageHolder);
 
             }
@@ -311,9 +311,19 @@ public class GameGUI implements ActionListener {
     public void loadSavedGame() {
         dialogueText.setText("");
         game.loadGame();
+        initializeFloorPanels(game.floor1, floor1Panel);
+        initializeFloorPanels(game.floor2, floor2Panel);
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
+        HUD_CONTAINER.setVisible(true);
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
+        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
+        floor2Panel.setVisible(false);
+        if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
+            swapFloorPanels();
+        }
     }
 //    add more details in the about section
     public void about() {

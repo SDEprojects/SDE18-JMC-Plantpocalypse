@@ -89,6 +89,7 @@ public class GameDirector {
                     BufferedImage tempImage = TransparencyTool.readBuff(player.getCurrentRoom().getPath());
                     tempImage = TransparencyTool.changeAlpha(tempImage);
                     ImageIcon transparentIcon = TransparencyTool.createImageIcon(tempImage);
+                    currentRoom.setMapImage(transparentIcon);
                     // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
                     // Use the current room's name to target its specific JPanel
                     // Then get all of the inner components that make up that JPanel

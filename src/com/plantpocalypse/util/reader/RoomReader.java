@@ -109,11 +109,13 @@ public class RoomReader {
 
                                 if (room.hasVisited()) {
                                     // If a room has been visited, update its image to be partially transparent
-                                    // Mostly, this is used for the room that the player starts out the game in
                                     tempImage = TransparencyTool.changeAlpha(tempImage);
+                                    ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
+                                    room.setMapImage(mapImage);
+                                } else {
+                                    ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
+                                    room.setMapImage(mapImage);
                                 }
-                                ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
-                                room.setMapImage(mapImage);
 
 
                             } else {

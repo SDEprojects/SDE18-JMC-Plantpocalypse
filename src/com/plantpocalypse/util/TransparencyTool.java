@@ -30,8 +30,17 @@ public class TransparencyTool {
         ImageIcon imageIcon = createImageIcon(readBuff(filePath));
         return createJPanelFromImageIcon(imageIcon);
     }
+
+    public static JPanel createJPanelFromPath(String filePath, int width, int height) {
+        ImageIcon imageIcon = createImageIcon(readBuff(filePath), width, height);
+        return createJPanelFromImageIcon(imageIcon);
+    }
     public static ImageIcon createImageIcon(BufferedImage image) {
         Image scaledImage = image.getScaledInstance(600,375, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+    public static ImageIcon createImageIcon(BufferedImage image, int width, int height) {
+        Image scaledImage = image.getScaledInstance(width,height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
 

@@ -79,21 +79,6 @@ public enum Game {
 
     }
 
-    public JPanel createRoomOverlayComponent(BufferedImage mapImage, boolean isOpaque) {
-        JPanel component = new JPanel();
-        component.setMaximumSize(new Dimension(600, 375));
-        component.setOpaque(isOpaque);
-        // Scale image to fit container
-        Image map = mapImage.getScaledInstance(component.getMaximumSize().width, component.getMaximumSize().height, Image.SCALE_SMOOTH);
-        JLabel imageLabel = new JLabel(new ImageIcon(map));
-        component.add(imageLabel);
-        return component;
-    }
-
-    // Scales image for updating a previously created room overlay component
-    public Image scaleImage(BufferedImage img) {
-        return img.getScaledInstance(600,375, Image.SCALE_SMOOTH);
-    }
 
     private void loadItems() {
         ItemReader readItems = new ItemReader();
@@ -128,6 +113,8 @@ public enum Game {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(player);
             out.writeObject(mansion);
+            out.writeObject(floor1);
+            out.writeObject(floor2);
             out.close();
             fileOut.close();
             System.out.println("Serialized data is saved in ./resources/saveGame/00.ser");
@@ -142,6 +129,8 @@ public enum Game {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             player = (Player) in.readObject();
             mansion = (HashMap<String, Room>) in.readObject();
+            floor1 = (ComponentMap) in.readObject();
+            floor2 = (ComponentMap) in.readObject();
             in.close();
             fileIn.close();
         } catch (IOException i) {
