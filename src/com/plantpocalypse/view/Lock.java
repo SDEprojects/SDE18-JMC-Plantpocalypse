@@ -1,5 +1,7 @@
 package com.plantpocalypse.view;
 
+import com.plantpocalypse.model.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,18 +10,9 @@ import java.awt.event.ActionListener;
 public class Lock implements ActionListener {
     private static JTextField inputBox;
     private static JFrame frame;
+    private final Game game = Game.GAME_INSTANCE;
 
-    Lock(){}
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        createWindow();
-    }
-
-    private static void createWindow() {
+    Lock(){
         frame = new JFrame("Plantpocalypse");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -28,6 +21,18 @@ public class Lock implements ActionListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+//    public static void main(String[] args) {
+//        try {
+//            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        createWindow();
+//    }
+
+//    private static void createWindow() {
+//
+//    }
 
     private static void createUI(JFrame frame) {
         JPanel panel = new JPanel();
@@ -90,12 +95,12 @@ public class Lock implements ActionListener {
             inputBox.setText("");
         }else if (command == "Enter") {
             if(inputBox.getText().equals("135")) {
-                inputBox.setText("Correct!");
+                inputBox.setText("Opened");
                 Timer timer = new Timer(1000, close);
                 timer.setRepeats(false);
                 timer.start();
             } else {
-                inputBox.setText("Incorrect");
+                inputBox.setText("Wrong code");
                 Timer timer = new Timer(1000, clear);
                 timer.setRepeats(false);
                 timer.start();
@@ -108,6 +113,7 @@ public class Lock implements ActionListener {
     ActionListener close = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            game.getPlayer().getCurrentRoom().getNeighboringRooms().get("east").toggleLock();
             frame.setVisible(false);
             frame.dispose();
         }

@@ -132,11 +132,18 @@ public class GameDirector {
     private static String examine(String itemName, Player player) {
         String result = "You do not have that item!";
         Item item = player.retrieveItemFromInventory(itemName);
+//        System.out.println(itemName);
 
         if (itemName != null && player.examine(itemName)) {
             result = ("You examine the " + item.getName());
             result += ("\n" + item.getDescription());
         }
+//        System.out.println(player.getCurrentRoom().getNeighboringRooms().get("east").getName());
+        if(player.getCurrentRoom().getNeighboringRooms().get("east").getName().equals("Hidden Office") && itemName.equals("book")) {
+            System.out.println("here");
+            result = "You pick the book off the shelf and find a hidden keypad behind it";
+        }
+
 
         return result;
     }
@@ -147,7 +154,6 @@ public class GameDirector {
         if (itemName != null && player.pickUpItem(itemName)) {
             result = "Picked up a " + itemName;
         }
-
         return result;
     }
 

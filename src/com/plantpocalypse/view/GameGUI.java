@@ -29,6 +29,8 @@ public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
     private final JFrame gameFrame;
+    private  Lock lock = null;
+
     private final JPanel userInputPanel;
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
@@ -52,7 +54,6 @@ public class GameGUI implements ActionListener {
     public GameGUI() {
         /* Instantiate Window and Containers */
         gameFrame = new JFrame();
-
         /* Instantiate Menu Components */
         menu = new JMenu("Menu");
         newGame = new JMenuItem("New Game");
@@ -203,6 +204,8 @@ public class GameGUI implements ActionListener {
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
             displayDialogue(result);
+//            if(result == "You pick the book off the shelf and find a hidden keypad behind it")
+//                lock = new Lock();
             displayStatus();
 
             if (game.checkGameOver()) {
@@ -270,7 +273,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
-        play("../Plantpocalypse/audio/1.wav");          //play's song
+//        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 
     public void loadSavedGame() {
