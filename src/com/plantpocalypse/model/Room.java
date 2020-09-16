@@ -2,8 +2,10 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.NPC;
+import com.plantpocalypse.util.TransparencyTool;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
@@ -22,7 +24,7 @@ public class Room implements Serializable {
     private PlantMonster monster;
     private String path;
     private NPC character;
-    private BufferedImage mapImage;
+    private ImageIcon mapImage;
     private Boolean hasVisited;
     private int floorNumber;
 
@@ -77,30 +79,10 @@ public class Room implements Serializable {
 
     public void updateMapImage() {
         if (hasVisited() == true) {
-            setMapImage(changeAlpha(getMapImage(),.6));
+            setMapImage(TransparencyTool.changeAlpha(getMapImage(),.6));
         }
     }
 
-    // StackOverflow foo to change all of the pixels of an image to a given transparency (alpha) value
-    // https://stackoverflow.com/questions/16054596/change-color-of-non-transparent-parts-of-png-in-java
-    public  BufferedImage changeAlpha(BufferedImage mapImage, double amount) {
-
-        for (int x = 0; x < mapImage.getWidth(); x++) {
-            for (int y = 0; y < mapImage.getHeight(); y++) {
-                //
-                int argb = mapImage.getRGB(x, y); //always returns TYPE_INT_ARGB
-                int alpha = (argb >> 24) & 0xff;  //isolate alpha
-
-                alpha *= amount; //similar distortion to tape saturation (has scrunching effect, eliminates clipping)
-                alpha &= 0xff;      //keeps alpha in 0-255 range
-
-                argb &= 0x00ffffff; //remove old alpha info
-                argb |= (alpha << 24);  //add new alpha info
-                mapImage.setRGB(x, y, argb);
-            }
-        }
-        return mapImage;
-    }
 
     /* GETTERS AND SETTERS */
     public String getName() {
