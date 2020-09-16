@@ -1,7 +1,17 @@
 package com.plantpocalypse.model;
 
+import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.reader.AdjacentRoomReader;
+import com.plantpocalypse.util.reader.ItemReader;
+import com.plantpocalypse.util.reader.MonsterReader;
+import com.plantpocalypse.util.reader.RoomReader;
+import com.plantpocalypse.view.ComponentMap;
 import com.plantpocalypse.util.reader.*;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 
@@ -12,13 +22,15 @@ public enum Game {
 
     private Player player;
     private HashMap<String, Room> mansion;
+    public ComponentMap floor1;
+    public ComponentMap floor2;
 
     /**
      * Loads assets for the game to run properly:
      * Instantiates Player, Rooms and other necessary assets.
      */
     public void loadAssets() {
-        loadGame();
+//        loadGame();
         loadRooms();
         loadItems();
         loadMonsters();
@@ -40,7 +52,41 @@ public enum Game {
     private void loadRooms() {
         RoomReader readRooms = new RoomReader();
         mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
+        loadComponentMaps();
     }
+
+    // Instantiates HashMaps of JPanel components for easy lookup of each room/floor's mini map overlays
+    private void loadComponentMaps() {
+        floor1 = new ComponentMap();
+        floor2 = new ComponentMap();
+        // Load outline overlay into each floor's map
+
+        JPanel tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_1.png");
+        floor1.addComponent("labels", tempComponent);
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_2.png");
+        floor2.addComponent("labels", tempComponent);
+
+        // Load rooms overlays into map
+        mansion.forEach((roomName, room) -> {
+            JPanel component = TransparencyTool.createJPanelFromPath(room.getPath());
+            if (room.getFloorNumber() == 1) {
+                floor1.addComponent(room.getName(), component);
+            }
+            else if (room.getFloorNumber() == 2 ) {
+                floor2.addComponent(room.getName(), component);
+            }
+        });
+
+        // Load background images into maps
+
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_1.png");
+        floor1.addComponent("background", tempComponent);
+
+        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_2.png");
+        floor2.addComponent("background", tempComponent);
+
+    }
+
 
     private void loadItems() {
         ItemReader readItems = new ItemReader();
@@ -75,6 +121,8 @@ public enum Game {
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(player);
             out.writeObject(mansion);
+            out.writeObject(floor1);
+            out.writeObject(floor2);
             out.close();
             fileOut.close();
             System.out.println("Serialized data is saved in ./resources/saveGame/00.ser");
@@ -89,6 +137,8 @@ public enum Game {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             player = (Player) in.readObject();
             mansion = (HashMap<String, Room>) in.readObject();
+            floor1 = (ComponentMap) in.readObject();
+            floor2 = (ComponentMap) in.readObject();
             in.close();
             fileIn.close();
         } catch (IOException i) {

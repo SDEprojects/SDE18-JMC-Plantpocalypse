@@ -25,3 +25,6 @@ hs_err_pid*
 
 /out
 /.idea
+
+# Mac files
+.DS_Store

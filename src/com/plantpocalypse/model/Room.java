@@ -2,7 +2,12 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.NPC;
+import com.plantpocalypse.util.TransparencyTool;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -17,12 +22,13 @@ public class Room implements Serializable {
     private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
+    private String path;
     private NPC character;
+    private ImageIcon mapImage;
+    private Boolean hasVisited;
+    private int floorNumber;
     private int color;
     private String NPCdialogue;
-
-
-
 
 
     /* CONSTRUCTORS */
@@ -57,6 +63,8 @@ public class Room implements Serializable {
             System.out.println( entry.getKey() + " => " + entry.getValue().getName() );
         });
     }
+
+
 
     /* GETTERS AND SETTERS */
     public String getName() {
@@ -112,6 +120,35 @@ public class Room implements Serializable {
         //doesHaveMonster = true;
     }
 
+    public String getPath() { return path; }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public ImageIcon getMapImage() {
+        return mapImage;
+    }
+
+    public void setMapImage(ImageIcon mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public Boolean hasVisited() {
+        return hasVisited;
+    }
+
+    public void setHasVisited(Boolean hasVisited) {
+        this.hasVisited = hasVisited;
+    }
+
+    public int getFloorNumber() {
+        return floorNumber;
+    }
+
+    public void setFloorNumber(int floorNumber) {
+        this.floorNumber = floorNumber;
+    }
     public int getColor() {
         return color;
     }
@@ -146,6 +183,8 @@ public class Room implements Serializable {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", isLocked=" + isLocked + '\'' +
+                ", hasVisited=" + hasVisited + '\'' +
+                ", mapImage=" + mapImage + '\'' +
                 '}';
     }
 }
