@@ -15,6 +15,8 @@ import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,6 +41,8 @@ public class GameGUI implements ActionListener {
     private final JMenu menu;
     private final JMenuItem newGame, save, load, help, about, quit;
     private final JMenuBar menuBar;
+
+    private final JPanel currentRoomIcon, roomStatusContainer;
 
     /**
      * CTOR for the GUI.
@@ -95,6 +99,14 @@ public class GameGUI implements ActionListener {
         gameFrame.setTitle("Plantpocalypse");
         gameFrame.setSize(800,600);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
+        roomStatusContainer = new JPanel(){
+            @Override
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        roomStatusContainer.setLayout(new OverlayLayout(roomStatusContainer));
+
 
         /* Instantiate components for User Input section */
         inputFieldLabel = new JLabel("Enter command: ");
@@ -104,6 +116,16 @@ public class GameGUI implements ActionListener {
         currentRoomLabel = new JLabel();
         currentHealthLabel = new JLabel();
         movesMadeLabel = new JLabel();
+
+        // Instantiate a background color panel for current room label
+        currentRoomIcon  = new JPanel();
+        currentRoomIcon.setPreferredSize(new Dimension(125,50));
+        currentRoomIcon.setMaximumSize(currentRoomIcon.getPreferredSize());
+        currentRoomIcon.setMinimumSize(currentRoomIcon.getPreferredSize());
+
+
+        roomStatusContainer.add(currentRoomLabel);
+        roomStatusContainer.add(currentRoomIcon);
 
         /* Instantiate TextArea for dialogue and set attributes */
         dialogueText = new JTextArea();
@@ -119,7 +141,7 @@ public class GameGUI implements ActionListener {
         inputField.addActionListener(this);
 
         /* Add related components to user input Grid */
-        panelHolderInput[0][0].add(currentRoomLabel);
+        panelHolderInput[0][0].add(roomStatusContainer);
         panelHolderInput[0][1].add(currentHealthLabel);
         panelHolderInput[0][2].add(movesMadeLabel);
         panelHolderInput[1][0].add(inputFieldLabel);
@@ -157,6 +179,7 @@ public class GameGUI implements ActionListener {
             inputField.setText("");
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
             if(result.contains("Moved to")) {
+//                play("../Plantpocalypse/audio/1.wav");
                 dialogueText.setText("");
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
@@ -194,7 +217,12 @@ public class GameGUI implements ActionListener {
      * @param currentRoom The current room the Player is in.
      */
     public void displayCurrentRoom(String currentRoom) {
-        currentRoomLabel.setText("<html>"+"Current Room: " + "<font color = red>"+ currentRoom + "</html>");
+        currentRoomLabel.setText("<html>"+
+//                "Current Room: " +
+                "<font color = black>"+ currentRoom + "</html>");
+        // Set background color here according to room
+        int roomColor = Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getColor();
+        currentRoomIcon.setBackground(new Color(roomColor));
     }
 
     /**
@@ -242,6 +270,7 @@ public class GameGUI implements ActionListener {
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
+        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 
     public void loadSavedGame() {
@@ -296,4 +325,14 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(false);
     }
 
+    // Handles sound for jframe
+    public static void play(String filename) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File(filename)));
+            clip.start();
+        } catch (Exception exc) {
+            exc.printStackTrace(System.out);
+        }
+    }
 }

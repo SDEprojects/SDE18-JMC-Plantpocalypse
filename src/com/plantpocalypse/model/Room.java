@@ -11,21 +11,16 @@ public class Room implements Serializable {
     private String description;
     private boolean isLocked = false;
     //private boolean doesHaveMonster = false;
-    // Initialized this here to use code from xml parser
+    // Initialized this here to use code from xml parse
     // using setNeighboringRooms seems to just overwrite it
     // with no issues
     private HashMap<String, Room> neighboringRooms = new HashMap<>();
     private HashMap<String, Item> items = new HashMap<String, Item>();
     private PlantMonster monster;
     private NPC character;
+    private int color;
+    private String NPCdialogue;
 
-    public NPC getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(String name) {
-        this.character = new NPC(name);
-    }
 
 
 
@@ -115,6 +110,32 @@ public class Room implements Serializable {
     public void setMonster(PlantMonster monster) {
         this.monster = monster;
         //doesHaveMonster = true;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public String getNPCdialogue() {
+        return NPCdialogue;
+    }
+
+    public void setNPCdialogue(String NPCdialogue) {
+        this.NPCdialogue = NPCdialogue;
+    }
+
+
+
+    public NPC getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(String name) {
+        this.character = new NPC(name);
     }
 
     // toString
