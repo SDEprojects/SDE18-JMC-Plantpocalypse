@@ -7,6 +7,16 @@ import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
+import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.view.ComponentMap;
+import com.plantpocalypse.view.GameGUI;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.Buffer;
 import com.plantpocalypse.view.GameGUI;
 
 import java.util.HashMap;
@@ -59,11 +69,47 @@ public class GameDirector {
         HashMap<String, Room> adjacentRooms = player.getCurrentRoom().getNeighboringRooms();
 
         if (adjacentRooms.containsKey(direction)) {
+            // Store current room as "previousRoom" for comparing floor numbers and switching mini map
+            Room previousRoom = player.getCurrentRoom();
+            ComponentMap previousFloorComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName();
                 try {
                     GameGUI.play("../Plantpocalypse/audio/door-creak.wav");
                 } catch (Exception e){}
+                // Gray out the room we're moving out of by making its overlay visible on the mini map
+                previousFloorComponents.getComponent(previousRoom.getName()).setVisible(true);
+                Room currentRoom = player.getCurrentRoom();
+                if (previousRoom.getFloorNumber() != currentRoom.getFloorNumber()) {
+                    // If we moved to a different floor, print message to user
+                    // TODO: Might need to refactor later. "Moved to Floor" string is being used
+                    //  In GameGUI to swap which floor's JPanel is being displayed!!!
+                    result = "Moved to Floor " + currentRoom.getFloorNumber() + "\n" + result;
+                }
+                if (player.getCurrentRoom().hasVisited() == false) {
+                    // After a player has visited a new room, mark it as visited
+                    player.getCurrentRoom().setHasVisited(true);
+                    // Change the room's map overlay image to be partially transparent
+                    BufferedImage tempImage = TransparencyTool.readBuff(player.getCurrentRoom().getPath());
+                    tempImage = TransparencyTool.changeAlpha(tempImage);
+                    ImageIcon transparentIcon = TransparencyTool.createImageIcon(tempImage);
+                    currentRoom.setMapImage(transparentIcon);
+                    // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
+                    // Use the current room's name to target its specific JPanel
+                    // Then get all of the inner components that make up that JPanel
+                    Component[] innerComponents = getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).getComponents();
+                    // Loop through all of those inner components to find which one is the actual image icon and replace it
+                    // With the new, transparent, overlay
+                    for (Component component : innerComponents) {
+                        if (component instanceof JLabel) {
+                            ((JLabel) component).setIcon(transparentIcon);
+                        }
+                    }
+                }
+
+                // After moving into this room, turn off it's overlay on the map to fully illuminate it
+                getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).setVisible(false);
+
                 if (player.getCurrentRoom().getMonster() != null) {
                     try {
                         GameGUI.play("../Plantpocalypse/audio/leaves.wav");
@@ -205,7 +251,15 @@ public class GameDirector {
         return result.toString();
     }
 
-
+    private static ComponentMap getCurrentFloorComponents() {
+        ComponentMap currentFloorComponents;
+        if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
+            currentFloorComponents = Game.GAME_INSTANCE.floor1;
+        } else {
+            currentFloorComponents = Game.GAME_INSTANCE.floor2;
+        }
+        return currentFloorComponents;
+    }
 
     private static void quit() {
         System.exit(0);

@@ -24,7 +24,7 @@ public class AdjacentRoomReader {
     public void readAdjacentRoomsXML(String roomsFile, HashMap<String, Room> rooms) {
         //HashMap<String, Room> adjacentRooms = new HashMap<String, Room>();
         try {
-            // Create aa new XMLInputFactory
+            // Create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             // Setup a new eventReader
             InputStream in = new FileInputStream(roomsFile);

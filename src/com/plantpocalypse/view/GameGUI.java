@@ -13,6 +13,7 @@ import com.plantpocalypse.controller.GameDirector;
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
+import com.plantpocalypse.util.TransparencyTool;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -28,10 +29,11 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
+    // Main window
     private final JFrame gameFrame;
-    private  Lock lock = null;
-
+    // Container for user input and other status displays
     private final JPanel userInputPanel;
+    // Helper panel to organize status components
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
 
@@ -44,6 +46,8 @@ public class GameGUI implements ActionListener {
     private final JMenuItem newGame, save, load, help, about, quit;
     private final JMenuBar menuBar;
 
+    // Containers for mini map and title screen
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     /**
@@ -98,7 +102,13 @@ public class GameGUI implements ActionListener {
         /* Set attributes for Window */
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setTitle("Plantpocalypse");
-        gameFrame.setSize(800,600);
+        gameFrame.setSize(1600,1000);
+
+        // Add a component container and heads up display component to the main frame
+        HUD_CONTAINER = new JPanel(new BorderLayout());
+        HUD = new JPanel(new BorderLayout());
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
         roomStatusContainer = new JPanel(){
             @Override
@@ -148,6 +158,37 @@ public class GameGUI implements ActionListener {
         panelHolderInput[1][0].add(inputFieldLabel);
         panelHolderInput[1][1].add(inputField);
 
+        // Initialize HUD with title screen image
+        try {
+            HUD.setPreferredSize(new Dimension(600,375));
+            BufferedImage mapImage = ImageIO.read(new File("./resources/plantpocalypse_title.png"));
+            Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
+            JLabel imageLabel = new JLabel(new ImageIcon(map));
+            HUD.add(imageLabel);
+        }
+        catch (Exception e) {
+            System.err.println("title screen image file does not exist or is improperly named");
+        }
+
+        // Set up floor1 and floor2 containers to allow overlays in mini map drawing
+         floor1Panel = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        LayoutManager overlay = new OverlayLayout(floor1Panel);
+        floor1Panel.setLayout(overlay);
+
+        floor2Panel = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        overlay = new OverlayLayout(floor2Panel);
+        floor2Panel.setLayout(overlay);
+
+
+
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
@@ -178,6 +219,9 @@ public class GameGUI implements ActionListener {
         else if (e.getSource() == inputField) {
             String inputString = inputField.getText();
             inputField.setText("");
+            // 1) Formats user input into one or two string commands with TextParser
+            // 2) Validates user input command with TextParser, returning command as List<Strings>
+            // 3) Uses GameDirector to enact command, returning result string to show user
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
             if(result.contains("Moved to")) {
 //                play("../Plantpocalypse/audio/1.wav");
@@ -185,24 +229,21 @@ public class GameGUI implements ActionListener {
                 dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
             if(result.contains("You opened the")) {
-                try {
-                    result = "You opened the map.";
-                    BufferedImage mapImageF1 = ImageIO.read(new File("./resources/mapf1.png"));
-                    BufferedImage mapImageF2 = ImageIO.read(new File("./resources/mapf2.png"));
-                    JLabel imageLabelF1 = new JLabel(new ImageIcon(mapImageF1));
-                    JLabel imageLabelf2 = new JLabel(new ImageIcon(mapImageF2));
-                    JPanel imageHolder = new JPanel();
-                    imageHolder.add(imageLabelF1);
-                    imageHolder.add(imageLabelf2);
-                    JOptionPane.showMessageDialog(gameFrame, imageHolder);
-                }
-                catch(Exception exc) {
-                    System.out.println("no");
-                }
+                int currentFloor = game.getPlayer().getCurrentRoom().getFloorNumber();
+                result = "You opened the map.";
+                // Point at the map file that corresponds to the current floor and display in a pop up
+                String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
+                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName, 800, 500);
+                JOptionPane.showMessageDialog(gameFrame, imageHolder);
+
             }
 
             if(result == null || result == "")
                 result = "Not a valid command. Type help if you need a list of possible commands";
+            // If player moved to a new floor, toggle mini map visibility for both floors (one on, the other off)
+            if(result.contains("Moved to Floor ")) {
+                swapFloorPanels();
+            }
             displayDialogue(result);
 //            if(result == "You pick the book off the shelf and find a hidden keypad behind it")
 //                lock = new Lock();
@@ -214,6 +255,7 @@ public class GameGUI implements ActionListener {
             }
         }
     }
+
 
     /**
      * Changes the text on the currentRoomLabel to Player's current room.
@@ -265,23 +307,53 @@ public class GameGUI implements ActionListener {
      * Calls methods to display beginning of story and game data to
      * the GUI.
      */
+    public void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
+        // Add each component in the ComponentMap to the proper floor's JPanel container
+        componentMap.getComponentMap().forEach((entry, component) -> {
+            panel.add(component);
+        });
+    }
     public void startGame() {
         dialogueText.setText("\t\t");
         game.loadAssets();
+        initializeFloorPanels(game.floor1, floor1Panel);
+        initializeFloorPanels(game.floor2, floor2Panel);
         title();
         intro();
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
-//        play("../Plantpocalypse/audio/1.wav");          //play's song
+        HUD_CONTAINER.setVisible(true);
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
+        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
+        floor2Panel.setVisible(false);
+        play("../Plantpocalypse/audio/1.wav");          //play's song
+
+    }
+    public void swapFloorPanels(){
+        // Toggles visibility for each floor mini maps
+        floor1Panel.setVisible(!floor1Panel.isVisible());
+        floor2Panel.setVisible(!floor2Panel.isVisible());
     }
 
     public void loadSavedGame() {
         dialogueText.setText("");
         game.loadGame();
+        initializeFloorPanels(game.floor1, floor1Panel);
+        initializeFloorPanels(game.floor2, floor2Panel);
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
+        HUD_CONTAINER.setVisible(true);
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
+        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
+        floor2Panel.setVisible(false);
+        if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
+            swapFloorPanels();
+        }
+        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 //    add more details in the about section
     public void about() {

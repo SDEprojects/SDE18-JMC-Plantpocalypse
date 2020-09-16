@@ -1,7 +1,7 @@
 package com.plantpocalypse.model.items;
 
+import java.io.Serializable;
 import com.plantpocalypse.util.reader.NpcReader;
-
 import java.io.Serializable;
 import java.util.HashMap;
 
