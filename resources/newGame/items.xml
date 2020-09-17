@@ -54,5 +54,10 @@
         <location>Hidden Office</location>
         <description>A mysterious elixir that smells like Strawberry.</description>
     </item>
+    <item type="tutorialOrb">
+        <name>orb</name>
+        <location>Courtyard</location>
+        <description>A tutorial orb, I should use it!</description>
+    </item>
 
 </config>

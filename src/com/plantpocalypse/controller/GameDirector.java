@@ -161,7 +161,7 @@ public class GameDirector {
             }
         }
             return result;
-        }
+    }
 
     private static String open(String itemName, Player player) {
         String result = "You have nothing to open!";

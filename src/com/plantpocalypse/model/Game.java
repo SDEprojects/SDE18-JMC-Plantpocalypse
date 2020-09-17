@@ -121,10 +121,19 @@ public enum Game {
                 || !player.isAlive();
     }
 
+    public boolean checkTutorialComplete() {
+        return player.tutorialComplete();
+    }
+
+    public boolean checkPlayerWon() {
+        return player.playerWon();
+    }
+
     public boolean checkGameOver() {
         return player.getMovesMade() >= ALLOWED_MOVES
                 || !player.isAlive()
-                || player.playerWon();
+                || player.playerWon()
+                || player.tutorialComplete();
     }
 
     public void saveGame() {

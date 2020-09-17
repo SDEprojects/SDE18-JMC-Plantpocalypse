@@ -265,6 +265,15 @@ public class GameGUI implements ActionListener {
             displayStatus();
 
             if (game.checkGameOver()) {
+                if (game.checkLostGame()) { lost();}
+                if (game.checkTutorialComplete()) {
+                    completedTutorial();
+                    gameOver();
+                }
+                if (game.checkPlayerWon()) {
+                    won();
+                    gameOver();
+                }
                 if (game.checkLostGame()) lost(); else won();
                 gameOver();
             }
@@ -369,6 +378,8 @@ public class GameGUI implements ActionListener {
         play("../Plantpocalypse/audio/1.wav");          //play's song
 
     }
+
+    // Might have to update this for additional floors in the future
     public void swapFloorPanels(){
         // Toggles visibility for each floor mini maps
         floor1Panel.setVisible(!floor1Panel.isVisible());
@@ -428,13 +439,15 @@ public class GameGUI implements ActionListener {
      */
     public void won() {
         displayDialogue(Dialogue.winningDialogue());
+        displayDialogue(Dialogue.endingDialogue());
     }
+
+    public void completedTutorial() { displayDialogue(Dialogue.completedTutorialDialogue());}
 
     /**
      * Appends ending dialogue to dialogueArea.
      */
     public void gameOver() {
-        displayDialogue(Dialogue.endingDialogue());
         userInputPanel.setVisible(false);
     }
 

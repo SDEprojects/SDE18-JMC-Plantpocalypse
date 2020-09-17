@@ -22,6 +22,7 @@ public class Player implements Serializable {
     private int currentHealth = MAX_HEALTH;
     private boolean isAlive = true;
     private boolean won = false;
+    private boolean tutorialComplete = false;
 
 
     /* CONSTRUCTORS */
@@ -107,6 +108,7 @@ public class Player implements Serializable {
                 case "FloorPlan" ->  open(itemName);
                 case "WeedKiller" ->  killMonsters(itemName);
                 case "Elixir" -> winGame();
+                case "TutorialOrb" -> completeTutorial();
             }
             return true;
         }
@@ -167,6 +169,13 @@ public class Player implements Serializable {
     public void winGame() {
         if (getCurrentRoom().getName().equals("Hidden Office")) {
             setWon(true);
+        }
+    }
+
+    public void completeTutorial() {
+        //TODO validiate this works only in tutorial
+        if (getCurrentRoom().getName().equals("Courtyard")) {
+            setTutorialComplete(true);
         }
     }
 
@@ -257,6 +266,10 @@ public class Player implements Serializable {
     public void setWon(boolean won) {
         this.won = won;
     }
+
+    public boolean tutorialComplete() { return tutorialComplete; }
+
+    public void setTutorialComplete(boolean tutorialComplete) { this.tutorialComplete = tutorialComplete; }
 
     public List<Item> getInventory() {
         return inventory;
