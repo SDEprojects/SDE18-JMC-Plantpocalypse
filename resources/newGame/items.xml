@@ -22,7 +22,7 @@
         <name>iron key</name>
         <roomUnlock>Upper Hall</roomUnlock>
         <location>Master Bathroom</location>
-        <description>An iron key that can bd used to unlock a door.</description>
+        <description>An iron key that can be used to unlock a door.</description>
     </item>
     <item type="weedKiller">
         <name>weed killer</name>
@@ -38,16 +38,19 @@
         <name>wet note</name>
         <location>Bathroom</location>
         <description>...the elixir seems to grant immorta...</description>
+        <back>Scrawled on the back of the note is a number: 09</back>
     </item>
     <item type="journal">
         <name>torn note</name>
         <location>Master Bedroom</location>
         <description>...but it is having a strange effect on the test rats, they are turning gre...</description>
+        <back>Scrawled on the back of the note is a number: 23</back>
     </item>
     <item type="journal">
         <name>crumpled note</name>
-        <location>Hidden Office</location>
+        <location>Library</location>
         <description>...Oh god, why did I drink it, what is happening to m...</description>
+        <back>Scrawled on the back of the note is a number: 20</back>
     </item>
     <item type="elixir">
         <name>elixir</name>

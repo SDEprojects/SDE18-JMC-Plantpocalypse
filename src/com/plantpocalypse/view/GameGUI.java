@@ -29,6 +29,7 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
+
     // Main window
     private final JFrame gameFrame;
     // Container for user input and other status displays
@@ -50,11 +51,17 @@ public class GameGUI implements ActionListener {
     private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
+    // containers for pop up
+    private static JTextField inputBox;
+    private JDialog dialog;
+    Boolean lockUp = false;
+
     /**
      * CTOR for the GUI.
      * Renders all of the Components needed, sets up
      * ActionListener for when Player presses enter in InputField.
      */
+
     public GameGUI() {
         /* Instantiate Window and Containers */
         gameFrame = new JFrame();
@@ -206,8 +213,9 @@ public class GameGUI implements ActionListener {
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
-
         dialogueText.setText("\tSelect Menu > New Game to start a new game.\n\tSelect Menu > Load Game to load a save game.\n\tSelect Menu > Tutorial to play the tutorial.");
+        dialog = null;
+
     }
 
     @Override
@@ -262,6 +270,9 @@ public class GameGUI implements ActionListener {
                 swapFloorPanels();
             }
             displayDialogue(result);
+            if(result == "You pick the book off the shelf and find a hidden keypad behind it") {
+                createUI(gameFrame);
+            }
             displayStatus();
 
             if (game.checkGameOver()) {
@@ -274,6 +285,26 @@ public class GameGUI implements ActionListener {
                     won();
                     gameOver();
                 }
+            }
+        }
+        else if (e.getActionCommand() != null) {
+            String command = e.getActionCommand().strip();
+            if (command == "Clear") {
+                inputBox.setText("");
+            }else if (command == "Enter") {
+                if(inputBox.getText().equals("092320")) {
+                    inputBox.setText("Opened");
+                    Timer timer = new Timer(1000, close);
+                    timer.setRepeats(false);
+                    timer.start();
+                } else {
+                    inputBox.setText("Wrong code");
+                    Timer timer = new Timer(1000, clear);
+                    timer.setRepeats(false);
+                    timer.start();
+                }
+            }else {
+                inputBox.setText(inputBox.getText() + command);
             }
         }
     }
@@ -350,7 +381,7 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
-        play("../Plantpocalypse/audio/1.wav");          //play's song
+//        play("../Plantpocalypse/audio/1.wav");          //play's song
 
     }
 
@@ -395,7 +426,7 @@ public class GameGUI implements ActionListener {
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
             swapFloorPanels();
         }
-        play("../Plantpocalypse/audio/1.wav");          //play's song
+//        play("../Plantpocalypse/audio/1.wav");          //play's song
     }
 //    add more details in the about section
     public void about() {
@@ -451,7 +482,7 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(false);
     }
 
-    // Handles sound for jframe
+    // Handles sound for JFrame
     public static void play(String filename) {
         try {
             Clip clip = AudioSystem.getClip();
@@ -461,4 +492,80 @@ public class GameGUI implements ActionListener {
             exc.printStackTrace(System.out);
         }
     }
+
+    private void createUI(JFrame frame) {
+        JPanel panel = new JPanel();
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+        panel.setLayout(layout);
+
+        inputBox = new JTextField(10);
+        inputBox.setEditable(false);
+
+        JButton button0 = new JButton("0");
+        JButton button1 = new JButton("1");
+        JButton button2 = new JButton("   2   ");
+        JButton button3 = new JButton("3");
+        JButton button4 = new JButton("4");
+        JButton button5 = new JButton("   5   ");
+        JButton button6 = new JButton("6");
+        JButton button7 = new JButton("7");
+        JButton button8 = new JButton("   8   ");
+        JButton button9 = new JButton("9");
+        JButton enter = new JButton("Enter");
+        JButton clear = new JButton("Clear");
+
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0; gbc.gridy = 1; panel.add(button1, gbc);
+        gbc.gridx = 1; gbc.gridy = 1; panel.add(button2, gbc);
+        gbc.gridx = 2; gbc.gridy = 1; panel.add(button3, gbc);
+        gbc.gridx = 0; gbc.gridy = 2; panel.add(button4, gbc);
+        gbc.gridx = 1; gbc.gridy = 2; panel.add(button5, gbc);
+        gbc.gridx = 2; gbc.gridy = 2; panel.add(button6, gbc);
+        gbc.gridx = 0; gbc.gridy = 3; panel.add(button7, gbc);
+        gbc.gridx = 1; gbc.gridy = 3; panel.add(button8, gbc);
+        gbc.gridx = 2; gbc.gridy = 3; panel.add(button9, gbc);
+        gbc.gridx = 0; gbc.gridy = 4; panel.add(clear, gbc);
+        gbc.gridx = 1; gbc.gridy = 4; panel.add(button0, gbc);
+        gbc.gridx = 2; gbc.gridy = 4; panel.add(enter, gbc);
+        gbc.gridwidth = 3;
+        gbc.gridx = 0; gbc.gridy = 0; panel.add(inputBox, gbc);
+
+        button1.addActionListener(this);
+        button2.addActionListener(this);
+        button3.addActionListener(this);
+        button4.addActionListener(this);
+        button5.addActionListener(this);
+        button6.addActionListener(this);
+        button7.addActionListener(this);
+        button8.addActionListener(this);
+        button9.addActionListener(this);
+        button0.addActionListener(this);
+        enter.addActionListener(this);
+        clear.addActionListener(this);
+
+        JOptionPane jop = new JOptionPane();
+        dialog = jop.createDialog("");
+        dialog.setSize(200, 200);
+        dialog.setContentPane(panel);
+        dialog.setVisible(true);
+    }
+
+    ActionListener close = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            game.getPlayer().getCurrentRoom().getNeighboringRooms().get("east").toggleLock();
+            displayDialogue("\nYou unlocked the Hidden Office");
+            play("../Plantpocalypse/audio/door-locking.wav");
+            dialog.dispose();
+        }
+    };
+
+    ActionListener clear = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            inputBox.setText("");
+        }
+    };
 }

@@ -154,7 +154,7 @@
         <description>There is a Desk in the middle of the room with a potted fern next to it. There seems to be some type of beaker with a neon green liquid on the desk.</description>
         <NPC>Groundskeeper</NPC>
         <NPCdialogue>OHH!! It's elixir!!! </NPCdialogue>
-        <isLocked>false</isLocked>
+        <isLocked>true</isLocked>
         <hasVisited>false</hasVisited>
         <floorNumber>1</floorNumber>
         <path>./resources/map_hidden_office.png</path>
