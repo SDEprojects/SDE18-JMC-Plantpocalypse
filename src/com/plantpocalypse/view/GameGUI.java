@@ -11,6 +11,7 @@ package com.plantpocalypse.view;
 
 import com.plantpocalypse.controller.GameDirector;
 import com.plantpocalypse.model.Game;
+import com.plantpocalypse.util.AudioTools;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 import com.plantpocalypse.util.TransparencyTool;
@@ -381,8 +382,7 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
-//        play("../Plantpocalypse/audio/1.wav");          //play's song
-
+        AudioTools.Music.playTheme();
     }
 
     public void startTutorial() {
@@ -399,7 +399,7 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
 //        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-        play("../Plantpocalypse/audio/1.wav");          //play's song
+        AudioTools.Music.playTheme();
 
     }
 
@@ -426,7 +426,7 @@ public class GameGUI implements ActionListener {
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
             swapFloorPanels();
         }
-//        play("../Plantpocalypse/audio/1.wav");          //play's song
+        AudioTools.Music.playTheme();
     }
 //    add more details in the about section
     public void about() {
@@ -480,17 +480,6 @@ public class GameGUI implements ActionListener {
      */
     public void gameOver() {
         userInputPanel.setVisible(false);
-    }
-
-    // Handles sound for JFrame
-    public static void play(String filename) {
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File(filename)));
-            clip.start();
-        } catch (Exception exc) {
-            exc.printStackTrace(System.out);
-        }
     }
 
     private void createUI(JFrame frame) {
@@ -557,7 +546,7 @@ public class GameGUI implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             game.getPlayer().getCurrentRoom().getNeighboringRooms().get("east").toggleLock();
             displayDialogue("\nYou unlocked the Hidden Office");
-            play("../Plantpocalypse/audio/door-locking.wav");
+            AudioTools.SFX.playDoorUnlocking();
             dialog.dispose();
         }
     };
