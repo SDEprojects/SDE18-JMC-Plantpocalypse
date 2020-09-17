@@ -11,14 +11,9 @@ import com.plantpocalypse.util.TransparencyTool;
 import com.plantpocalypse.view.ComponentMap;
 import com.plantpocalypse.view.GameGUI;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.Buffer;
-import com.plantpocalypse.view.GameGUI;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -163,7 +158,7 @@ public class GameDirector {
             return result;
         }
 
-    private static String open(String itemName, Player player) {
+    private static String  open(String itemName, Player player) {
         String result = "You have nothing to open!";
         Item item = player.retrieveItemFromInventory(itemName);
 
