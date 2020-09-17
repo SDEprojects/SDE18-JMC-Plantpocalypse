@@ -24,6 +24,7 @@ public enum Game {
     private HashMap<String, Room> mansion;
     public ComponentMap floor1;
     public ComponentMap floor2;
+    public ComponentMap floor0;
 
     /**
      * Loads assets for the game to run properly:
@@ -38,6 +39,14 @@ public enum Game {
         player = new Player(mansion.get("Outside"));
 //        loadNPC();
 
+    }
+
+    public void loadAssetsTutorial() {
+        loadRooms();
+        loadItems();
+        loadMonsters();
+        connectRooms();
+        player = new Player(mansion.get("Tutorial Island"));
     }
 
     /**
@@ -59,6 +68,7 @@ public enum Game {
     private void loadComponentMaps() {
         floor1 = new ComponentMap();
         floor2 = new ComponentMap();
+        floor0 = new ComponentMap();
         // Load outline overlay into each floor's map
 
         JPanel tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_1.png");
@@ -69,11 +79,13 @@ public enum Game {
         // Load rooms overlays into map
         mansion.forEach((roomName, room) -> {
             JPanel component = TransparencyTool.createJPanelFromPath(room.getPath());
-            if (room.getFloorNumber() == 1) {
-                floor1.addComponent(room.getName(), component);
-            }
-            else if (room.getFloorNumber() == 2 ) {
-                floor2.addComponent(room.getName(), component);
+            switch (room.getFloorNumber()) {
+                case 1: floor1.addComponent(room.getName(), component);
+                    break;
+                case 2: floor2.addComponent(room.getName(), component);
+                    break;
+                default: floor0.addComponent(room.getName(), component);
+                    break;
             }
         });
 

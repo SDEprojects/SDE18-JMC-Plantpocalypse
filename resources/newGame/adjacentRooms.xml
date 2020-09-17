@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+    <room name="Tutorial Island">
+        <adjacentRoom direction="west">Courtyard</adjacentRoom>
+    </room>
+    <room name="Courtyard">
+        <adjacentRoom direction="east">Tutorial Island</adjacentRoom>
+    </room>
     <room name="Foyer">
         <adjacentRoom direction="north">Living Room</adjacentRoom>
         <adjacentRoom direction="east">Library</adjacentRoom>

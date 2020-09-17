@@ -247,11 +247,15 @@ public class GameDirector {
 
     private static ComponentMap getCurrentFloorComponents() {
         ComponentMap currentFloorComponents;
-        if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
-            currentFloorComponents = Game.GAME_INSTANCE.floor1;
-        } else {
-            currentFloorComponents = Game.GAME_INSTANCE.floor2;
+        switch (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber())  {
+            case 1: currentFloorComponents = Game.GAME_INSTANCE.floor1;
+                break;
+            case 2: currentFloorComponents = Game.GAME_INSTANCE.floor2;
+                break;
+            default: currentFloorComponents = Game.GAME_INSTANCE.floor0;
+                break;
         }
+
         return currentFloorComponents;
     }
 

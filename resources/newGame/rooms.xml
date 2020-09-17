@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+    <room name="Tutorial Island">
+        <NPC>GroundsKeeper</NPC>
+        <description>Welcome to Tutorial Island</description>
+        <isLocked>false</isLocked>
+        <hasVisited>true</hasVisited>
+        <floorNumber>0</floorNumber>
+        <path>./resources/map_outside.png</path>
+        <color>10211505</color>
+        <NPCdialogue>Shoes off while you're wandering the grounds; I just laid new sod.</NPCdialogue>
+    </room>
+    <room name="Courtyard">
+        <NPC>GroundsKeeper</NPC>
+        <description>Welcome to Tutorial Island</description>
+        <isLocked>false</isLocked>
+        <hasVisited>true</hasVisited>
+        <floorNumber>0</floorNumber>
+        <path>./resources/map_outside.png</path>
+        <color>10211505</color>
+        <NPCdialogue>You'll need a key to enter, I've been locked out.</NPCdialogue>
+    </room>
     <room name="Outside">
         <NPC>GroundsKeeper</NPC>
         <description>The Outside of the mansion is very creepy. There is a hazy mist in the air. Over in the Corner you notice the GroundsKeeper.</description>
