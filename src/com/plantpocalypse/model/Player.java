@@ -174,7 +174,7 @@ public class Player implements Serializable {
 
     public void completeTutorial() {
         //TODO validiate this works only in tutorial
-        if (getCurrentRoom().getName().equals("Courtyard")) {
+        if (getCurrentRoom().getName().equals("Treehouse")) {
             setTutorialComplete(true);
         }
     }

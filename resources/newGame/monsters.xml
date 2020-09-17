@@ -13,6 +13,6 @@
     <monster>
         <name>Blackberry Vine</name>
         <baseAttack>1</baseAttack>
-        <location>Courtyard</location>
+        <location>Gardens</location>
     </monster>
 </config>

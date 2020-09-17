@@ -69,11 +69,16 @@ public class Dialogue {
                 "will find the answers you are looking for...\n";
     }
 
+    public static String introDialogueTutorial() {
+        return "Welcome to your Uncle's Estate. I'm the GroundsKeeper. Let me show you around.\n" +
+                "Type \"LOOK\" to see around your current area.";
+    }
+
 
 
     public static String endingDialogue() {
         return "\nThank you for playing \uD83C\uDF31 PLANTPOCALYPSE \uD83C\uDF31 by the Rambutan Game Studios!\n" +
-                "\t Jeffrey Haywood, Hunter Clark, Maya Marks" +
+                "\t Jeffrey Haywood, Hunter Clark, Maya Marks\n" +
                 "\t Chris Janousek, Michael Vance, Justin Lamb";
     }
 

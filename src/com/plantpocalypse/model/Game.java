@@ -46,7 +46,7 @@ public enum Game {
         loadItems();
         loadMonsters();
         connectRooms();
-        player = new Player(mansion.get("Tutorial Island"));
+        player = new Player(mansion.get("Estate Gates"));
     }
 
     /**

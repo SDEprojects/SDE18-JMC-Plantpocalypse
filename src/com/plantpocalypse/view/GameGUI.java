@@ -274,8 +274,6 @@ public class GameGUI implements ActionListener {
                     won();
                     gameOver();
                 }
-                if (game.checkLostGame()) lost(); else won();
-                gameOver();
             }
         }
     }
@@ -364,17 +362,12 @@ public class GameGUI implements ActionListener {
         initializeFloorPanels(game.floor0, floor0Panel);
 
         title();
-        intro();
+        introTutorial();
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-//        HUD_CONTAINER.remove(0);
-//        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
-//        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
 //        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-
-//        floor2Panel.setVisible(false);
         play("../Plantpocalypse/audio/1.wav");          //play's song
 
     }
@@ -427,6 +420,10 @@ public class GameGUI implements ActionListener {
         displayDialogue(Dialogue.introDialogue());
     }
 
+    public void introTutorial() {
+        displayDialogue(Dialogue.introDialogueTutorial());
+    }
+
     /**
      * Appends losing dialogue to dialogueArea.
      */
@@ -442,7 +439,10 @@ public class GameGUI implements ActionListener {
         displayDialogue(Dialogue.endingDialogue());
     }
 
-    public void completedTutorial() { displayDialogue(Dialogue.completedTutorialDialogue());}
+    public void completedTutorial() {
+        dialogueText.setText("");
+        displayDialogue(Dialogue.completedTutorialDialogue());
+    }
 
     /**
      * Appends ending dialogue to dialogueArea.
