@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+    <room name="Estate Gates">
+        <adjacentRoom direction="west">Keeper's Hut</adjacentRoom>
+    </room>
+    <room name="Keeper's Hut">
+        <adjacentRoom direction="east">Estate Gates</adjacentRoom>
+        <adjacentRoom direction="northwest">Gardens</adjacentRoom>
+    </room>
+    <room name="Gardens">
+        <adjacentRoom direction="southeast">Keeper's Hut</adjacentRoom>
+        <adjacentRoom direction="east">Hill</adjacentRoom>
+    </room>
+    <room name="Hill">
+        <adjacentRoom direction="west">Gardens</adjacentRoom>
+        <adjacentRoom direction="up">Treehouse</adjacentRoom>
+    </room>
+    <room name="Treehouse">
+        <adjacentRoom direction="down">Hill</adjacentRoom>
+    </room>
     <room name="Foyer">
         <adjacentRoom direction="north">Living Room</adjacentRoom>
         <adjacentRoom direction="east">Library</adjacentRoom>

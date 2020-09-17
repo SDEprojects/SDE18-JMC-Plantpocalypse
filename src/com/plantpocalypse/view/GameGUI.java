@@ -38,17 +38,17 @@ public class GameGUI implements ActionListener {
     private final JPanel[][] panelHolderInput;
     private final JScrollPane scrollPane;
 
-    private final JButton newGameButton, loadGameButton;
+    private final JButton newGameButton, loadGameButton, tutorialButton;
     private final JLabel inputFieldLabel, currentRoomLabel, currentHealthLabel, movesMadeLabel;
     private final JTextArea dialogueText;
     private final JTextField inputField;
 
     private final JMenu menu;
-    private final JMenuItem newGame, save, load, help, about, quit;
+    private final JMenuItem newGame, save, load, help, about, quit, tutorial;
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel;
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -72,6 +72,8 @@ public class GameGUI implements ActionListener {
         newGame.addActionListener(this);
         save = new JMenuItem("Save");
         save.addActionListener(this);
+        tutorial = new JMenuItem("Tutorial");
+        tutorial.addActionListener(this);
         load = new JMenuItem("Load");
         load.addActionListener(this);
         help = new JMenuItem("Help");
@@ -83,6 +85,7 @@ public class GameGUI implements ActionListener {
         menuBar = new JMenuBar();
         menu.add(newGame);
         menu.add(save);
+        menu.add(tutorial);
         menu.add(load);
         menu.add(help);
         menu.add(about);
@@ -92,6 +95,8 @@ public class GameGUI implements ActionListener {
 
         newGameButton = new JButton("New Game");
         newGameButton.addActionListener(this);
+        tutorialButton = new JButton("Tutorial");
+        tutorialButton.addActionListener(this);
         loadGameButton = new JButton("Load Game");
         loadGameButton.addActionListener(this);
 
@@ -195,14 +200,22 @@ public class GameGUI implements ActionListener {
         overlay = new OverlayLayout(floor2Panel);
         floor2Panel.setLayout(overlay);
 
+        floor0Panel = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        overlay = new OverlayLayout(floor0Panel);
+        floor0Panel.setLayout(overlay);
+
 
 
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
-
-        dialogueText.setText("\t\tSelect Menu > New Game to start a new game.\n\t\tSelect Menu > Load Game to load a save game.");
+        dialogueText.setText("\tSelect Menu > New Game to start a new game.\n\tSelect Menu > Load Game to load a save game.\n\tSelect Menu > Tutorial to play the tutorial.");
         dialog = null;
+
     }
 
     @Override
@@ -212,6 +225,9 @@ public class GameGUI implements ActionListener {
         }
         else if (e.getSource() == save) {
             game.saveGame();
+        }
+        else if (e.getSource() == tutorial || e.getSource() == tutorialButton) {
+            startTutorial();
         }
         else if (e.getSource() == load || e.getSource() == loadGameButton) {
             loadSavedGame();
@@ -260,8 +276,15 @@ public class GameGUI implements ActionListener {
             displayStatus();
 
             if (game.checkGameOver()) {
-                if (game.checkLostGame()) lost(); else won();
-                gameOver();
+                if (game.checkLostGame()) { lost();}
+                if (game.checkTutorialComplete()) {
+                    completedTutorial();
+                    gameOver();
+                }
+                if (game.checkPlayerWon()) {
+                    won();
+                    gameOver();
+                }
             }
         }
         else if (e.getActionCommand() != null) {
@@ -361,6 +384,26 @@ public class GameGUI implements ActionListener {
 //        play("../Plantpocalypse/audio/1.wav");          //play's song
 
     }
+
+    public void startTutorial() {
+        dialogueText.setText("\t\t");
+        game.loadAssetsTutorial();
+        initializeFloorPanels(game.floor1, floor1Panel);
+        initializeFloorPanels(game.floor2, floor2Panel);
+        initializeFloorPanels(game.floor0, floor0Panel);
+
+        title();
+        introTutorial();
+        displayStatus();
+        scrollPane.setVisible(true);
+        userInputPanel.setVisible(true);
+        HUD_CONTAINER.setVisible(true);
+//        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
+        play("../Plantpocalypse/audio/1.wav");          //play's song
+
+    }
+
+    // Might have to update this for additional floors in the future
     public void swapFloorPanels(){
         // Toggles visibility for each floor mini maps
         floor1Panel.setVisible(!floor1Panel.isVisible());
@@ -408,6 +451,10 @@ public class GameGUI implements ActionListener {
         displayDialogue(Dialogue.introDialogue());
     }
 
+    public void introTutorial() {
+        displayDialogue(Dialogue.introDialogueTutorial());
+    }
+
     /**
      * Appends losing dialogue to dialogueArea.
      */
@@ -420,13 +467,18 @@ public class GameGUI implements ActionListener {
      */
     public void won() {
         displayDialogue(Dialogue.winningDialogue());
+        displayDialogue(Dialogue.endingDialogue());
+    }
+
+    public void completedTutorial() {
+        dialogueText.setText("");
+        displayDialogue(Dialogue.completedTutorialDialogue());
     }
 
     /**
      * Appends ending dialogue to dialogueArea.
      */
     public void gameOver() {
-        displayDialogue(Dialogue.endingDialogue());
         userInputPanel.setVisible(false);
     }
 

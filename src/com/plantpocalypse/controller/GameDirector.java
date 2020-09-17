@@ -3,8 +3,10 @@ package com.plantpocalypse.controller;
 import com.plantpocalypse.model.Game;
 import com.plantpocalypse.model.Player;
 import com.plantpocalypse.model.Room;
+import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
+import com.plantpocalypse.model.items.WeedKiller;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TransparencyTool;
@@ -68,7 +70,7 @@ public class GameDirector {
             Room previousRoom = player.getCurrentRoom();
             ComponentMap previousFloorComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
-                result = "Moved to " + player.getCurrentRoom().getName();
+                result = "Moved to " + player.getCurrentRoom().getName() + "\n";
                 try {
                     GameGUI.play("../Plantpocalypse/audio/door-creak.wav");
                 } catch (Exception e){}
@@ -117,7 +119,7 @@ public class GameDirector {
                 try {
                     GameGUI.play("../Plantpocalypse/audio/door-handle-jiggle.wav");
                 } catch (Exception e){}
-                result = "The door is locked.";
+                result = "This route is currently blocked.";
             }
         }
 
@@ -129,8 +131,10 @@ public class GameDirector {
         Item item = player.retrieveItemFromInventory(itemName);
 
         if (itemName != null && player.eat(itemName)) {
-            result = "Omnomnom! Must have been organic";
+            result = "\nOmnomnom! Must have been organic";
             result += "\nYou ate the " + item.getName();
+            Food foodItem = (Food) item;
+            result += "\nIt restored your health points by " + foodItem.getHealthRestored();
         }
 
         return result;
@@ -139,24 +143,25 @@ public class GameDirector {
     private static String use(String itemName, Player player) {
         String result = "You do not have that item!";
         Item item = player.retrieveItemFromInventory(itemName);
-
-        if (itemName != null && player.use(itemName)) {
+        if (item instanceof Food) {
+            result = "\nThe best way to Use Food is to EAT IT\n";
+        } else if (itemName != null && player.use(itemName)) {
             result = "You used the " + item.getName();
 
-            if (itemName.contains("key")) {
+            if (item instanceof Key) {
                 try {
                     GameGUI.play("../Plantpocalypse/audio/door-locking.wav");
                 } catch (Exception e){}
                 Key key = (Key) item;
-                result += "\nYou unlocked the " + key.getRoomKeyUnlocks().getName();
-            } else if (itemName.contains("killer")) {
+                result += "\nYou can now explore the " + key.getRoomKeyUnlocks().getName();
+            } else if (item instanceof WeedKiller) {
                 if (player.getCurrentRoom().getName().equals("Green House Floor 2")) {
                     result += "\nYou killed all plant monsters in the mansion";
                 } else result = "\nWeed killer is more useful when work with plants from the right angle.";
             }
         }
             return result;
-        }
+    }
 
     private static String  open(String itemName, Player player) {
         String result = "You have nothing to open!";
@@ -198,21 +203,13 @@ public class GameDirector {
     }
 
     private static String look(Player player) {
-        StringBuilder result = new StringBuilder(player.getCurrentRoom().getDescription());
+        StringBuilder result = new StringBuilder("\n" + player.getCurrentRoom().getDescription());
         Room currentRoom = player.getCurrentRoom();
 
-        result.append("\nYou notice a door to the ");
-
-        for (String key : currentRoom.getNeighboringRooms().keySet()) {
-            result.append(key).append(", ");
-        }
-
-        result.setCharAt(result.length() - 2, '.');
-
         if (currentRoom.getMonster() != null) {
-            result.append("\nThere is a scary ").append(player.getCurrentRoom().getMonster().getMonsterName()).append(" in here!");
-            result.append("\nYou should run away!!!");
-            return result.toString();
+            result.append("\n\nThere is a scary ").append(player.getCurrentRoom().getMonster().getMonsterName()).append(" in here!");
+            result.append("\nYou should run away!!!\n");
+//            return result.toString();
         }
 
         if (currentRoom.getItems().size() > 0) {
@@ -226,6 +223,14 @@ public class GameDirector {
 
             result.append("on the ground. Maybe they are useful?");
         }
+
+        result.append("\nFrom here, you can GO ");
+
+        for (String key : currentRoom.getNeighboringRooms().keySet()) {
+            result.append(key).append(", ");
+        }
+
+        result.setCharAt(result.length() - 2, '.');
 
         return result.toString();
     }
@@ -247,11 +252,15 @@ public class GameDirector {
 
     private static ComponentMap getCurrentFloorComponents() {
         ComponentMap currentFloorComponents;
-        if (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber() == 1) {
-            currentFloorComponents = Game.GAME_INSTANCE.floor1;
-        } else {
-            currentFloorComponents = Game.GAME_INSTANCE.floor2;
+        switch (Game.GAME_INSTANCE.getPlayer().getCurrentRoom().getFloorNumber())  {
+            case 1: currentFloorComponents = Game.GAME_INSTANCE.floor1;
+                break;
+            case 2: currentFloorComponents = Game.GAME_INSTANCE.floor2;
+                break;
+            default: currentFloorComponents = Game.GAME_INSTANCE.floor0;
+                break;
         }
+
         return currentFloorComponents;
     }
 
