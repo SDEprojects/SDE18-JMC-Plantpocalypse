@@ -10,4 +10,9 @@
         <baseAttack>2</baseAttack>
         <location>Guest Room</location>
     </monster>
+    <monster>
+        <name>Blackberry Vine</name>
+        <baseAttack>1</baseAttack>
+        <location>Gardens</location>
+    </monster>
 </config>

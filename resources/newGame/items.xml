@@ -54,5 +54,22 @@
         <location>Hidden Office</location>
         <description>A mysterious elixir that smells like Strawberry.</description>
     </item>
+    <item type="tutorialOrb">
+        <name>orb</name>
+        <location>Hill</location>
+        <description>A tutorial orb, I should use it!</description>
+    </item>
+    <item type="food">
+        <name>blackberry</name>
+        <location>Gardens</location>
+        <healthRestored>1</healthRestored>
+        <description>That vine sure hurt. Fortunately, I can eat this blackberry.</description>
+    </item>
+    <item type="key">
+        <name>gloves</name>
+        <location>Keeper's Hut</location>
+        <roomUnlock>Gardens</roomUnlock>
+        <description>I can "Use Gloves" to help me navigate through dense vines.</description>
+    </item>
 
 </config>
