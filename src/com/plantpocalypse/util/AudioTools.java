@@ -17,22 +17,29 @@ public class AudioTools {
     }
 
     // Handles looped  for JFrame
-    public static void play(String filename, boolean loop, int loopCount) {
+    public static Clip play(String filename, boolean loop, int loopCount) {
+        Clip clip = null;
         try {
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File(filename)));
             clip.loop(loopCount - 1);
         } catch (Exception exc) {
             exc.printStackTrace(System.out);
         }
+        return clip;
+    }
+
+    public static void stop(Clip clip) {
+        clip.stop();
     }
 
     // Static Nested Classes for more organized method calling
     public static class Music {
         private static final String THEME_MUSIC = "../Plantpocalypse/audio/1.wav";
 
-        public static void playTheme() {
-            play(THEME_MUSIC, true, 10);
+        public static Clip playTheme() {
+            Clip clip = play(THEME_MUSIC, true, 10);
+            return clip;
         }
     }
 

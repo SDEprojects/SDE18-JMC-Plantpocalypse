@@ -30,7 +30,8 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
-
+    // Theme music
+    private Clip THEME_MUSIC;
     // Main window
     private final JFrame gameFrame;
     // Container for user input and other status displays
@@ -368,6 +369,9 @@ public class GameGUI implements ActionListener {
         });
     }
     public void startGame() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssets();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -382,10 +386,13 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
-        AudioTools.Music.playTheme();
+        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 
     public void startTutorial() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssetsTutorial();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -399,7 +406,9 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
 //        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-        AudioTools.Music.playTheme();
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        THEME_MUSIC = AudioTools.Music.playTheme();
 
     }
 
@@ -411,6 +420,9 @@ public class GameGUI implements ActionListener {
     }
 
     public void loadSavedGame() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("");
         game.loadGame();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -426,7 +438,7 @@ public class GameGUI implements ActionListener {
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
             swapFloorPanels();
         }
-        AudioTools.Music.playTheme();
+        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 //    add more details in the about section
     public void about() {
