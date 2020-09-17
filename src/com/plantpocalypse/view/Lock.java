@@ -12,15 +12,7 @@ public class Lock implements ActionListener {
     private static JFrame frame;
     private final Game game = Game.GAME_INSTANCE;
 
-    Lock(){
-        frame = new JFrame("Plantpocalypse");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        createUI(frame);
-        frame.setSize(300, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+    public Lock(){}
 //    public static void main(String[] args) {
 //        try {
 //            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
@@ -30,9 +22,15 @@ public class Lock implements ActionListener {
 //        createWindow();
 //    }
 
-//    private static void createWindow() {
-//
-//    }
+    private static void createWindow() {
+        frame = new JFrame("Plantpocalypse");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        createUI(frame);
+        frame.setSize(300, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(false);
+    }
 
     private static void createUI(JFrame frame) {
         JPanel panel = new JPanel();

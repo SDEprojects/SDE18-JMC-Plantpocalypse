@@ -20,6 +20,7 @@ public class ItemReader {
     static final String TYPE = "type";
     static final String NAME = "name";
     public final String DESCRIPTION = "description";
+    public final String BACK = "back";
     static final String LOCATION = "location";
     static final String HEALTHRESTORED = "healthRestored";
     static final String ROOMUNLOCK = "roomUnlock";
@@ -79,6 +80,14 @@ public class ItemReader {
                             event = eventReader.nextEvent();
                             if (item != null) {
                                 item.setDescription(event.asCharacters().getData());
+                            } else {
+                                System.out.println("Item value was null, check that types are correct in items.xml");
+                            }
+                        }
+                        case BACK -> {
+                            event = eventReader.nextEvent();
+                            if (item != null) {
+                                item.setBack(event.asCharacters().getData());
                             } else {
                                 System.out.println("Item value was null, check that types are correct in items.xml");
                             }

@@ -173,19 +173,18 @@ public class GameDirector {
     private static String examine(String itemName, Player player) {
         String result = "You do not have that item!";
         Item item = player.retrieveItemFromInventory(itemName);
-//        System.out.println(itemName);
-
         if (itemName != null && player.examine(itemName)) {
             result = ("You examine the " + item.getName());
             result += ("\n" + item.getDescription());
+            if(item.getBack() != null)
+                result+=("\n" + item.getBack());
         }
-//        System.out.println(player.getCurrentRoom().getNeighboringRooms().get("east").getName());
-        if(player.getCurrentRoom().getNeighboringRooms().get("east").getName().equals("Hidden Office") && itemName.equals("book")) {
-            System.out.println("here");
-            result = "You pick the book off the shelf and find a hidden keypad behind it";
+        if(player.getCurrentRoom().getNeighboringRooms().get("east") != null){
+            if(player.getCurrentRoom().getNeighboringRooms().get("east").getName().equals("Hidden Office") && itemName.equals("book")) {
+                result = "You pick the book off the shelf and find a hidden keypad behind it";
+            }
         }
-
-
+        System.out.println(result);
         return result;
     }
 

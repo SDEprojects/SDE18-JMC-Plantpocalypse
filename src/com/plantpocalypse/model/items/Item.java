@@ -5,12 +5,19 @@ import java.io.Serializable;
 public abstract class Item implements Serializable {
     private String name;
     private String Description;
+    private String back;
 
     /* CONSTRUCTORS */
     public Item() {}
     public Item(String name){
         setName(name);
         setDescription("This is a " + name);
+    }
+
+    public Item(String name, String back){
+        setName(name);
+        setDescription("This is a " + name);
+        setBack(back);
     }
 
     /* ABSTRACT METHODS */
@@ -31,6 +38,14 @@ public abstract class Item implements Serializable {
 
     public void setDescription(String description) {
         Description = description;
+    }
+
+    public String getBack() {
+        return back;
+    }
+
+    public void setBack(String back) {
+        this.back = back;
     }
 
 //    @Override
