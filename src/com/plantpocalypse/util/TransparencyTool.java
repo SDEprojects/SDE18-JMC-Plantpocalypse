@@ -19,13 +19,7 @@ public class TransparencyTool {
 
         return result;
     }
-
-
-
-    // Create an image icon
-//    BufferedImage mapImage = ImageIO.read(new File(pathName));
-//    JLabel imageLabel = new JLabel(new ImageIcon(mapImage));
-//    JPanel imageHolder = new JPanel();
+    
     public static JPanel createJPanelFromPath(String filePath) {
         ImageIcon imageIcon = createImageIcon(readBuff(filePath));
         return createJPanelFromImageIcon(imageIcon);
