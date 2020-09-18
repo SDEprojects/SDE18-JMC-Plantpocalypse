@@ -21,6 +21,11 @@ public enum Game {
     public ComponentMap floor1;
     public ComponentMap floor2;
     public ComponentMap floor0;
+    private String adjacentRoomsPath = "./resources/newGame/adjacentRooms.xml";
+    private String itemsPath = "./resources/newGame/items.xml";
+    private String monstersPath = "./resources/newGame/monsters.xml";
+    private String roomsPath = "./resources/newGame/rooms.xml";
+
 
     /**
      * Loads assets for the game to run properly:
@@ -32,7 +37,7 @@ public enum Game {
         loadItems();
         loadMonsters();
         connectRooms();
-        player = new Player(mansion.get("Outside"));
+        setPlayer("Outside");
 //        loadNPC();
 
     }
@@ -42,7 +47,7 @@ public enum Game {
         loadItems();
         loadMonsters();
         connectRooms();
-        player = new Player(mansion.get("Estate Gates"));
+        setPlayer("Estate Gates");
     }
 
     /**
@@ -56,7 +61,7 @@ public enum Game {
 //    }
     private void loadRooms() {
         RoomReader readRooms = new RoomReader();
-        mansion = readRooms.readRoomsXML("./resources/newGame/rooms.xml");
+        mansion = readRooms.readRoomsXML(getRoomsPath());
         loadComponentMaps();
     }
 
@@ -98,17 +103,17 @@ public enum Game {
 
     private void loadItems() {
         ItemReader readItems = new ItemReader();
-        readItems.readItemsXML("./resources/newGame/items.xml",mansion);
+        readItems.readItemsXML(getItemsPath(),mansion);
     }
 
     private void loadMonsters() {
         MonsterReader readMonsters = new MonsterReader();
-        readMonsters.readMonstersXML("./resources/newGame/monsters.xml",mansion);
+        readMonsters.readMonstersXML(getMonstersPath(),mansion);
     }
 
     private void connectRooms() {
         AdjacentRoomReader readAdjacentRooms = new AdjacentRoomReader();
-        readAdjacentRooms.readAdjacentRoomsXML("./resources/newGame/adjacentRooms.xml",mansion);
+        readAdjacentRooms.readAdjacentRoomsXML(getAdjacentRoomsPath(),mansion);
     }
 
 
@@ -173,11 +178,47 @@ public enum Game {
         return player;
     }
 
+    public void setPlayer(String startingRoomName) {
+        this.player = new Player(mansion.get(startingRoomName));
+    }
+
     public int getAllowedMoves() {
         return ALLOWED_MOVES;
     }
 
     public HashMap<String, Room> getMansion() {
         return mansion;
+    }
+
+    public String getAdjacentRoomsPath() {
+        return adjacentRoomsPath;
+    }
+
+    public void setAdjacentRoomsPath(String adjacentRoomsPath) {
+        this.adjacentRoomsPath = adjacentRoomsPath;
+    }
+
+    public String getItemsPath() {
+        return itemsPath;
+    }
+
+    public void setItemsPath(String itemsPath) {
+        this.itemsPath = itemsPath;
+    }
+
+    public String getMonstersPath() {
+        return monstersPath;
+    }
+
+    public void setMonstersPath(String monstersPath) {
+        this.monstersPath = monstersPath;
+    }
+
+    public String getRoomsPath() {
+        return roomsPath;
+    }
+
+    public void setRoomsPath(String roomsPath) {
+        this.roomsPath = roomsPath;
     }
 }

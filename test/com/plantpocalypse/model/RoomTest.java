@@ -3,10 +3,10 @@ package com.plantpocalypse.model;
 import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Journal;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 class RoomTest {
     Room testRoom;
