@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class TransparencyTool {
+public class ImageTools {
 
     // Read in a buffered image
     public static BufferedImage readBuff(String filePath) {
@@ -16,7 +16,6 @@ public class TransparencyTool {
         } catch (Exception e) {
             System.err.println(e);
         }
-
         return result;
     }
     
@@ -25,10 +24,6 @@ public class TransparencyTool {
         return createJPanelFromImageIcon(imageIcon);
     }
 
-    public static JPanel createJPanelFromPath(String filePath, int width, int height) {
-        ImageIcon imageIcon = createImageIcon(readBuff(filePath), width, height);
-        return createJPanelFromImageIcon(imageIcon);
-    }
     public static ImageIcon createImageIcon(BufferedImage image) {
         Image scaledImage = image.getScaledInstance(600,375, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
@@ -36,6 +31,12 @@ public class TransparencyTool {
     public static ImageIcon createImageIcon(BufferedImage image, int width, int height) {
         Image scaledImage = image.getScaledInstance(width,height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
+    }
+
+
+    public static JPanel createJPanelFromPath(String filePath, int width, int height) {
+        ImageIcon imageIcon = createImageIcon(readBuff(filePath), width, height);
+        return createJPanelFromImageIcon(imageIcon);
     }
 
     public static JPanel createJPanelFromImageIcon(ImageIcon imageIcon) {
@@ -67,9 +68,6 @@ public class TransparencyTool {
     public static Image scaleImage(BufferedImage img) {
         return img.getScaledInstance(600,375, Image.SCALE_SMOOTH);
     }
-
-
-
 
 
     // StackOverflow foo to change all of the pixels of an image to a given transparency (alpha) value

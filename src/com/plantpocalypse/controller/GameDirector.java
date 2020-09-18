@@ -10,9 +10,8 @@ import com.plantpocalypse.model.items.WeedKiller;
 import com.plantpocalypse.util.AudioTools;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 import com.plantpocalypse.view.ComponentMap;
-import com.plantpocalypse.view.GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,9 +85,9 @@ public class GameDirector {
                     // After a player has visited a new room, mark it as visited
                     player.getCurrentRoom().setHasVisited(true);
                     // Change the room's map overlay image to be partially transparent
-                    BufferedImage tempImage = TransparencyTool.readBuff(player.getCurrentRoom().getPath());
-                    tempImage = TransparencyTool.changeAlpha(tempImage);
-                    ImageIcon transparentIcon = TransparencyTool.createImageIcon(tempImage);
+                    BufferedImage tempImage = ImageTools.readBuff(player.getCurrentRoom().getPath());
+                    tempImage = ImageTools.changeAlpha(tempImage);
+                    ImageIcon transparentIcon = ImageTools.createImageIcon(tempImage);
                     currentRoom.setMapImage(transparentIcon);
                     // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
                     // Use the current room's name to target its specific JPanel

@@ -14,10 +14,9 @@ import com.plantpocalypse.model.Game;
 import com.plantpocalypse.util.AudioTools;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
@@ -260,7 +259,7 @@ public class GameGUI implements ActionListener {
                 result = "You opened the map.";
                 // Point at the map file that corresponds to the current floor and display in a pop up
                 String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
-                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName, 800, 500);
+                JPanel imageHolder = ImageTools.createJPanelFromPath(pathName, 800, 500);
                 JOptionPane.showMessageDialog(gameFrame, imageHolder);
 
             }
