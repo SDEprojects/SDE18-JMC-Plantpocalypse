@@ -54,7 +54,8 @@ public class GameDirector {
 
         String result = "He is not with you";
         if (player.getCurrentRoom().getCharacter() != null){
-            result = player.talk(NPCname);
+            result = player.getCurrentRoom().getCharacter().getName()+": ";
+            result += player.talk(NPCname);
         }
         return result;
     }
