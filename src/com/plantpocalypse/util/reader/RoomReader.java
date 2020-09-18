@@ -1,7 +1,7 @@
 package com.plantpocalypse.util.reader;
 
 import com.plantpocalypse.model.Room;
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 
 import javax.swing.*;
 import javax.xml.stream.XMLEventReader;
@@ -107,15 +107,15 @@ public class RoomReader {
                                 room.setPath(path);
                                 // Initialize room's mapImage with black overlay
                                 // Make sure we have initialized room with hasVisited before this step
-                                BufferedImage tempImage = TransparencyTool.readBuff(path);
+                                BufferedImage tempImage = ImageTools.readBuff(path);
 
                                 if (room.hasVisited()) {
                                     // If a room has been visited, update its image to be partially transparent
-                                    tempImage = TransparencyTool.changeAlpha(tempImage);
-                                    ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
+                                    tempImage = ImageTools.changeAlpha(tempImage);
+                                    ImageIcon mapImage = ImageTools.createImageIcon(tempImage);
                                     room.setMapImage(mapImage);
                                 } else {
-                                    ImageIcon mapImage = TransparencyTool.createImageIcon(tempImage);
+                                    ImageIcon mapImage = ImageTools.createImageIcon(tempImage);
                                     room.setMapImage(mapImage);
                                 }
 

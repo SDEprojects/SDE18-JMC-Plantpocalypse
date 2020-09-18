@@ -7,11 +7,11 @@ import com.plantpocalypse.model.items.Food;
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.Key;
 import com.plantpocalypse.model.items.WeedKiller;
+import com.plantpocalypse.util.AudioTools;
 import com.plantpocalypse.util.ConsoleDisplay;
 import com.plantpocalypse.util.Dialogue;
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 import com.plantpocalypse.view.ComponentMap;
-import com.plantpocalypse.view.GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,9 +72,7 @@ public class GameDirector {
             ComponentMap previousFloorComponents = getCurrentFloorComponents();
             if (player.move(adjacentRooms.get(direction))) {
                 result = "Moved to " + player.getCurrentRoom().getName() + "\n";
-                try {
-                    GameGUI.play("../Plantpocalypse/audio/door-creak.wav");
-                } catch (Exception e){}
+                AudioTools.SFX.playDoorOpen();
                 // Gray out the room we're moving out of by making its overlay visible on the mini map
                 previousFloorComponents.getComponent(previousRoom.getName()).setVisible(true);
                 Room currentRoom = player.getCurrentRoom();
@@ -88,9 +86,9 @@ public class GameDirector {
                     // After a player has visited a new room, mark it as visited
                     player.getCurrentRoom().setHasVisited(true);
                     // Change the room's map overlay image to be partially transparent
-                    BufferedImage tempImage = TransparencyTool.readBuff(player.getCurrentRoom().getPath());
-                    tempImage = TransparencyTool.changeAlpha(tempImage);
-                    ImageIcon transparentIcon = TransparencyTool.createImageIcon(tempImage);
+                    BufferedImage tempImage = ImageTools.readBuff(player.getCurrentRoom().getPath());
+                    tempImage = ImageTools.changeAlpha(tempImage);
+                    ImageIcon transparentIcon = ImageTools.createImageIcon(tempImage);
                     currentRoom.setMapImage(transparentIcon);
                     // There is a HashMap of JPanel components that are laid on top of each other to make a mini map
                     // Use the current room's name to target its specific JPanel
@@ -109,17 +107,13 @@ public class GameDirector {
                 getCurrentFloorComponents().getComponent(player.getCurrentRoom().getName()).setVisible(false);
 
                 if (player.getCurrentRoom().getMonster() != null) {
-                    try {
-                        GameGUI.play("../Plantpocalypse/audio/leaves.wav");
-                    } catch (Exception e){}
+                    AudioTools.SFX.playLeaves();
                     result += "\nYou were attacked by a monstrous " + player.getCurrentRoom().getMonster().getMonsterName();
                     result += "\nYou lost " + player.getCurrentRoom().getMonster().getBaseAttack() + " health points.";
                     player.getCurrentRoom().getMonster().attackPlayer(player);
                 }
             } else {
-                try {
-                    GameGUI.play("../Plantpocalypse/audio/door-handle-jiggle.wav");
-                } catch (Exception e){}
+                AudioTools.SFX.playDoorHandleJiggle();
                 result = "This route is currently blocked.";
             }
         }
@@ -150,9 +144,7 @@ public class GameDirector {
             result = "You used the " + item.getName();
 
             if (item instanceof Key) {
-                try {
-                    GameGUI.play("../Plantpocalypse/audio/door-locking.wav");
-                } catch (Exception e){}
+                AudioTools.SFX.playDoorUnlocking();
                 Key key = (Key) item;
                 result += "\nYou can now explore the " + key.getRoomKeyUnlocks().getName();
             } else if (item instanceof WeedKiller) {

@@ -1,17 +1,13 @@
 package com.plantpocalypse.model;
 
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 import com.plantpocalypse.util.reader.AdjacentRoomReader;
 import com.plantpocalypse.util.reader.ItemReader;
 import com.plantpocalypse.util.reader.MonsterReader;
 import com.plantpocalypse.util.reader.RoomReader;
 import com.plantpocalypse.view.ComponentMap;
-import com.plantpocalypse.util.reader.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 
@@ -71,14 +67,14 @@ public enum Game {
         floor0 = new ComponentMap();
         // Load outline overlay into each floor's map
 
-        JPanel tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_1.png");
+        JPanel tempComponent = ImageTools.createJPanelFromPath("./resources/map_labels_floor_1.png");
         floor1.addComponent("labels", tempComponent);
-        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_labels_floor_2.png");
+        tempComponent = ImageTools.createJPanelFromPath("./resources/map_labels_floor_2.png");
         floor2.addComponent("labels", tempComponent);
 
         // Load rooms overlays into map
         mansion.forEach((roomName, room) -> {
-            JPanel component = TransparencyTool.createJPanelFromPath(room.getPath());
+            JPanel component = ImageTools.createJPanelFromPath(room.getPath());
             switch (room.getFloorNumber()) {
                 case 1: floor1.addComponent(room.getName(), component);
                     break;
@@ -91,10 +87,10 @@ public enum Game {
 
         // Load background images into maps
 
-        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_1.png");
+        tempComponent = ImageTools.createJPanelFromPath("./resources/map_background_floor_1.png");
         floor1.addComponent("background", tempComponent);
 
-        tempComponent = TransparencyTool.createJPanelFromPath("./resources/map_background_floor_2.png");
+        tempComponent = ImageTools.createJPanelFromPath("./resources/map_background_floor_2.png");
         floor2.addComponent("background", tempComponent);
 
     }

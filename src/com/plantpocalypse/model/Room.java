@@ -2,12 +2,8 @@ package com.plantpocalypse.model;
 
 import com.plantpocalypse.model.items.Item;
 import com.plantpocalypse.model.items.NPC;
-import com.plantpocalypse.util.TransparencyTool;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 

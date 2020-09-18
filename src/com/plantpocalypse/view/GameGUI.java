@@ -11,12 +11,12 @@ package com.plantpocalypse.view;
 
 import com.plantpocalypse.controller.GameDirector;
 import com.plantpocalypse.model.Game;
+import com.plantpocalypse.util.AudioTools;
 import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
-import com.plantpocalypse.util.TransparencyTool;
+import com.plantpocalypse.util.ImageTools;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,8 @@ import java.util.Random;
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
 
-
+    // Theme music
+    private Clip THEME_MUSIC;
     // Main window
     private final JFrame gameFrame;
     // Container for user input and other status displays
@@ -258,7 +259,7 @@ public class GameGUI implements ActionListener {
                 result = "You opened the map.";
                 // Point at the map file that corresponds to the current floor and display in a pop up
                 String pathName = "./resources/map_background_floor_" + currentFloor + ".png";
-                JPanel imageHolder = TransparencyTool.createJPanelFromPath(pathName, 800, 500);
+                JPanel imageHolder = ImageTools.createJPanelFromPath(pathName, 800, 500);
                 JOptionPane.showMessageDialog(gameFrame, imageHolder);
 
             }
@@ -367,6 +368,9 @@ public class GameGUI implements ActionListener {
         });
     }
     public void startGame() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssets();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -381,11 +385,13 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
-//        play("../Plantpocalypse/audio/1.wav");          //play's song
-
+        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 
     public void startTutorial() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssetsTutorial();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -399,7 +405,9 @@ public class GameGUI implements ActionListener {
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
 //        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-        play("../Plantpocalypse/audio/1.wav");          //play's song
+        HUD_CONTAINER.remove(0);
+        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        THEME_MUSIC = AudioTools.Music.playTheme();
 
     }
 
@@ -411,6 +419,9 @@ public class GameGUI implements ActionListener {
     }
 
     public void loadSavedGame() {
+        try {
+            THEME_MUSIC.stop();
+        } catch (Exception e) {}
         dialogueText.setText("");
         game.loadGame();
         initializeFloorPanels(game.floor1, floor1Panel);
@@ -426,7 +437,7 @@ public class GameGUI implements ActionListener {
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
             swapFloorPanels();
         }
-//        play("../Plantpocalypse/audio/1.wav");          //play's song
+        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 //    add more details in the about section
     public void about() {
@@ -480,17 +491,6 @@ public class GameGUI implements ActionListener {
      */
     public void gameOver() {
         userInputPanel.setVisible(false);
-    }
-
-    // Handles sound for JFrame
-    public static void play(String filename) {
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File(filename)));
-            clip.start();
-        } catch (Exception exc) {
-            exc.printStackTrace(System.out);
-        }
     }
 
     private void createUI(JFrame frame) {
@@ -557,7 +557,7 @@ public class GameGUI implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             game.getPlayer().getCurrentRoom().getNeighboringRooms().get("east").toggleLock();
             displayDialogue("\nYou unlocked the Hidden Office");
-            play("../Plantpocalypse/audio/door-locking.wav");
+            AudioTools.SFX.playDoorUnlocking();
             dialog.dispose();
         }
     };
