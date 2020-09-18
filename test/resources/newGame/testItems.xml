@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <item type="key">
+        <name>brass key</name>
+        <roomUnlock>Foyer</roomUnlock>
+        <location>Outside</location>
+        <description>A brass key that can be used to unlock a door.</description>
+    </item>
+    <item type="key">
+        <name>steel key</name>
+        <roomUnlock>Library</roomUnlock>
+        <location>Foyer</location>
+        <description>A steel key that can be used to unlock a door.</description>
+    </item>
+    <item type="elixir">
+        <name>elixir</name>
+        <location>Hidden Office</location>
+        <description>A mysterious elixir that smells like Strawberry.</description>
+    </item>
+</config>
