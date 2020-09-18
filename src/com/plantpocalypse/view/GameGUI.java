@@ -49,7 +49,7 @@ public class GameGUI implements ActionListener {
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel;
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -208,6 +208,10 @@ public class GameGUI implements ActionListener {
         };
         overlay = new OverlayLayout(floor0Panel);
         floor0Panel.setLayout(overlay);
+
+        HIDDEN_OFFICE = ImageTools.createJPanelFromPath("./resources/map_hidden_office_unlocked.png");
+        HIDDEN_OFFICE.setVisible(false);
+        floor1Panel.add(HIDDEN_OFFICE);
 
 
 
@@ -558,6 +562,7 @@ public class GameGUI implements ActionListener {
             game.getPlayer().getCurrentRoom().getNeighboringRooms().get("east").toggleLock();
             displayDialogue("\nYou unlocked the Hidden Office");
             AudioTools.SFX.playDoorUnlocking();
+            HIDDEN_OFFICE.setVisible(true);
             dialog.dispose();
         }
     };
