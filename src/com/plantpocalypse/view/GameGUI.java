@@ -209,7 +209,7 @@ public class GameGUI implements ActionListener {
         overlay = new OverlayLayout(floor0Panel);
         floor0Panel.setLayout(overlay);
 
-        HIDDEN_OFFICE = ImageTools.createJPanelFromPath("./resources/mapf1.png");
+        HIDDEN_OFFICE = ImageTools.createJPanelFromPath("./resources/map_hidden_office_unlocked.png");
         HIDDEN_OFFICE.setVisible(false);
         floor1Panel.add(HIDDEN_OFFICE);
 
