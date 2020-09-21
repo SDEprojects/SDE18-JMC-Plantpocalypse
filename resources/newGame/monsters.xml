@@ -11,6 +11,11 @@
         <location>Guest Room</location>
     </monster>
     <monster>
+        <name>Succulent</name>
+        <baseAttack>2</baseAttack>
+        <location>Upper Hall</location>
+    </monster>
+    <monster>
         <name>Blackberry Vine</name>
         <baseAttack>1</baseAttack>
         <location>Gardens</location>
