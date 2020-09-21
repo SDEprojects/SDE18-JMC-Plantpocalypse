@@ -49,7 +49,7 @@ public class GameGUI implements ActionListener {
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE, SUB_CONTAINER_N, SUB_CONTAINER_S;
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE, SUB_CONTAINER_N, SUB_CONTAINER_S, MONSTER_PANEL;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -188,6 +188,8 @@ public class GameGUI implements ActionListener {
         catch (Exception e) {
             System.err.println("title screen image file does not exist or is improperly named");
         }
+        MONSTER_PANEL = ImageTools.createJPanelFromPath("./resources/mapf1.png");
+        MONSTER_PANEL.setVisible(false);
 
         // Set up floor1 and floor2 containers to allow overlays in mini map drawing
          floor1Panel = new JPanel() {
@@ -275,6 +277,7 @@ public class GameGUI implements ActionListener {
             if(result.contains("Moved to Floor ")) {
                 swapFloorPanelVisibility(floor1Panel, floor2Panel);
             }
+
             displayDialogue(result);
             if(result == "You pick the book off the shelf and find a hidden keypad behind it") {
                 createUI(gameFrame);
@@ -360,7 +363,18 @@ public class GameGUI implements ActionListener {
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
+        displayMonster();
+
     }
+
+    private void displayMonster() {
+        if (game.getPlayer().getCurrentRoom().getMonster() != null) {
+            MONSTER_PANEL.setVisible(true);
+        } else {
+            MONSTER_PANEL.setVisible(false);
+        }
+    }
+
 
     /**
      * Calls methods to display beginning of story and game data to
@@ -391,6 +405,8 @@ public class GameGUI implements ActionListener {
             panel.remove(component);
         }
     }
+
+
     public void startGame() {
         try {
             THEME_MUSIC.stop();
@@ -411,6 +427,7 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.setVisible(true);
         tearDownPanel(SUB_CONTAINER_N);
         tearDownPanel(SUB_CONTAINER_S);
+        SUB_CONTAINER_N.add(MONSTER_PANEL);
         SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
         SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
         resetFloorPanelVisibility();
@@ -429,7 +446,6 @@ public class GameGUI implements ActionListener {
         initializeFloorPanels(game.floor1, floor1Panel);
         initializeFloorPanels(game.floor2, floor2Panel);
         initializeFloorPanels(game.floor0, floor0Panel);
-
         title();
         introTutorial();
         displayStatus();
@@ -461,6 +477,8 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.setVisible(true);
         tearDownPanel(SUB_CONTAINER_N);
         tearDownPanel(SUB_CONTAINER_S);
+        SUB_CONTAINER_N.add(MONSTER_PANEL);
+        MONSTER_PANEL.setVisible(false);
         SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
         SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
         resetFloorPanelVisibility();
