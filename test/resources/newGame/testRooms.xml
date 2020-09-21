@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <room name="Outside">
+        <description>The Outside of the mansion is very creepy. There is a hazy mist in the air. Over in the Corner you notice the GroundsKeeper.</description>
+        <NPC>GroundsKeeper</NPC>
+        <NPCdialogue>You'll need a key to enter, I've been locked out.</NPCdialogue>
+        <isLocked>false</isLocked>
+        <hasVisited>true</hasVisited>
+        <floorNumber>1</floorNumber>
+        <path>./resources/map_outside.png</path>
+        <color>14803166</color>
+    </room>
+    <room name="Foyer">
+        <description>The size of the grand Foyer leaves you in awe. There are vines wrapped around the ceiling trickling down the stairs blocking your way up.</description>
+        <NPC>Groundskeeper</NPC>
+        <NPCdialogue>Check the Library</NPCdialogue>
+        <isLocked>true</isLocked>
+        <hasVisited>false</hasVisited>
+        <floorNumber>1</floorNumber>
+        <path>./resources/map_foyer.png</path>
+        <color>14803166</color>
+    </room>
+    <room name="Living Room">
+        <description>The Living Room seems to be the central connecting point of the house. There seems to be some weird, green fluid on the ground near the eastern door.</description>
+        <NPC>Groundskeeper</NPC>
+        <NPCdialogue>This place is huge, grab that map.</NPCdialogue>
+        <isLocked>false</isLocked>
+        <hasVisited>false</hasVisited>
+        <floorNumber>1</floorNumber>
+        <path>./resources/map_living_room.png</path>
+        <color>14059899</color>
+    </room>
+    <room name="Library">
+        <description>The Library has bookshelves almost double my height. Something sticks out to me about an interesting looking book on the east side of the room.</description>
+        <NPC>Groundskeeper</NPC>
+        <NPCdialogue>That steel key can be useful.</NPCdialogue>
+        <isLocked>true</isLocked>
+        <hasVisited>false</hasVisited>
+        <floorNumber>1</floorNumber>
+        <path>./resources/map_library.png</path>
+        <color>15780743</color>
+    </room>
+    <room name="Hidden Office">
+        <description>There is a Desk in the middle of the room with a potted fern next to it. There seems to be some type of beaker with a neon green liquid on the desk.</description>
+        <NPC>Groundskeeper</NPC>
+        <NPCdialogue>OHH!! It's elixir!!! </NPCdialogue>
+        <isLocked>true</isLocked>
+        <hasVisited>false</hasVisited>
+        <floorNumber>1</floorNumber>
+        <path>./resources/map_hidden_office.png</path>
+        <color>3682152</color>
+    </room>
+
+</config>
