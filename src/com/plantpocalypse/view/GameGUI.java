@@ -49,7 +49,7 @@ public class GameGUI implements ActionListener {
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE;
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE, SUB_CONTAINER_N, SUB_CONTAINER_S;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -120,8 +120,13 @@ public class GameGUI implements ActionListener {
 
         // Add a component container and heads up display component to the main frame
         HUD_CONTAINER = new JPanel(new BorderLayout());
+        SUB_CONTAINER_N = new JPanel(new BorderLayout());
+        SUB_CONTAINER_S = new JPanel(new BorderLayout());
+
         HUD = new JPanel(new BorderLayout());
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        HUD_CONTAINER.add(SUB_CONTAINER_N, BorderLayout.NORTH);
+        HUD_CONTAINER.add(SUB_CONTAINER_S, BorderLayout.SOUTH);
+        SUB_CONTAINER_N.add(HUD, BorderLayout.NORTH);
         gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
         roomStatusContainer = new JPanel(){
@@ -210,10 +215,6 @@ public class GameGUI implements ActionListener {
         floor0Panel.setLayout(overlay);
 
         HIDDEN_OFFICE = ImageTools.createJPanelFromPath("./resources/map_hidden_office_unlocked.png");
-        HIDDEN_OFFICE.setVisible(false);
-        floor1Panel.add(HIDDEN_OFFICE);
-
-
 
         /* Attributes to set after all components added to Window */
         gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
@@ -272,7 +273,7 @@ public class GameGUI implements ActionListener {
                 result = "Not a valid command. Type help if you need a list of possible commands";
             // If player moved to a new floor, toggle mini map visibility for both floors (one on, the other off)
             if(result.contains("Moved to Floor ")) {
-                swapFloorPanels();
+                swapFloorPanelVisibility(floor1Panel, floor2Panel);
             }
             displayDialogue(result);
             if(result == "You pick the book off the shelf and find a hidden keypad behind it") {
@@ -365,11 +366,30 @@ public class GameGUI implements ActionListener {
      * Calls methods to display beginning of story and game data to
      * the GUI.
      */
-    public void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
+
+    private void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
         // Add each component in the ComponentMap to the proper floor's JPanel container
         componentMap.getComponentMap().forEach((entry, component) -> {
             panel.add(component);
         });
+    }
+
+    private void resetFloorPanelVisibility() {
+        floor1Panel.setVisible(true);
+        floor2Panel.setVisible(false);
+    }
+
+    // Might have to update this for additional floors in the future
+    public void swapFloorPanelVisibility(JPanel panel1, JPanel panel2){
+        // Toggles visibility for each floor mini maps
+        panel1.setVisible(!panel1.isVisible());
+        panel2.setVisible(!panel2.isVisible());
+    }
+
+    private void tearDownPanel(JPanel panel) {
+        for (Component component : panel.getComponents()) {
+            panel.remove(component);
+        }
     }
     public void startGame() {
         try {
@@ -377,6 +397,10 @@ public class GameGUI implements ActionListener {
         } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssets();
+        tearDownPanel(floor1Panel);
+        tearDownPanel(floor2Panel);
+        floor1Panel.add(HIDDEN_OFFICE);
+        HIDDEN_OFFICE.setVisible(false);
         initializeFloorPanels(game.floor1, floor1Panel);
         initializeFloorPanels(game.floor2, floor2Panel);
         title();
@@ -385,10 +409,11 @@ public class GameGUI implements ActionListener {
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
-        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
-        floor2Panel.setVisible(false);
+        tearDownPanel(SUB_CONTAINER_N);
+        tearDownPanel(SUB_CONTAINER_S);
+        SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
+        SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
+        resetFloorPanelVisibility();
         THEME_MUSIC = AudioTools.Music.playTheme();
     }
 
@@ -398,6 +423,9 @@ public class GameGUI implements ActionListener {
         } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssetsTutorial();
+        tearDownPanel(floor1Panel);
+        tearDownPanel(floor2Panel);
+        tearDownPanel(floor0Panel);
         initializeFloorPanels(game.floor1, floor1Panel);
         initializeFloorPanels(game.floor2, floor2Panel);
         initializeFloorPanels(game.floor0, floor0Panel);
@@ -408,18 +436,11 @@ public class GameGUI implements ActionListener {
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-//        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        tearDownPanel(SUB_CONTAINER_N);
+        tearDownPanel(SUB_CONTAINER_S);
+        SUB_CONTAINER_N.add(HUD, BorderLayout.NORTH);
         THEME_MUSIC = AudioTools.Music.playTheme();
 
-    }
-
-    // Might have to update this for additional floors in the future
-    public void swapFloorPanels(){
-        // Toggles visibility for each floor mini maps
-        floor1Panel.setVisible(!floor1Panel.isVisible());
-        floor2Panel.setVisible(!floor2Panel.isVisible());
     }
 
     public void loadSavedGame() {
@@ -427,19 +448,24 @@ public class GameGUI implements ActionListener {
             THEME_MUSIC.stop();
         } catch (Exception e) {}
         dialogueText.setText("");
+        HIDDEN_OFFICE.setVisible(false);
         game.loadGame();
+        tearDownPanel(floor1Panel);
+        tearDownPanel(floor2Panel);
+        floor1Panel.add(HIDDEN_OFFICE);
         initializeFloorPanels(game.floor1, floor1Panel);
         initializeFloorPanels(game.floor2, floor2Panel);
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
-        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
-        floor2Panel.setVisible(false);
+        tearDownPanel(SUB_CONTAINER_N);
+        tearDownPanel(SUB_CONTAINER_S);
+        SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
+        SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
+        resetFloorPanelVisibility();
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
-            swapFloorPanels();
+            swapFloorPanelVisibility(floor1Panel, floor2Panel);
         }
         THEME_MUSIC = AudioTools.Music.playTheme();
     }
