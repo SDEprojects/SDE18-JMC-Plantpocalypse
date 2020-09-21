@@ -12,9 +12,9 @@ public class Dialogue {
                 "\tEAT [ITEM NAME]                          \tSOUTHEAST                               \n" +
                 "\tEXAMINE [ITEM NAME]                  \tSOUTH                                   \n" +
                 "\tOPEN [ITEM NAME]                       \tSOUTHWEST                               \n" +
-                "\tINVENTORY                                  \tWEST                                    \n" +
+                "\tTALK [PERSON]                             \tWEST                                    \n" +
                 "\tLOOK                                           \tNORTHWEST                             \n" +
-                "\t                                                    \tUP                                    \n" +
+                "\tINVENTORY                                  \tUP                                    \n" +
                 "\t                                                    \tDOWN                                  \n" +
 
                 "Objective: Traverse throughout the mansion finding keys and journal entries to help you find what happened to your uncle!";
@@ -31,8 +31,8 @@ public class Dialogue {
                 "EXAMINE [ITEM NAME]\n" +
                 "OPEN [ITEM NAME]\n" +
                 "INVENTORY\n" +
-                "LOOK\n\n" +
-                "TALK [ITEM NAME]\n" +
+                "LOOK\n" +
+                "TALK [PERSON]\n" +
                 "\n" +
                 "=== AVAILABLE DIRECTIONS ===\n" +
                 "NORTH\n" +

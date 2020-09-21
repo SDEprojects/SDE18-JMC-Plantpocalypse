@@ -121,21 +121,19 @@ public class GameDirector {
         return result;
     }
 
-    private static String eat(String itemName, Player player) {
+    protected static String eat(String itemName, Player player) {
         String result = "You do not have one of those!";
         Item item = player.retrieveItemFromInventory(itemName);
-
         if (itemName != null && player.eat(itemName)) {
             result = "\nOmnomnom! Must have been organic";
             result += "\nYou ate the " + item.getName();
             Food foodItem = (Food) item;
             result += "\nIt restored your health points by " + foodItem.getHealthRestored();
         }
-
         return result;
     }
 
-    private static String use(String itemName, Player player) {
+    protected static String use(String itemName, Player player) {
         String result = "You do not have that item!";
         Item item = player.retrieveItemFromInventory(itemName);
         if (item instanceof Food) {
@@ -156,11 +154,11 @@ public class GameDirector {
             return result;
     }
 
-    private static String  open(String itemName, Player player) {
+    protected static String open(String itemName, Player player) {
         String result = "You have nothing to open!";
         Item item = player.retrieveItemFromInventory(itemName);
 
-        if (itemName != null && player.open(itemName)) {
+        if (itemName.equals("floor plan") && player.open(itemName)) {
             result = ("You opened the " + item.getName() + "\n");
             result += ConsoleDisplay.printFloorPlan();
         }
@@ -168,7 +166,7 @@ public class GameDirector {
         return result;
     }
 
-    private static String examine(String itemName, Player player) {
+    protected static String examine(String itemName, Player player) {
         String result = "You do not have that item!";
         Item item = player.retrieveItemFromInventory(itemName);
         if (itemName != null && player.examine(itemName)) {
@@ -182,11 +180,10 @@ public class GameDirector {
                 result = "You pick the book off the shelf and find a hidden keypad behind it";
             }
         }
-        System.out.println(result);
         return result;
     }
 
-    private static String pickup(String itemName, Player player) {
+    protected static String pickup(String itemName, Player player) {
         String result = "That item is not in this room.";
 
         if (itemName != null && player.pickUpItem(itemName)) {
@@ -195,7 +192,7 @@ public class GameDirector {
         return result;
     }
 
-    private static String look(Player player) {
+     protected static String look(Player player) {
         StringBuilder result = new StringBuilder("\n" + player.getCurrentRoom().getDescription());
         Room currentRoom = player.getCurrentRoom();
 
@@ -228,7 +225,7 @@ public class GameDirector {
         return result.toString();
     }
 
-    private static String inventory(Player player) {
+    protected static String inventory(Player player) {
         StringBuilder result = new StringBuilder("There are no items in your inventory.");
         List<Item> inventory = player.getInventory();
 
@@ -261,7 +258,7 @@ public class GameDirector {
         System.exit(0);
     }
 
-    private static String help() {
+    protected static String help() {
         return Dialogue.helpDialogue();
     }
 

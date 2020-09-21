@@ -1,16 +1,16 @@
 package com.plantpocalypse.model;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
     Game game = Game.GAME_INSTANCE;
-    @Before
+
+    @BeforeEach
     public void setup() {
         game.setAdjacentRoomsPath("./test/resources/newGame/testAdjacentRooms.xml");
         game.setItemsPath("./test/resources/newGame/testItems.xml");
