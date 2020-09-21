@@ -16,15 +16,12 @@ import com.plantpocalypse.util.Dialogue;
 import com.plantpocalypse.util.TextParser;
 import com.plantpocalypse.util.ImageTools;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class GameGUI implements ActionListener {
     private final Game game = Game.GAME_INSTANCE;
@@ -49,7 +46,11 @@ public class GameGUI implements ActionListener {
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE;
+    private final JPanel HUD_CONTAINER, SUB_CONTAINER_N, SUB_CONTAINER_S;
+    // Panels for each floor's mini map
+    private final JPanel FLOOR_1_PANEL, FLOOR_2_PANEL, FLOOR_0_PANEL;
+    // Special case HUD views
+    private final JPanel TITLE_SCREEN_PANEL, MONSTER_PANEL, ELIXIR_PANEL, HIDDEN_OFFICE;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -118,10 +119,16 @@ public class GameGUI implements ActionListener {
         gameFrame.setTitle("Plantpocalypse");
         gameFrame.setSize(1600,1000);
 
-        // Add a component container and heads up display component to the main frame
+        // Add component containers for Heads Up Display to the main frame
         HUD_CONTAINER = new JPanel(new BorderLayout());
-        HUD = new JPanel(new BorderLayout());
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        SUB_CONTAINER_N = new JPanel(new BorderLayout());
+        SUB_CONTAINER_S = new JPanel(new BorderLayout());
+
+        HUD_CONTAINER.add(SUB_CONTAINER_N, BorderLayout.NORTH);
+        HUD_CONTAINER.add(SUB_CONTAINER_S, BorderLayout.SOUTH);
+
+        TITLE_SCREEN_PANEL = ImageTools.createJPanelFromPath("./resources/plantpocalypse_title.png");
+        SUB_CONTAINER_N.add(TITLE_SCREEN_PANEL, BorderLayout.NORTH);
         gameFrame.add(HUD_CONTAINER, BorderLayout.WEST);
         gameFrame.add(userInputPanel, BorderLayout.SOUTH);
         roomStatusContainer = new JPanel(){
@@ -172,46 +179,38 @@ public class GameGUI implements ActionListener {
         panelHolderInput[1][0].add(inputFieldLabel);
         panelHolderInput[1][1].add(inputField);
 
-        // Initialize HUD with title screen image
-        try {
-            HUD.setPreferredSize(new Dimension(600,375));
-            BufferedImage mapImage = ImageIO.read(new File("./resources/plantpocalypse_title.png"));
-            Image map = mapImage.getScaledInstance(HUD.getPreferredSize().width, HUD.getPreferredSize().height, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(map));
-            HUD.add(imageLabel);
-        }
-        catch (Exception e) {
-            System.err.println("title screen image file does not exist or is improperly named");
-        }
-
-        // Set up floor1 and floor2 containers to allow overlays in mini map drawing
-         floor1Panel = new JPanel() {
-            public boolean isOptimizedDrawingEnabled() {
-                return false;
-            }
-        };
-        LayoutManager overlay = new OverlayLayout(floor1Panel);
-        floor1Panel.setLayout(overlay);
-
-        floor2Panel = new JPanel() {
-            public boolean isOptimizedDrawingEnabled() {
-                return false;
-            }
-        };
-        overlay = new OverlayLayout(floor2Panel);
-        floor2Panel.setLayout(overlay);
-
-        floor0Panel = new JPanel() {
-            public boolean isOptimizedDrawingEnabled() {
-                return false;
-            }
-        };
-        overlay = new OverlayLayout(floor0Panel);
-        floor0Panel.setLayout(overlay);
-
+        // Initialize HUD with images for special case views
+        MONSTER_PANEL = ImageTools.createJPanelFromPath("./resources/plant_monster.png");
+        MONSTER_PANEL.setVisible(false);
+        ELIXIR_PANEL = ImageTools.createJPanelFromPath("./resources/elixir.png");
+        ELIXIR_PANEL.setVisible(false);
         HIDDEN_OFFICE = ImageTools.createJPanelFromPath("./resources/map_hidden_office_unlocked.png");
         HIDDEN_OFFICE.setVisible(false);
-        floor1Panel.add(HIDDEN_OFFICE);
+
+        // Set up floor1 and floor2 containers to allow overlays in mini map drawing
+        FLOOR_1_PANEL = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        LayoutManager overlay = new OverlayLayout(FLOOR_1_PANEL);
+        FLOOR_1_PANEL.setLayout(overlay);
+
+        FLOOR_2_PANEL = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        overlay = new OverlayLayout(FLOOR_2_PANEL);
+        FLOOR_2_PANEL.setLayout(overlay);
+
+        FLOOR_0_PANEL = new JPanel() {
+            public boolean isOptimizedDrawingEnabled() {
+                return false;
+            }
+        };
+        overlay = new OverlayLayout(FLOOR_0_PANEL);
+        FLOOR_0_PANEL.setLayout(overlay);
 
 
 
@@ -221,8 +220,12 @@ public class GameGUI implements ActionListener {
         dialogueText.setText("\tSelect Menu > New Game to start a new game.\n\tSelect Menu > Load Game to load a save game.\n\tSelect Menu > Tutorial to play the tutorial.");
         dialog = null;
 
+        // Set color of the diaglouge text
+        dialogueText.setForeground(new Color(224, 211, 133));
     }
 
+
+    // Event listener for user interaction with GUI mainframe
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newGame || e.getSource() == newGameButton) {
@@ -254,9 +257,7 @@ public class GameGUI implements ActionListener {
             // 3) Uses GameDirector to enact command, returning result string to show user
             String result = GameDirector.interact(TextParser.getInputFromGUI(inputString));
             if(result.contains("Moved to")) {
-//                play("../Plantpocalypse/audio/1.wav");
                 dialogueText.setText("");
-                dialogueText.setForeground(Color.getHSBColor(new Random().nextInt(256),new Random().nextInt(256),new Random().nextInt(256)));
             }
             if(result.contains("You opened the")) {
                 int currentFloor = game.getPlayer().getCurrentRoom().getFloorNumber();
@@ -272,8 +273,9 @@ public class GameGUI implements ActionListener {
                 result = "Not a valid command. Type help if you need a list of possible commands";
             // If player moved to a new floor, toggle mini map visibility for both floors (one on, the other off)
             if(result.contains("Moved to Floor ")) {
-                swapFloorPanels();
+                swapFloorPanelVisibility(FLOOR_1_PANEL, FLOOR_2_PANEL);
             }
+
             displayDialogue(result);
             if(result == "You pick the book off the shelf and find a hidden keypad behind it") {
                 createUI(gameFrame);
@@ -292,6 +294,7 @@ public class GameGUI implements ActionListener {
                 }
             }
         }
+        // Handling combo lock puzzle for hidden office
         else if (e.getActionCommand() != null) {
             String command = e.getActionCommand().strip();
             if (command == "Clear") {
@@ -359,37 +362,87 @@ public class GameGUI implements ActionListener {
         displayCurrentRoom(game.getPlayer().getCurrentRoom().getName());
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
+        displayMonster();
+        displayElixir();
     }
 
-    /**
-     * Calls methods to display beginning of story and game data to
-     * the GUI.
-     */
-    public void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
+    private void displayMonster() {
+        if (game.getPlayer().getCurrentRoom().getMonster() != null) {
+            MONSTER_PANEL.setVisible(true);
+        } else {
+            MONSTER_PANEL.setVisible(false);
+        }
+    }
+
+    private void displayElixir() {
+        if (game.getPlayer().getCurrentRoom().getItems().containsKey("elixir")) {
+            ELIXIR_PANEL.setVisible(true);
+        } else {
+            ELIXIR_PANEL.setVisible(false);
+        }
+    }
+
+    // Methods for building and tearing down panels/containers used in HUD
+    private void initializeFloorPanels(ComponentMap componentMap, JPanel panel) {
         // Add each component in the ComponentMap to the proper floor's JPanel container
         componentMap.getComponentMap().forEach((entry, component) -> {
             panel.add(component);
         });
     }
+
+    private void resetFloorPanelVisibility() {
+        FLOOR_1_PANEL.setVisible(true);
+        FLOOR_2_PANEL.setVisible(false);
+    }
+
+    // Might have to update this for additional floors in the future
+    public void swapFloorPanelVisibility(JPanel panel1, JPanel panel2){
+        // Toggles visibility for each floor mini maps
+        panel1.setVisible(!panel1.isVisible());
+        panel2.setVisible(!panel2.isVisible());
+    }
+
+    private void tearDownPanel(JPanel panel) {
+        for (Component component : panel.getComponents()) {
+            panel.remove(component);
+        }
+    }
+    private void tearDownPanels(ArrayList<JPanel> container) {
+        container.forEach(panel -> {
+            tearDownPanel(panel);
+        });
+    }
+
+
+    /**
+     * Calls methods to display beginning of story and game data to
+     * the GUI.
+     */
+
     public void startGame() {
         try {
             THEME_MUSIC.stop();
         } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssets();
-        initializeFloorPanels(game.floor1, floor1Panel);
-        initializeFloorPanels(game.floor2, floor2Panel);
+        tearDownPanels(new ArrayList<JPanel>(java.util.List.of(FLOOR_0_PANEL, FLOOR_1_PANEL, FLOOR_2_PANEL, SUB_CONTAINER_N, SUB_CONTAINER_S)));
+        FLOOR_1_PANEL.add(HIDDEN_OFFICE);
+        HIDDEN_OFFICE.setVisible(false);
+        initializeFloorPanels(game.floor1, FLOOR_1_PANEL);
+        initializeFloorPanels(game.floor2, FLOOR_2_PANEL);
         title();
         intro();
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
-        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
-        floor2Panel.setVisible(false);
-//        THEME_MUSIC = AudioTools.Music.playTheme();
+
+        SUB_CONTAINER_N.add(MONSTER_PANEL, BorderLayout.NORTH);
+        SUB_CONTAINER_N.add(ELIXIR_PANEL, BorderLayout.SOUTH);
+        SUB_CONTAINER_S.add(FLOOR_1_PANEL, BorderLayout.NORTH);
+        SUB_CONTAINER_S.add(FLOOR_2_PANEL, BorderLayout.SOUTH);
+        resetFloorPanelVisibility();
+        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 
     public void startTutorial() {
@@ -398,28 +451,19 @@ public class GameGUI implements ActionListener {
         } catch (Exception e) {}
         dialogueText.setText("\t\t");
         game.loadAssetsTutorial();
-        initializeFloorPanels(game.floor1, floor1Panel);
-        initializeFloorPanels(game.floor2, floor2Panel);
-        initializeFloorPanels(game.floor0, floor0Panel);
-
+        tearDownPanels(new ArrayList<JPanel>(java.util.List.of(FLOOR_0_PANEL, FLOOR_1_PANEL, FLOOR_2_PANEL, SUB_CONTAINER_N, SUB_CONTAINER_S)));
+        initializeFloorPanels(game.floor1, FLOOR_1_PANEL);
+        initializeFloorPanels(game.floor2, FLOOR_2_PANEL);
+        initializeFloorPanels(game.floor0, FLOOR_0_PANEL);
         title();
         introTutorial();
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-//        HUD_CONTAINER.add(floor0Panel, BorderLayout.SOUTH);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(HUD, BorderLayout.NORTH);
+        SUB_CONTAINER_N.add(TITLE_SCREEN_PANEL, BorderLayout.NORTH);
         THEME_MUSIC = AudioTools.Music.playTheme();
 
-    }
-
-    // Might have to update this for additional floors in the future
-    public void swapFloorPanels(){
-        // Toggles visibility for each floor mini maps
-        floor1Panel.setVisible(!floor1Panel.isVisible());
-        floor2Panel.setVisible(!floor2Panel.isVisible());
     }
 
     public void loadSavedGame() {
@@ -427,19 +471,24 @@ public class GameGUI implements ActionListener {
             THEME_MUSIC.stop();
         } catch (Exception e) {}
         dialogueText.setText("");
+        HIDDEN_OFFICE.setVisible(false);
         game.loadGame();
-        initializeFloorPanels(game.floor1, floor1Panel);
-        initializeFloorPanels(game.floor2, floor2Panel);
+        tearDownPanels(new ArrayList<JPanel>(java.util.List.of(FLOOR_0_PANEL, FLOOR_1_PANEL, FLOOR_2_PANEL, SUB_CONTAINER_N, SUB_CONTAINER_S)));
+        FLOOR_1_PANEL.add(HIDDEN_OFFICE);
+        initializeFloorPanels(game.floor1, FLOOR_1_PANEL);
+        initializeFloorPanels(game.floor2, FLOOR_2_PANEL);
         displayStatus();
         scrollPane.setVisible(true);
         userInputPanel.setVisible(true);
         HUD_CONTAINER.setVisible(true);
-        HUD_CONTAINER.remove(0);
-        HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
-        HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
-        floor2Panel.setVisible(false);
+        SUB_CONTAINER_N.add(MONSTER_PANEL, BorderLayout.NORTH);
+        SUB_CONTAINER_N.add(ELIXIR_PANEL, BorderLayout.SOUTH);
+        SUB_CONTAINER_S.add(FLOOR_1_PANEL, BorderLayout.NORTH);
+        SUB_CONTAINER_S.add(FLOOR_2_PANEL, BorderLayout.SOUTH);
+        resetFloorPanelVisibility();
+        // If player loaded a game from floor 2, make sure mini map panels are displayed properly
         if (game.getPlayer().getCurrentRoom().getFloorNumber() == 2) {
-            swapFloorPanels();
+            swapFloorPanelVisibility(FLOOR_1_PANEL, FLOOR_2_PANEL);
         }
         THEME_MUSIC = AudioTools.Music.playTheme();
     }
@@ -481,6 +530,7 @@ public class GameGUI implements ActionListener {
      * Appends winning dialogue to dialogueArea.
      */
     public void won() {
+        dialogueText.setText("");
         displayDialogue(Dialogue.winningDialogue());
         displayDialogue(Dialogue.endingDialogue());
     }
