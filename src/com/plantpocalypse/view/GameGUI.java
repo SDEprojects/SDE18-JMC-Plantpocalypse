@@ -49,7 +49,7 @@ public class GameGUI implements ActionListener {
     private final JMenuBar menuBar;
 
     // Containers for mini map and title screen
-    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE, SUB_CONTAINER_N, SUB_CONTAINER_S, MONSTER_PANEL;
+    private final JPanel HUD_CONTAINER, HUD, floor1Panel, floor2Panel, floor0Panel, HIDDEN_OFFICE, SUB_CONTAINER_N, SUB_CONTAINER_S, MONSTER_PANEL, ELIXIR_PANEL;
     private final JPanel currentRoomIcon, roomStatusContainer;
 
     // containers for pop up
@@ -188,8 +188,10 @@ public class GameGUI implements ActionListener {
         catch (Exception e) {
             System.err.println("title screen image file does not exist or is improperly named");
         }
-        MONSTER_PANEL = ImageTools.createJPanelFromPath("./resources/mapf1.png");
+        MONSTER_PANEL = ImageTools.createJPanelFromPath("./resources/plant_monster.png");
         MONSTER_PANEL.setVisible(false);
+        ELIXIR_PANEL = ImageTools.createJPanelFromPath("./resources/elixir.png");
+        ELIXIR_PANEL.setVisible(false);
 
         // Set up floor1 and floor2 containers to allow overlays in mini map drawing
          floor1Panel = new JPanel() {
@@ -364,6 +366,7 @@ public class GameGUI implements ActionListener {
         displayPlayerHealth(game.getPlayer().getCurrentHealth(), game.getPlayer().getMaxHealth());
         displayMovesMade(game.getPlayer().getMovesMade(), game.getAllowedMoves());
         displayMonster();
+        displayElixir();
 
     }
 
@@ -372,6 +375,14 @@ public class GameGUI implements ActionListener {
             MONSTER_PANEL.setVisible(true);
         } else {
             MONSTER_PANEL.setVisible(false);
+        }
+    }
+
+    private void displayElixir() {
+        if (game.getPlayer().getCurrentRoom().getName() == "Hidden Office") {
+            ELIXIR_PANEL.setVisible(true);
+        } else {
+            ELIXIR_PANEL.setVisible(false);
         }
     }
 
@@ -428,6 +439,7 @@ public class GameGUI implements ActionListener {
         tearDownPanel(SUB_CONTAINER_N);
         tearDownPanel(SUB_CONTAINER_S);
         SUB_CONTAINER_N.add(MONSTER_PANEL);
+        SUB_CONTAINER_N.add(ELIXIR_PANEL);
         SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
         SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
         resetFloorPanelVisibility();
@@ -478,6 +490,7 @@ public class GameGUI implements ActionListener {
         tearDownPanel(SUB_CONTAINER_N);
         tearDownPanel(SUB_CONTAINER_S);
         SUB_CONTAINER_N.add(MONSTER_PANEL);
+        SUB_CONTAINER_N.add(ELIXIR_PANEL);
         MONSTER_PANEL.setVisible(false);
         SUB_CONTAINER_S.add(floor1Panel, BorderLayout.NORTH);
         SUB_CONTAINER_S.add(floor2Panel, BorderLayout.SOUTH);
