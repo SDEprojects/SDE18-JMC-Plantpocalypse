@@ -60,8 +60,6 @@ public class Room implements Serializable {
         });
     }
 
-
-
     /* GETTERS AND SETTERS */
     public String getName() {
         return name;
@@ -160,7 +158,6 @@ public class Room implements Serializable {
     public void setNPCdialogue(String NPCdialogue) {
         this.NPCdialogue = NPCdialogue;
     }
-
 
 
     public NPC getCharacter() {

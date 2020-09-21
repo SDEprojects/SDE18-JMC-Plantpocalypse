@@ -385,7 +385,7 @@ public class GameGUI implements ActionListener {
         HUD_CONTAINER.add(floor1Panel, BorderLayout.NORTH);
         HUD_CONTAINER.add(floor2Panel, BorderLayout.SOUTH);
         floor2Panel.setVisible(false);
-        THEME_MUSIC = AudioTools.Music.playTheme();
+//        THEME_MUSIC = AudioTools.Music.playTheme();
     }
 
     public void startTutorial() {
